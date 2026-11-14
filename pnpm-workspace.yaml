@@ -1,0 +1,7 @@
+packages:
+  - 'apps/*'
+  - 'packages/*'
+  - 'services/*'
+
+minimumReleaseAgeExclude:
+  - lucide-react@1.72.0
