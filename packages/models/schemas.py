@@ -52,7 +52,7 @@ from typing import Optional, Dict, Any, List
 
 class ResearchStartRequest(BaseModel):
     title: str = Field(..., min_length=3, max_length=255, description="Startup idea title")
-    description: str = Field(..., min_length=10, max_length=2000, description="Startup idea details and concept")
+    description: str = Field(..., min_length=10, max_length=5000, description="Startup idea details and concept")
 
 class ResearchStartResponse(BaseModel):
     research_id: uuid.UUID

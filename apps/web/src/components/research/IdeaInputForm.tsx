@@ -122,13 +122,13 @@ export const IdeaInputForm = ({ onSubmit, isLoading }: IdeaInputFormProps) => {
               Concept, Target Customer & Value Proposition
             </label>
             <span className="text-[11px] font-mono text-zinc-500">
-              {description.length} / 2000
+              {description.length} / 5000
             </span>
           </div>
           <textarea
             required
             rows={5}
-            maxLength={2000}
+            maxLength={5000}
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Describe what problem this solves, who pays for it, key features, and your proposed business model..."
