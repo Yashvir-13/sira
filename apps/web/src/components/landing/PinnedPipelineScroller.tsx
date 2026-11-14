@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import { Link } from 'react-router-dom';
 import { useScroll, useTransform, motion, MotionValue } from 'motion/react';
 import {
   Search,
@@ -19,9 +20,6 @@ interface StageConfig {
   tagline: string;
   description: string;
   icon: React.ComponentType<{ className?: string }>;
-  accentColor: string;
-  accentBg: string;
-  badgeBorder: string;
 }
 
 const STAGES: StageConfig[] = [
@@ -34,9 +32,6 @@ const STAGES: StageConfig[] = [
     description:
       'The agent decomposes the concept into semantic search vectors, querying developer forums, community discussions, product launches, and industry registries concurrently.',
     icon: Search,
-    accentColor: 'text-accent-indigo',
-    accentBg: 'bg-accent-indigo/10',
-    badgeBorder: 'border-accent-indigo/30',
   },
   {
     id: 'classify',
@@ -47,9 +42,6 @@ const STAGES: StageConfig[] = [
     description:
       'Raw links are classified through a strict deterministic taxonomy, separating direct competitors, pricing disclosures, and customer friction points from generic marketing fluff.',
     icon: Filter,
-    accentColor: 'text-accent-amber',
-    accentBg: 'bg-accent-amber/10',
-    badgeBorder: 'border-accent-amber/30',
   },
   {
     id: 'scrape',
@@ -60,9 +52,6 @@ const STAGES: StageConfig[] = [
     description:
       'Top-ranked evidence pages are rendered headlessly. Cookie banners, navigation noise, and ads are stripped, producing clean token-efficient Markdown containing core facts.',
     icon: Globe,
-    accentColor: 'text-accent-emerald',
-    accentBg: 'bg-accent-emerald/10',
-    badgeBorder: 'border-accent-emerald/30',
   },
   {
     id: 'synthesize',
@@ -73,9 +62,6 @@ const STAGES: StageConfig[] = [
     description:
       'The reasoning engine evaluates scraped signals against venture capital frameworks: calculating defensibility moats, competitor threat matrices, and TAM/SAM/SOM market ceilings with citations.',
     icon: Brain,
-    accentColor: 'text-accent-indigo',
-    accentBg: 'bg-accent-indigo/10',
-    badgeBorder: 'border-accent-indigo/30',
   },
 ];
 
@@ -95,7 +81,7 @@ export const PinnedPipelineScroller: React.FC = () => {
           <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-border-subtle gap-3">
             <div>
               <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-surface-raised border border-border-subtle text-[11px] font-mono text-primary-secondary mb-1">
-                <Layers className="w-3 h-3 text-accent-indigo" />
+                <Layers className="w-3 h-3 text-primary" />
                 <span>SCROLL-DRIVEN PIPELINE ARCHITECTURE</span>
               </div>
               <h2 className="text-xl sm:text-2xl font-bold text-primary tracking-tight">
@@ -126,7 +112,7 @@ export const PinnedPipelineScroller: React.FC = () => {
         {/* Scroll Instruction Bar */}
         <div className="pt-3 border-t border-border-subtle flex items-center justify-between text-xs font-mono text-primary-muted">
           <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-accent-indigo animate-pulse" />
+            <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
             <span>Scroll trackpad or mouse wheel to transition stages</span>
           </div>
           <ScrollPercent scrollYProgress={scrollYProgress} />
@@ -178,8 +164,8 @@ const StagePill: React.FC<{
       style={{ opacity }}
       className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-surface border border-border-subtle text-xs font-mono"
     >
-      <span className="font-bold text-accent-indigo">{`0${index}`}</span>
-      <span className="text-primary hidden sm:inline">{name}</span>
+      <span className="font-bold text-primary">{`0${index}`}</span>
+      <span className="text-primary-secondary hidden sm:inline">{name}</span>
     </motion.div>
   );
 };
@@ -195,7 +181,6 @@ const ScrollPercent: React.FC<{ scrollYProgress: MotionValue<number> }> = ({
 const StageOneView: React.FC<{ scrollYProgress: MotionValue<number> }> = ({
   scrollYProgress,
 }) => {
-  // Enters: 0.00 -> 0.08, Exits: 0.22 -> 0.28
   const opacity = useTransform(scrollYProgress, [0, 0.05, 0.22, 0.28], [1, 1, 1, 0]);
   const scale = useTransform(scrollYProgress, [0, 0.22, 0.28], [1, 1, 0.94]);
   const x = useTransform(scrollYProgress, [0, 0.22, 0.28], [0, 0, -80]);
@@ -208,7 +193,7 @@ const StageOneView: React.FC<{ scrollYProgress: MotionValue<number> }> = ({
       <div className="glass-card rounded-2xl p-6 sm:p-8 shadow-card border border-border-subtle">
         <div className="flex items-center justify-between pb-4 border-b border-border-subtle mb-5">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-accent-indigo/10 border border-accent-indigo/20 flex items-center justify-center text-accent-indigo">
+            <div className="w-10 h-10 rounded-xl bg-surface-raised border border-border-prominent flex items-center justify-center text-primary">
               <Search className="w-5 h-5" />
             </div>
             <div>
@@ -220,7 +205,7 @@ const StageOneView: React.FC<{ scrollYProgress: MotionValue<number> }> = ({
               </h3>
             </div>
           </div>
-          <span className="text-xs font-mono px-3 py-1 rounded-full bg-accent-indigo/10 border border-accent-indigo/30 text-accent-indigo font-semibold">
+          <span className="text-xs font-mono px-3 py-1 rounded-full bg-surface-raised border border-border-subtle text-primary font-semibold">
             24 SOURCES PARALLEL
           </span>
         </div>
@@ -236,7 +221,7 @@ const StageOneView: React.FC<{ scrollYProgress: MotionValue<number> }> = ({
               <span className="text-primary-muted text-[10px]">GET</span>
               <span className="text-primary truncate font-medium">reddit.com/r/SaaS/comments/pr_code_review_fatigue</span>
             </div>
-            <span className="text-[10px] px-2 py-0.5 rounded bg-accent-emerald/10 text-accent-emerald font-semibold border border-accent-emerald/20 shrink-0">
+            <span className="text-[10px] px-2 py-0.5 rounded bg-surface border border-border-subtle text-primary font-semibold shrink-0">
               HIGH INTENT
             </span>
           </div>
@@ -246,7 +231,7 @@ const StageOneView: React.FC<{ scrollYProgress: MotionValue<number> }> = ({
               <span className="text-primary-muted text-[10px]">GET</span>
               <span className="text-primary truncate font-medium">news.ycombinator.com/item?id=38194021 [Ask HN: Code Review Tools]</span>
             </div>
-            <span className="text-[10px] px-2 py-0.5 rounded bg-accent-emerald/10 text-accent-emerald font-semibold border border-accent-emerald/20 shrink-0">
+            <span className="text-[10px] px-2 py-0.5 rounded bg-surface border border-border-subtle text-primary font-semibold shrink-0">
               PAIN POINT
             </span>
           </div>
@@ -256,7 +241,7 @@ const StageOneView: React.FC<{ scrollYProgress: MotionValue<number> }> = ({
               <span className="text-primary-muted text-[10px]">GET</span>
               <span className="text-primary truncate font-medium">producthunt.com/posts/linear-b-developer-intelligence</span>
             </div>
-            <span className="text-[10px] px-2 py-0.5 rounded bg-accent-amber/10 text-accent-amber font-semibold border border-accent-amber/20 shrink-0">
+            <span className="text-[10px] px-2 py-0.5 rounded bg-surface border border-border-subtle text-primary font-semibold shrink-0">
               DIRECT COMPETITOR
             </span>
           </div>
@@ -270,7 +255,6 @@ const StageOneView: React.FC<{ scrollYProgress: MotionValue<number> }> = ({
 const StageTwoView: React.FC<{ scrollYProgress: MotionValue<number> }> = ({
   scrollYProgress,
 }) => {
-  // Enters: 0.22 -> 0.28, Exits: 0.48 -> 0.54
   const opacity = useTransform(scrollYProgress, [0.22, 0.28, 0.48, 0.54], [0, 1, 1, 0]);
   const scale = useTransform(scrollYProgress, [0.22, 0.28, 0.48, 0.54], [0.94, 1, 1, 0.94]);
   const x = useTransform(scrollYProgress, [0.22, 0.28, 0.48, 0.54], [80, 0, 0, -80]);
@@ -283,31 +267,31 @@ const StageTwoView: React.FC<{ scrollYProgress: MotionValue<number> }> = ({
       <div className="glass-card rounded-2xl p-6 sm:p-8 shadow-card border border-border-subtle">
         <div className="flex items-center justify-between pb-4 border-b border-border-subtle mb-5">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-accent-amber/10 border border-accent-amber/20 flex items-center justify-center text-accent-amber">
+            <div className="w-10 h-10 rounded-xl bg-surface-raised border border-border-prominent flex items-center justify-center text-primary">
               <Filter className="w-5 h-5" />
             </div>
             <div>
               <div className="text-[11px] font-mono text-primary-muted uppercase tracking-wider">
-                STAGE 02 &bull; DETERMINISTIC JEV CLASSIFICATION
+                STAGE 02 &bull; DETERMINISTIC TAXONOMY
               </div>
               <h3 className="text-base sm:text-lg font-bold text-primary">
                 Signal Isolation & Noise Filtering
               </h3>
             </div>
           </div>
-          <span className="text-xs font-mono px-3 py-1 rounded-full bg-accent-amber/10 border border-accent-amber/30 text-accent-amber font-semibold">
+          <span className="text-xs font-mono px-3 py-1 rounded-full bg-surface-raised border border-border-subtle text-primary font-semibold">
             100% TYPE-SAFE
           </span>
         </div>
 
         <p className="text-xs sm:text-sm text-primary-secondary mb-6 leading-relaxed">
-          Raw search results pass through strict Pydantic data schemas. SEO blogs and low-relevance links are discarded, leaving only actionable customer friction, competitor pricing, and market signals.
+          Raw search results pass through strict Pydantic schemas. SEO blogs and low-relevance links are discarded, leaving only actionable customer friction, competitor pricing, and market signals.
         </p>
 
-        {/* Interactive Classification Taxonomy Visual */}
+        {/* Classification Taxonomy Visual */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 font-mono text-xs">
           <div className="p-3.5 rounded-xl bg-surface-raised border border-border-subtle">
-            <span className="text-[10px] text-accent-amber font-bold uppercase tracking-wider block mb-1">
+            <span className="text-[10px] text-primary font-bold uppercase tracking-wider block mb-1">
               [IDENTIFIED COMPETITORS]
             </span>
             <div className="text-primary font-medium">LinearB, CodeRabbit, Sourcery</div>
@@ -315,7 +299,7 @@ const StageTwoView: React.FC<{ scrollYProgress: MotionValue<number> }> = ({
           </div>
 
           <div className="p-3.5 rounded-xl bg-surface-raised border border-border-subtle">
-            <span className="text-[10px] text-accent-emerald font-bold uppercase tracking-wider block mb-1">
+            <span className="text-[10px] text-primary font-bold uppercase tracking-wider block mb-1">
               [CUSTOMER PAIN POINTS]
             </span>
             <div className="text-primary font-medium">Alert fatigue, false positives</div>
@@ -323,7 +307,7 @@ const StageTwoView: React.FC<{ scrollYProgress: MotionValue<number> }> = ({
           </div>
 
           <div className="p-3.5 rounded-xl bg-surface-raised border border-border-subtle">
-            <span className="text-[10px] text-accent-indigo font-bold uppercase tracking-wider block mb-1">
+            <span className="text-[10px] text-primary font-bold uppercase tracking-wider block mb-1">
               [MARKET CEILING SIGNALS]
             </span>
             <div className="text-primary font-medium">Gartner DevOps Forecast 2026</div>
@@ -347,7 +331,6 @@ const StageTwoView: React.FC<{ scrollYProgress: MotionValue<number> }> = ({
 const StageThreeView: React.FC<{ scrollYProgress: MotionValue<number> }> = ({
   scrollYProgress,
 }) => {
-  // Enters: 0.48 -> 0.54, Exits: 0.73 -> 0.79
   const opacity = useTransform(scrollYProgress, [0.48, 0.54, 0.73, 0.79], [0, 1, 1, 0]);
   const scale = useTransform(scrollYProgress, [0.48, 0.54, 0.73, 0.79], [0.94, 1, 1, 0.94]);
   const x = useTransform(scrollYProgress, [0.48, 0.54, 0.73, 0.79], [80, 0, 0, -80]);
@@ -360,7 +343,7 @@ const StageThreeView: React.FC<{ scrollYProgress: MotionValue<number> }> = ({
       <div className="glass-card rounded-2xl p-6 sm:p-8 shadow-card border border-border-subtle">
         <div className="flex items-center justify-between pb-4 border-b border-border-subtle mb-5">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-accent-emerald/10 border border-accent-emerald/20 flex items-center justify-center text-accent-emerald">
+            <div className="w-10 h-10 rounded-xl bg-surface-raised border border-border-prominent flex items-center justify-center text-primary">
               <Globe className="w-5 h-5" />
             </div>
             <div>
@@ -372,7 +355,7 @@ const StageThreeView: React.FC<{ scrollYProgress: MotionValue<number> }> = ({
               </h3>
             </div>
           </div>
-          <span className="text-xs font-mono px-3 py-1 rounded-full bg-accent-emerald/10 border border-accent-emerald/30 text-accent-emerald font-semibold">
+          <span className="text-xs font-mono px-3 py-1 rounded-full bg-surface-raised border border-border-subtle text-primary font-semibold">
             94% TOKEN REDUCTION
           </span>
         </div>
@@ -385,14 +368,14 @@ const StageThreeView: React.FC<{ scrollYProgress: MotionValue<number> }> = ({
         <div className="p-4 rounded-xl bg-surface-raised border border-border-subtle font-mono text-xs space-y-2">
           <div className="flex items-center justify-between text-[11px] text-primary-muted pb-2 border-b border-border-subtle">
             <div className="flex items-center gap-2">
-              <Code2 className="w-3.5 h-3.5 text-accent-emerald" />
+              <Code2 className="w-3.5 h-3.5 text-primary" />
               <span>cleaned_evidence_dump.md</span>
             </div>
-            <span className="text-accent-emerald">2,480 tokens (was 42,000 HTML tokens)</span>
+            <span className="text-primary font-semibold">2,480 tokens (was 42,000 HTML tokens)</span>
           </div>
 
           <div className="text-primary space-y-1 pt-1 text-[11px] leading-relaxed">
-            <div className="text-accent-emerald font-bold">## LinearB Pricing Matrix</div>
+            <div className="text-primary font-bold">## LinearB Pricing Matrix</div>
             <div className="text-primary-secondary">- Starter: $0/mo (up to 5 repos)</div>
             <div className="text-primary-secondary">- Pro: $29/contributor/mo (custom metrics, PR alerts)</div>
             <div className="text-primary-secondary">- Enterprise: Custom quote (SOC-2, dedicated Slack bot)</div>
@@ -408,7 +391,6 @@ const StageThreeView: React.FC<{ scrollYProgress: MotionValue<number> }> = ({
 const StageFourView: React.FC<{ scrollYProgress: MotionValue<number> }> = ({
   scrollYProgress,
 }) => {
-  // Enters: 0.73 -> 0.79, Stays visible until end
   const opacity = useTransform(scrollYProgress, [0.73, 0.79, 1], [0, 1, 1]);
   const scale = useTransform(scrollYProgress, [0.73, 0.79, 1], [0.94, 1, 1]);
   const x = useTransform(scrollYProgress, [0.73, 0.79, 1], [80, 0, 0]);
@@ -421,7 +403,7 @@ const StageFourView: React.FC<{ scrollYProgress: MotionValue<number> }> = ({
       <div className="glass-card rounded-2xl p-6 sm:p-8 shadow-card border border-border-subtle">
         <div className="flex items-center justify-between pb-4 border-b border-border-subtle mb-5">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-accent-indigo/10 border border-accent-indigo/20 flex items-center justify-center text-accent-indigo">
+            <div className="w-10 h-10 rounded-xl bg-surface-raised border border-border-prominent flex items-center justify-center text-primary">
               <Brain className="w-5 h-5" />
             </div>
             <div>
@@ -433,7 +415,7 @@ const StageFourView: React.FC<{ scrollYProgress: MotionValue<number> }> = ({
               </h3>
             </div>
           </div>
-          <span className="text-xs font-mono px-3 py-1 rounded-full bg-accent-indigo/10 border border-accent-indigo/30 text-accent-indigo font-semibold">
+          <span className="text-xs font-mono px-3 py-1 rounded-full bg-surface-raised border border-border-subtle text-primary font-semibold">
             INVESTMENT-GRADE DOSSIER
           </span>
         </div>
@@ -446,7 +428,7 @@ const StageFourView: React.FC<{ scrollYProgress: MotionValue<number> }> = ({
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 font-mono">
           <div className="p-4 rounded-xl bg-surface-raised border border-border-subtle">
             <div className="text-[10px] text-primary-muted uppercase">Viability Conviction</div>
-            <div className="text-2xl font-extrabold text-accent-emerald mt-1">84 / 100</div>
+            <div className="text-2xl font-extrabold text-primary mt-1">84 / 100</div>
             <div className="text-[11px] text-primary-secondary mt-0.5">High venture readiness</div>
           </div>
 
@@ -458,21 +440,25 @@ const StageFourView: React.FC<{ scrollYProgress: MotionValue<number> }> = ({
 
           <div className="p-4 rounded-xl bg-surface-raised border border-border-subtle">
             <div className="text-[10px] text-primary-muted uppercase">Primary Threat</div>
-            <div className="text-2xl font-extrabold text-accent-amber mt-1">Moderate</div>
-            <div className="text-[11px] text-primary-secondary mt-0.5">Incumbents suffer high false alerts</div>
+            <div className="text-2xl font-extrabold text-primary mt-1">Moderate</div>
+            <div className="text-[11px] text-primary-secondary mt-0.5">Incumbents suffer false alerts</div>
           </div>
         </div>
 
-        <div className="mt-4 p-3.5 rounded-xl bg-surface-raised border border-border-subtle flex items-center justify-between text-xs">
+        {/* Direct Link to Studio */}
+        <Link
+          to="/new"
+          className="mt-4 p-3.5 rounded-xl bg-surface-raised border border-border-subtle flex items-center justify-between text-xs hover:border-border-prominent transition group"
+        >
           <div className="flex items-center gap-2">
-            <TrendingUp className="w-4 h-4 text-accent-emerald" />
-            <span className="text-primary font-medium">Ready to inspect full interactive report?</span>
+            <TrendingUp className="w-4 h-4 text-primary" />
+            <span className="text-primary font-medium">Ready to validate your startup concept?</span>
           </div>
-          <span className="text-accent-indigo font-semibold flex items-center gap-1 font-mono text-[11px]">
-            <span>100% SOURCED EVIDENCE</span>
+          <span className="text-primary font-semibold flex items-center gap-1 font-mono text-[11px] group-hover:translate-x-0.5 transition-transform">
+            <span>LAUNCH RESEARCH STUDIO</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </span>
-        </div>
+        </Link>
       </div>
     </motion.div>
   );

@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useTheme } from '../../state/ThemeContext';
 import { useAuth } from '../../state/AuthContext';
-import { Sun, Moon, ArrowRight, Compass } from 'lucide-react';
+import { Sun, Moon, ArrowRight, Compass, PlusCircle } from 'lucide-react';
 
 export const LandingNavbar: React.FC = () => {
   const { theme, toggleTheme } = useTheme();
@@ -16,11 +16,11 @@ export const LandingNavbar: React.FC = () => {
   };
 
   return (
-    <header className="sticky top-0 z-50 h-16 border-b border-border-subtle bg-background/90 backdrop-blur-md transition-colors shadow-sm">
+    <header className="sticky top-0 z-50 h-16 border-b border-border-subtle bg-background/95 backdrop-blur-md transition-colors shadow-sm">
       <div className="max-w-7xl mx-auto h-full px-4 sm:px-6 flex items-center justify-between">
         {/* Brand Logo */}
         <Link to="/" className="flex items-center gap-2.5 group">
-          <div className="w-8 h-8 rounded-lg bg-surface-raised border border-border-prominent flex items-center justify-center font-bold text-sm text-accent-indigo shadow-sm group-hover:scale-105 transition-transform">
+          <div className="w-8 h-8 rounded-lg bg-surface-raised border border-border-prominent flex items-center justify-center font-bold text-sm text-primary shadow-sm group-hover:scale-105 transition-transform">
             S
           </div>
           <div className="flex flex-col">
@@ -44,24 +44,23 @@ export const LandingNavbar: React.FC = () => {
             className="hover:text-primary transition flex items-center gap-1.5"
           >
             <span>Autonomous Pipeline</span>
-            <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-accent-indigo/10 text-accent-indigo font-semibold">
+            <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-surface-raised border border-border-subtle text-primary font-semibold">
               4 STAGES
             </span>
           </button>
           <button
             type="button"
-            onClick={() => scrollToId('preview')}
+            onClick={() => scrollToId('dilemma')}
             className="hover:text-primary transition"
           >
-            Sample Dossier
+            Founder Dilemma
           </button>
-          <button
-            type="button"
-            onClick={() => scrollToId('studio')}
-            className="hover:text-primary transition"
+          <Link
+            to="/new"
+            className="hover:text-primary transition font-semibold text-primary"
           >
             Research Studio
-          </button>
+          </Link>
         </nav>
 
         {/* Right Actions */}
@@ -82,13 +81,22 @@ export const LandingNavbar: React.FC = () => {
 
           {/* Auth Action */}
           {user ? (
-            <Link
-              to="/history"
-              className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-surface-raised border border-border-subtle text-primary text-xs font-medium hover:border-border-prominent transition shadow-sm"
-            >
-              <Compass className="w-3.5 h-3.5 text-accent-indigo" />
-              <span>Dossier Archive</span>
-            </Link>
+            <div className="flex items-center gap-2">
+              <Link
+                to="/new"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-accent-primary hover:opacity-90 text-btn-fg text-xs font-semibold shadow-md transition"
+              >
+                <PlusCircle className="w-3.5 h-3.5" />
+                <span>New Research</span>
+              </Link>
+              <Link
+                to="/history"
+                className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-raised border border-border-subtle text-primary text-xs font-medium hover:border-border-prominent transition shadow-sm"
+              >
+                <Compass className="w-3.5 h-3.5" />
+                <span>Archive</span>
+              </Link>
+            </div>
           ) : (
             <div className="flex items-center gap-2">
               <Link
@@ -97,14 +105,13 @@ export const LandingNavbar: React.FC = () => {
               >
                 Sign In
               </Link>
-              <button
-                type="button"
-                onClick={() => scrollToId('studio')}
-                className="px-3.5 py-1.5 rounded-lg bg-accent-indigo hover:opacity-95 text-white text-xs font-semibold shadow-sm transition flex items-center gap-1.5"
+              <Link
+                to="/new"
+                className="px-3.5 py-1.5 rounded-lg bg-accent-primary hover:opacity-90 text-btn-fg text-xs font-semibold shadow-md transition flex items-center gap-1.5"
               >
                 <span>Launch Studio</span>
                 <ArrowRight className="w-3 h-3" />
-              </button>
+              </Link>
             </div>
           )}
         </div>
