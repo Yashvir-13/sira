@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Search, Cpu, Globe, Brain, CheckCircle2, AlertCircle, Loader2 } from 'lucide-react';
 
 interface PipelineStepperProps {
@@ -14,7 +14,7 @@ interface StepInfo {
   label: string;
   service: string;
   targetProgress: number;
-  icon: any;
+  icon: React.ComponentType<{ className?: string }>;
 }
 
 const STEPS: StepInfo[] = [
@@ -42,21 +42,21 @@ const STEPS: StepInfo[] = [
   {
     id: 'synthesize',
     label: 'Venture & Risk Modeling',
-    service: 'Claude 3.5 / 4.5',
+    service: 'Claude',
     targetProgress: 85,
     icon: Brain,
   },
 ];
 
-export const PipelineStepper = ({
+export const PipelineStepper: React.FC<PipelineStepperProps> = ({
   researchId,
   initialStep,
   initialProgress = 0,
   onCompleted,
   onFailed,
-}: PipelineStepperProps) => {
+}) => {
   const [progress, setProgress] = useState(initialProgress);
-  const [currentStep, setCurrentStep] = useState(initialStep || 'Queuing research pipeline...');
+  const [currentStep, setCurrentStep] = useState(initialStep || 'Initializing research pipeline...');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
@@ -98,34 +98,33 @@ export const PipelineStepper = ({
   }, [researchId, onCompleted, onFailed]);
 
   return (
-    <div className="bg-[#10121a] border border-zinc-800/80 rounded-xl p-8 max-w-2xl mx-auto shadow-2xl relative overflow-hidden">
-      {/* Glow highlight */}
-      <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 rounded-full blur-3xl pointer-events-none" />
+    <div className="bg-surface border border-border-subtle rounded-2xl p-6 sm:p-8 max-w-2xl mx-auto shadow-card relative overflow-hidden transition-all">
+      {/* Ambient Radial Accent */}
+      <div className="absolute top-0 right-0 w-64 h-64 bg-accent-emerald/5 rounded-full blur-3xl pointer-events-none" />
 
       {/* Header */}
       <div className="text-center mb-8 relative z-10">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-xs font-mono text-emerald-400 mb-3">
-          <Loader2 className="w-3 h-3 animate-spin" />
-          <span>AUTONOMOUS PIPELINE IN PROGRESS</span>
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent-emerald/10 border border-accent-emerald/20 text-xs font-mono text-accent-emerald mb-3">
+          <Loader2 className="w-3.5 h-3.5 animate-spin" />
+          <span>PIPELINE RUNNING</span>
         </div>
-        <h2 className="text-2xl font-bold text-white tracking-tight">
-          Researching Your Startup Concept
+        <h2 className="text-xl sm:text-2xl font-bold text-primary tracking-tight">
+          Validating Startup Concept
         </h2>
-        <p className="text-xs text-zinc-400 mt-1 max-w-md mx-auto leading-relaxed">
-          The agent is searching, classifying, scraping, and validating market assumptions.
-          This typically takes 20 to 35 seconds.
+        <p className="text-xs sm:text-sm text-primary-secondary mt-1 max-w-md mx-auto leading-relaxed">
+          The agent is searching, classifying, scraping, and analyzing market signals. This typically takes 20 to 35 seconds.
         </p>
       </div>
 
       {/* Main Progress Bar */}
       <div className="mb-8 relative z-10">
         <div className="flex justify-between items-center text-xs font-mono mb-2">
-          <span className="text-zinc-300 font-medium truncate max-w-xs">{currentStep}</span>
-          <span className="text-emerald-400 font-bold ml-2">{Math.round(progress)}%</span>
+          <span className="text-primary-secondary font-medium truncate max-w-xs">{currentStep}</span>
+          <span className="text-accent-emerald font-bold ml-2">{Math.round(progress)}%</span>
         </div>
-        <div className="w-full bg-[#08090d] border border-zinc-800 rounded-full h-2.5 overflow-hidden p-0.5">
+        <div className="w-full bg-surface-raised border border-border-subtle rounded-full h-2.5 overflow-hidden p-0.5">
           <div
-            className="bg-emerald-500 h-full rounded-full transition-all duration-700 ease-out"
+            className="bg-accent-emerald h-full rounded-full transition-all duration-700 ease-out"
             style={{ width: `${Math.max(progress, 5)}%` }}
           />
         </div>
@@ -133,17 +132,17 @@ export const PipelineStepper = ({
 
       {/* Error state */}
       {errorMessage && (
-        <div className="mb-6 p-4 rounded-lg bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs flex items-start gap-3">
-          <AlertCircle className="w-4 h-4 shrink-0 text-rose-400 mt-0.5" />
+        <div className="mb-6 p-4 rounded-lg bg-accent-rose/10 border border-accent-rose/30 text-accent-rose text-xs flex items-start gap-3">
+          <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
           <div>
             <div className="font-semibold">Pipeline Error</div>
-            <div className="mt-0.5 text-rose-200/90">{errorMessage}</div>
+            <div className="mt-0.5">{errorMessage}</div>
           </div>
         </div>
       )}
 
       {/* 4-Stage Stepper Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 relative z-10">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 relative z-10">
         {STEPS.map((step) => {
           const Icon = step.icon;
           const isDone = progress > step.targetProgress;
@@ -152,12 +151,12 @@ export const PipelineStepper = ({
           return (
             <div
               key={step.id}
-              className={`p-3.5 rounded-lg border transition-all ${
+              className={`p-3.5 rounded-xl border transition-all ${
                 isDone
-                  ? 'bg-zinc-900/60 border-emerald-500/30 text-zinc-200'
+                  ? 'bg-surface-raised border-accent-emerald/30 text-primary'
                   : isActive
-                  ? 'bg-[#141622] border-emerald-500/50 text-white shadow-sm'
-                  : 'bg-zinc-950/40 border-zinc-800/60 text-zinc-500'
+                  ? 'bg-surface-raised border-accent-emerald/60 text-primary shadow-sm'
+                  : 'bg-surface border-border-subtle text-primary-muted opacity-60'
               }`}
             >
               <div className="flex items-center justify-between mb-2">
@@ -165,10 +164,10 @@ export const PipelineStepper = ({
                   <div
                     className={`w-6 h-6 rounded flex items-center justify-center ${
                       isDone
-                        ? 'bg-emerald-500/20 text-emerald-400'
+                        ? 'bg-accent-emerald/20 text-accent-emerald'
                         : isActive
-                        ? 'bg-emerald-500/20 text-emerald-400 animate-pulse'
-                        : 'bg-zinc-900 text-zinc-600'
+                        ? 'bg-accent-emerald/20 text-accent-emerald animate-pulse'
+                        : 'bg-surface-raised text-primary-muted'
                     }`}
                   >
                     <Icon className="w-3.5 h-3.5" />
@@ -176,12 +175,12 @@ export const PipelineStepper = ({
                   <span className="text-xs font-semibold">{step.label}</span>
                 </div>
                 {isDone ? (
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                  <CheckCircle2 className="w-4 h-4 text-accent-emerald shrink-0" />
                 ) : isActive ? (
-                  <Loader2 className="w-3.5 h-3.5 text-emerald-400 animate-spin shrink-0" />
+                  <Loader2 className="w-3.5 h-3.5 text-accent-emerald animate-spin shrink-0" />
                 ) : null}
               </div>
-              <div className="text-[11px] font-mono text-zinc-500 flex items-center justify-between">
+              <div className="text-[11px] font-mono text-primary-muted flex items-center justify-between">
                 <span>{step.service}</span>
                 <span>{step.targetProgress}%</span>
               </div>
