@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { MotionConfig } from 'motion/react';
 import { AuthProvider } from './state/AuthContext';
 import { ThemeProvider } from './state/ThemeContext';
 import { ProtectedRoute } from './routes/ProtectedRoute';
@@ -13,34 +14,36 @@ import { AdminPage } from './routes/AdminPage';
 
 export function App() {
   return (
-    <ThemeProvider>
-      <AuthProvider>
-        <BrowserRouter>
-          <Routes>
-            {/* Public Routes */}
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/signup" element={<SignupPage />} />
+    <MotionConfig reducedMotion="user">
+      <ThemeProvider>
+        <AuthProvider>
+          <BrowserRouter>
+            <Routes>
+              {/* Public Routes */}
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/signup" element={<SignupPage />} />
 
-            {/* Protected Member Routes */}
-            <Route element={<ProtectedRoute />}>
-              <Route element={<AppLayout />}>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/research/:id" element={<ResearchDetailPage />} />
-                <Route path="/history" element={<HistoryPage />} />
+              {/* Protected Member Routes */}
+              <Route element={<ProtectedRoute />}>
+                <Route element={<AppLayout />}>
+                  <Route path="/" element={<HomePage />} />
+                  <Route path="/research/:id" element={<ResearchDetailPage />} />
+                  <Route path="/history" element={<HistoryPage />} />
 
-                {/* Protected Admin Routes */}
-                <Route element={<AdminRoute />}>
-                  <Route path="/admin" element={<AdminPage />} />
+                  {/* Protected Admin Routes */}
+                  <Route element={<AdminRoute />}>
+                    <Route path="/admin" element={<AdminPage />} />
+                  </Route>
                 </Route>
               </Route>
-            </Route>
 
-            {/* Fallback */}
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
-        </BrowserRouter>
-      </AuthProvider>
-    </ThemeProvider>
+              {/* Fallback */}
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+          </BrowserRouter>
+        </AuthProvider>
+      </ThemeProvider>
+    </MotionConfig>
   );
 }
 
