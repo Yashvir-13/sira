@@ -24,11 +24,15 @@ export default {
           muted: "var(--text-muted)",
         },
         accent: {
+          primary: "rgb(var(--accent-primary-rgb) / <alpha-value>)",
           emerald: "rgb(var(--accent-emerald-rgb) / <alpha-value>)",
           indigo: "rgb(var(--accent-indigo-rgb) / <alpha-value>)",
           amber: "rgb(var(--accent-amber-rgb) / <alpha-value>)",
           rose: "rgb(var(--accent-rose-rgb) / <alpha-value>)",
         },
+      },
+      textColor: {
+        "btn-fg": "var(--accent-primary-fg)",
       },
       boxShadow: {
         card: "var(--shadow-card)",

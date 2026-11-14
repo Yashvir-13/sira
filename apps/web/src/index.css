@@ -4,49 +4,55 @@
 
 @layer base {
   :root {
-    /* Refined Executive Light Mode */
-    --bg-primary-rgb: 248, 250, 252;
-    --bg-surface-rgb: 255, 255, 255;
-    --bg-surface-raised-rgb: 241, 245, 249;
-    --bg-surface-glass-rgb: 255, 255, 255;
+    /* Pure Neutral Zinc Light Mode (Apple/Linear Style) */
+    --bg-primary-rgb: 250 250 250;
+    --bg-surface-rgb: 255 255 255;
+    --bg-surface-raised-rgb: 244 244 245;
+    --bg-surface-glass-rgb: 255 255 255;
 
-    --border-subtle: rgba(15, 23, 42, 0.08);
-    --border-prominent: rgba(15, 23, 42, 0.16);
+    --border-subtle: #E4E4E7;
+    --border-prominent: #D4D4D8;
 
-    --text-primary: #0F172A;
-    --text-secondary: #334155;
-    --text-muted: #64748B;
+    --text-primary: #09090B;
+    --text-secondary: #52525B;
+    --text-muted: #71717A;
 
-    /* Understated Executive Accents (Slate Teal, Cobalt, Warm Ochre, Terracotta) */
-    --accent-emerald-rgb: 13, 148, 136; /* Calm Slate Teal */
-    --accent-indigo-rgb: 29, 78, 216;   /* Rich High-Contrast Cobalt Blue */
-    --accent-amber-rgb: 217, 119, 6;    /* Warm Ochre */
-    --accent-rose-rgb: 220, 38, 38;     /* Terracotta Red */
+    /* Inverted High-Contrast Primary CTA (Solid Dark Charcoal with Crisp White Text) */
+    --accent-primary-rgb: 24 24 27;
+    --accent-primary-fg: #FAFAFA;
 
-    --shadow-card: 0 4px 16px -2px rgba(15, 23, 42, 0.05), 0 1px 3px rgba(15, 23, 42, 0.04);
+    --accent-emerald-rgb: 16 185 129;
+    --accent-indigo-rgb: 24 24 27;
+    --accent-amber-rgb: 217 119 6;
+    --accent-rose-rgb: 220 38 38;
+
+    --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.03);
   }
 
   .dark {
-    /* Sophisticated Charcoal / Deep Slate Dark Mode (No Cyberpunk, No Neon) */
-    --bg-primary-rgb: 15, 17, 23;
-    --bg-surface-rgb: 23, 26, 36;
-    --bg-surface-raised-rgb: 30, 35, 48;
-    --bg-surface-glass-rgb: 23, 26, 36;
+    /* Pure Neutral Zinc Dark Mode (Zero Blue / Slate Hue) */
+    --bg-primary-rgb: 9 9 11;
+    --bg-surface-rgb: 20 20 22;
+    --bg-surface-raised-rgb: 31 31 35;
+    --bg-surface-glass-rgb: 20 20 22;
 
     --border-subtle: rgba(255, 255, 255, 0.08);
-    --border-prominent: rgba(255, 255, 255, 0.14);
+    --border-prominent: rgba(255, 255, 255, 0.16);
 
-    --text-primary: #F1F5F9;
-    --text-secondary: #94A3B8;
-    --text-muted: #64748B;
+    --text-primary: #FAFAFA;
+    --text-secondary: #A1A1AA;
+    --text-muted: #71717A;
 
-    /* Muted Executive Accents (Soft Teal, Steel Blue, Amber Sand, Soft Coral) */
-    --accent-emerald-rgb: 20, 184, 166; /* Muted Soft Teal */
-    --accent-indigo-rgb: 59, 130, 246;  /* Calm Steel Blue */
-    --accent-amber-rgb: 245, 158, 11;   /* Warm Sand Amber */
-    --accent-rose-rgb: 239, 68, 68;     /* Soft Coral */
+    /* Inverted High-Contrast Primary CTA (Solid White with Charcoal Dark Text) */
+    --accent-primary-rgb: 250 250 250;
+    --accent-primary-fg: #09090B;
 
-    --shadow-card: 0 8px 24px -4px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.04);
+    --accent-emerald-rgb: 52 211 153;
+    --accent-indigo-rgb: 250 250 250;
+    --accent-amber-rgb: 245 158 11;
+    --accent-rose-rgb: 239 68 68;
+
+    --shadow-card: 0 4px 20px -2px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.06);
   }
 
   body {
@@ -54,20 +60,9 @@
     color: var(--text-primary);
     font-feature-settings: "rlig" 1, "calt" 1;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    transition: background-color 0.25s ease, color 0.25s ease;
+    transition: background-color 0.2s ease, color 0.2s ease;
     @apply antialiased;
   }
-}
-
-/* Subtle, tasteful micro-grid texture (replaces neon cyber matrix) */
-.bg-subtle-grid {
-  background-image: radial-gradient(rgba(15, 23, 42, 0.06) 1px, transparent 1px);
-  background-size: 28px 28px;
-}
-
-.dark .bg-subtle-grid {
-  background-image: radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px);
-  background-size: 28px 28px;
 }
 
 .glass-card {
@@ -89,7 +84,7 @@
 
   body {
     background: #ffffff !important;
-    color: #0f172a !important;
+    color: #09090b !important;
   }
 
   main {
@@ -101,6 +96,6 @@
   .shadow-card,
   .glass-card {
     box-shadow: none !important;
-    border: 1px solid #e2e8f0 !important;
+    border: 1px solid #e4e4e7 !important;
   }
 }
