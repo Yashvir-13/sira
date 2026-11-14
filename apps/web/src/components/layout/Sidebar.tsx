@@ -1,125 +1,176 @@
 import React from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { useAuth } from '../../state/AuthContext';
-import { PlusCircle, History, Shield, LogOut, Sparkles } from 'lucide-react';
+import {
+  PlusCircle,
+  History,
+  Shield,
+  ChevronLeft,
+  ChevronRight,
+  Sparkles,
+  X,
+} from 'lucide-react';
 
-export const Sidebar: React.FC = () => {
-  const { user, logout } = useAuth();
-  const navigate = useNavigate();
+interface SidebarProps {
+  isCollapsed: boolean;
+  onToggleCollapse: () => void;
+  mobileOpen: boolean;
+  onCloseMobile: () => void;
+}
 
-  const handleLogout = () => {
-    logout();
-    navigate('/login');
-  };
+export const Sidebar: React.FC<SidebarProps> = ({
+  isCollapsed,
+  onToggleCollapse,
+  mobileOpen,
+  onCloseMobile,
+}) => {
+  const { user } = useAuth();
 
-  return (
-    <aside className="w-64 bg-[#0c0d14] border-r border-zinc-800/80 flex flex-col justify-between shrink-0 h-screen sticky top-0 select-none">
+  const navItems = [
+    {
+      to: '/',
+      end: true,
+      label: 'New Research',
+      icon: PlusCircle,
+      accent: 'text-accent-emerald',
+    },
+    {
+      to: '/history',
+      end: false,
+      label: 'Research Archive',
+      icon: History,
+      accent: 'text-primary-secondary',
+    },
+  ];
+
+  if (user?.role === 'admin') {
+    navItems.push({
+      to: '/admin',
+      end: false,
+      label: 'Admin Console',
+      icon: Shield,
+      accent: 'text-accent-amber',
+    });
+  }
+
+  const sidebarContent = (
+    <div className="flex flex-col h-full justify-between">
       {/* Top Brand Section */}
       <div>
-        <div className="p-5 border-b border-zinc-800/80 flex items-center justify-between">
+        <div className={`p-4 border-b border-border-subtle flex items-center ${isCollapsed ? 'justify-center' : 'justify-between'}`}>
           <div className="flex items-center gap-2.5">
-            <div className="w-7 h-7 rounded bg-zinc-800 border border-zinc-700/80 flex items-center justify-center font-bold text-xs text-emerald-400">
+            <div className="w-8 h-8 rounded-lg bg-surface-raised border border-border-prominent flex items-center justify-center font-bold text-sm text-accent-emerald shadow-sm">
               S
             </div>
-            <div>
-              <span className="font-bold tracking-tight text-white text-sm">SIRA</span>
-              <span className="text-[10px] text-zinc-500 font-mono ml-1.5">INTELLIGENCE</span>
-            </div>
+            {!isCollapsed && (
+              <div className="flex flex-col">
+                <span className="font-bold tracking-tight text-primary text-sm">SIRA</span>
+                <span className="text-[10px] text-primary-muted font-mono tracking-wider">INTELLIGENCE</span>
+              </div>
+            )}
           </div>
-          <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-[10px] font-mono text-emerald-400">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-            <span>ONLINE</span>
-          </div>
+
+          {/* Mobile close button */}
+          <button
+            type="button"
+            onClick={onCloseMobile}
+            className="md:hidden p-1.5 text-primary-muted hover:text-primary rounded-lg"
+          >
+            <X className="w-5 h-5" />
+          </button>
         </div>
 
         {/* Navigation Items */}
-        <nav className="p-3 space-y-1">
-          <NavLink
-            to="/"
-            end
-            className={({ isActive }) =>
-              `flex items-center gap-2.5 px-3 py-2 rounded text-xs font-medium transition ${
-                isActive
-                  ? 'bg-zinc-800 text-white font-semibold'
-                  : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900/60'
-              }`
-            }
-          >
-            <PlusCircle className="w-4 h-4 text-emerald-400" />
-            <span>New Research</span>
-          </NavLink>
-
-          <NavLink
-            to="/history"
-            className={({ isActive }) =>
-              `flex items-center gap-2.5 px-3 py-2 rounded text-xs font-medium transition ${
-                isActive
-                  ? 'bg-zinc-800 text-white font-semibold'
-                  : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900/60'
-              }`
-            }
-          >
-            <History className="w-4 h-4 text-zinc-400" />
-            <span>Research Archive</span>
-          </NavLink>
-
-          {/* Admin link visible only to admins */}
-          {user?.role === 'admin' && (
-            <NavLink
-              to="/admin"
-              className={({ isActive }) =>
-                `flex items-center gap-2.5 px-3 py-2 rounded text-xs font-medium transition ${
-                  isActive
-                    ? 'bg-zinc-800 text-amber-300 font-semibold'
-                    : 'text-amber-400/80 hover:text-amber-300 hover:bg-zinc-900/60'
-                }`
-              }
-            >
-              <Shield className="w-4 h-4 text-amber-400" />
-              <span>Admin Console</span>
-            </NavLink>
-          )}
+        <nav className="p-2 space-y-1">
+          {navItems.map((item) => {
+            const Icon = item.icon;
+            return (
+              <NavLink
+                key={item.to}
+                to={item.to}
+                end={item.end}
+                onClick={onCloseMobile}
+                title={isCollapsed ? item.label : undefined}
+                className={({ isActive }) =>
+                  `flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium transition-all ${
+                    isCollapsed ? 'justify-center' : ''
+                  } ${
+                    isActive
+                      ? 'bg-surface-raised text-primary font-semibold shadow-sm border border-border-subtle'
+                      : 'text-primary-secondary hover:text-primary hover:bg-surface-raised/70'
+                  }`
+                }
+              >
+                <Icon className={`w-4 h-4 shrink-0 ${item.accent}`} />
+                {!isCollapsed && <span>{item.label}</span>}
+              </NavLink>
+            );
+          })}
         </nav>
       </div>
 
-      {/* Pipeline Status Indicator */}
-      <div className="p-3 mx-3 mb-2 rounded bg-zinc-900/60 border border-zinc-800 text-[11px] font-mono text-zinc-400">
-        <div className="flex items-center gap-1.5 text-zinc-300 font-semibold mb-1">
-          <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
-          <span>Active Pipeline</span>
-        </div>
-        <div className="text-[10px] text-zinc-500 leading-tight">
-          SearXNG &bull; Jev &bull; Crawl4AI &bull; Claude 3.5/4.5
-        </div>
-      </div>
-
-      {/* Bottom User Profile Card */}
-      <div className="p-3 border-t border-zinc-800/80 bg-[#0a0b10]">
-        <div className="flex items-center justify-between p-2 rounded hover:bg-zinc-900/50 transition">
-          <div className="truncate mr-2">
-            <div className="text-xs font-medium text-zinc-200 truncate">{user?.email}</div>
-            <div className="flex items-center gap-1.5 mt-0.5">
-              <span
-                className={`text-[9px] font-mono uppercase px-1.5 py-0.2 rounded border ${
-                  user?.role === 'admin'
-                    ? 'bg-amber-500/10 text-amber-400 border-amber-500/30'
-                    : 'bg-zinc-800 text-zinc-400 border-zinc-700'
-                }`}
-              >
-                {user?.role}
-              </span>
-              <span className="text-[10px] text-zinc-500 font-mono">2FA ACTIVE</span>
+      {/* Bottom Section */}
+      <div className="p-3 border-t border-border-subtle space-y-2">
+        {/* Connected Services Badge (only if expanded) */}
+        {!isCollapsed && (
+          <div className="p-2.5 rounded-lg bg-surface-raised/60 border border-border-subtle text-[11px] font-mono text-primary-secondary">
+            <div className="flex items-center gap-1.5 font-semibold text-primary mb-1">
+              <Sparkles className="w-3.5 h-3.5 text-accent-emerald" />
+              <span>Agent Pipeline</span>
+            </div>
+            <div className="text-[10px] text-primary-muted leading-tight">
+              SearXNG &bull; Jev &bull; Crawl4AI &bull; Claude
             </div>
           </div>
-          <button
-            onClick={handleLogout}
-            title="Sign out"
-            className="p-1.5 text-zinc-500 hover:text-rose-400 rounded hover:bg-zinc-800 transition"
-          >
-            <LogOut className="w-4 h-4" />
-          </button>
-        </div>
+        )}
+
+        {/* Desktop Collapse Toggle */}
+        <button
+          type="button"
+          onClick={onToggleCollapse}
+          title={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+          className="hidden md:flex w-full items-center justify-center p-2 rounded-lg text-primary-muted hover:text-primary hover:bg-surface-raised border border-border-subtle transition"
+        >
+          {isCollapsed ? (
+            <ChevronRight className="w-4 h-4" />
+          ) : (
+            <div className="flex items-center gap-2 text-xs font-medium">
+              <ChevronLeft className="w-4 h-4" />
+              <span>Collapse Sidebar</span>
+            </div>
+          )}
+        </button>
       </div>
-    </aside>
+    </div>
+  );
+
+  return (
+    <>
+      {/* Mobile Backdrop */}
+      {mobileOpen && (
+        <div
+          onClick={onCloseMobile}
+          className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm md:hidden transition-opacity"
+        />
+      )}
+
+      {/* Desktop Persistent Sidebar */}
+      <aside
+        className={`hidden md:flex flex-col shrink-0 h-screen sticky top-0 bg-surface border-r border-border-subtle transition-all duration-200 select-none ${
+          isCollapsed ? 'w-16' : 'w-60'
+        }`}
+      >
+        {sidebarContent}
+      </aside>
+
+      {/* Mobile Off-canvas Drawer */}
+      <aside
+        className={`fixed inset-y-0 left-0 z-50 w-64 bg-surface border-r border-border-subtle shadow-xl md:hidden transition-transform duration-200 select-none ${
+          mobileOpen ? 'translate-x-0' : '-translate-x-full'
+        }`}
+      >
+        {sidebarContent}
+      </aside>
+    </>
   );
 };
