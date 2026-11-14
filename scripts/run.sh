@@ -27,7 +27,9 @@ case "$COMMAND" in
         alembic upgrade head
         ;;
     db:seed)
-        echo "Seeding database..."
+        echo "Seeding database with test users..."
+        source .venv/bin/activate 2>/dev/null || source .venv/Scripts/activate
+        python scripts/seed_users.py
         ;;
     test)
         echo "Running test suite..."

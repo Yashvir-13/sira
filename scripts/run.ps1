@@ -34,7 +34,8 @@ switch ($Command) {
         & .\.venv\Scripts\alembic upgrade head
     }
     "db:seed" {
-        Write-Host "Seeding database..." -ForegroundColor Cyan
+        Write-Host "Seeding database with test users..." -ForegroundColor Cyan
+        & .\.venv\Scripts\python scripts\seed_users.py
     }
     "test" {
         Write-Host "Running tests..." -ForegroundColor Cyan
