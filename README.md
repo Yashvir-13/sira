@@ -121,20 +121,20 @@ CRAWL4AI_API_TOKEN=crawl4ai_secret_123
 
 ### 3. Install Dependencies & Run Database Migrations
 
-```powershell
+```bash
 # Install Node dependencies
 pnpm install
 
 # Apply Alembic database migrations to Neon Postgres
-.\scripts\run.ps1 db:migrate
+pnpm db:migrate
 ```
 
 ### 4. Seed Test Users (Admin & Member)
 
 Seed pre-configured accounts with pre-shared TOTP secrets:
 
-```powershell
-.\scripts\run.ps1 db:seed
+```bash
+pnpm db:seed
 ```
 
 | Account Role | Email | Password | Pre-shared TOTP Secret |
@@ -146,22 +146,34 @@ Seed pre-configured accounts with pre-shared TOTP secrets:
 
 ---
 
-## Running the Application
+## Running the Application with pnpm
 
-In two separate terminal windows:
+You can run both services concurrently in a single terminal with `pnpm`:
 
-### Terminal 1: Start FastAPI Backend
-```powershell
-.\scripts\run.ps1 dev:api
+```bash
+pnpm dev
+```
+This runs the FastAPI API (`:8000`) and the Vite React frontend (`:5173`) side-by-side using `concurrently`.
+
+### Or Run in Separate Terminals:
+
+#### Terminal 1: Start FastAPI Backend
+```bash
+pnpm dev:api
 ```
 Backend API will be live at: **`http://localhost:8000`**  
 Interactive Swagger docs: **`http://localhost:8000/docs`**
 
-### Terminal 2: Start React Frontend
-```powershell
-.\scripts\run.ps1 dev:web
+#### Terminal 2: Start React Frontend
+```bash
+pnpm dev:web
 ```
 Web Application will be live at: **`http://localhost:5173`**
+
+### Alternative Shell Runners:
+You can also run commands via the CLI runner scripts:
+- Windows PowerShell: `.\scripts\run.ps1 dev`, `.\scripts\run.ps1 dev:api`, `.\scripts\run.ps1 dev:web`
+- POSIX Bash: `./scripts/run.sh dev`, `./scripts/run.sh dev:api`, `./scripts/run.sh dev:web`
 
 ---
 

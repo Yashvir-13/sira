@@ -4,9 +4,16 @@
   "private": true,
   "description": "SIRA — Startup Idea Research Agent Monorepo",
   "scripts": {
+    "dev": "concurrently -n \"API,WEB\" -c \"cyan,magenta\" \"pnpm dev:api\" \"pnpm dev:web\"",
+    "dev:api": "node scripts/py.js -m uvicorn services.api.main:app --reload --port 8000",
     "dev:web": "pnpm --filter web dev",
     "build:web": "pnpm --filter web build",
-    "lint:web": "pnpm --filter web lint"
+    "build": "pnpm build:web",
+    "lint:web": "pnpm --filter web lint",
+    "db:migrate": "node scripts/py.js -m alembic upgrade head",
+    "db:seed": "node scripts/py.js scripts/seed_users.py"
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.7"
   }
 }
-
