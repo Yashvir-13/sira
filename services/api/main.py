@@ -1,3 +1,7 @@
+from dotenv import load_dotenv
+
+load_dotenv()
+
 from fastapi import FastAPI
 from services.api.routes.auth import router as auth_router
 from services.api.routes.research import router as research_router

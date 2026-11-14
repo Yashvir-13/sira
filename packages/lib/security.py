@@ -1,11 +1,14 @@
-import pyotp
-import bcrypt
+import os
 import io
 import base64
 from datetime import timedelta, datetime, timezone
+import pyotp
+import bcrypt
 import qrcode
-import os
 import jwt
+from dotenv import load_dotenv
+
+load_dotenv()
 
 def generate_totp_secret():
     return pyotp.random_base32()

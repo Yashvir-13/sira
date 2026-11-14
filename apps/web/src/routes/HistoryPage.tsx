@@ -9,22 +9,25 @@ export const HistoryPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const fetchHistory = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const data = await researchApi.getResearchHistory();
+      setItems(Array.isArray(data) ? data : []);
+    } catch (err: any) {
+      setError(err.response?.data?.detail || 'Failed to fetch research history.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchHistory = async () => {
-      try {
-        const data = await researchApi.getResearchHistory();
-        setItems(data);
-      } catch (err: any) {
-        setError(err.response?.data?.detail || 'Failed to fetch research history.');
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchHistory();
   }, []);
 
-  const getStatusBadge = (status: string) => {
-    switch (status) {
+  const getStatusBadge = (status?: string) => {
+    switch (status?.toLowerCase()) {
       case 'completed':
         return 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30';
       case 'processing':
@@ -65,8 +68,14 @@ export const HistoryPage = () => {
           <span>Retrieving past dossiers...</span>
         </div>
       ) : error ? (
-        <div className="p-4 rounded-lg bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs">
-          {error}
+        <div className="p-4 rounded-lg bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs flex items-center justify-between">
+          <span>{error}</span>
+          <button
+            onClick={fetchHistory}
+            className="px-3 py-1 bg-zinc-800 hover:bg-zinc-700 text-zinc-200 rounded font-semibold text-xs transition"
+          >
+            Retry
+          </button>
         </div>
       ) : items.length === 0 ? (
         <div className="bg-[#10121a] border border-zinc-800 rounded-xl p-12 text-center max-w-md mx-auto space-y-4">
@@ -90,7 +99,8 @@ export const HistoryPage = () => {
       ) : (
         <div className="grid grid-cols-1 gap-3">
           {items.map((item) => {
-            const score = item.data?.viability_score;
+            const score = item.data && typeof item.data === 'object' ? item.data.viability_score : undefined;
+            const formattedDate = item.created_at ? new Date(item.created_at).toLocaleDateString() : '';
             return (
               <div
                 key={item.id}
@@ -106,10 +116,12 @@ export const HistoryPage = () => {
                         SCORE: {score}/100
                       </span>
                     )}
-                    <div className="flex items-center gap-1 text-[11px] font-mono text-zinc-500">
-                      <Calendar className="w-3 h-3" />
-                      <span>{new Date(item.created_at).toLocaleDateString()}</span>
-                    </div>
+                    {formattedDate && (
+                      <div className="flex items-center gap-1 text-[11px] font-mono text-zinc-500">
+                        <Calendar className="w-3 h-3" />
+                        <span>{formattedDate}</span>
+                      </div>
+                    )}
                   </div>
 
                   <h3 className="text-sm font-bold text-white tracking-tight truncate">
