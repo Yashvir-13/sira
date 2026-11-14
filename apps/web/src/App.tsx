@@ -6,6 +6,7 @@ import { ProtectedRoute } from './routes/ProtectedRoute';
 import { AdminRoute } from './routes/AdminRoute';
 import { AppLayout } from './components/layout/AppLayout';
 import { HomePage } from './routes/HomePage';
+import { NewResearchPage } from './routes/NewResearchPage';
 import { LoginPage } from './routes/LoginPage';
 import { SignupPage } from './routes/SignupPage';
 import { ResearchDetailPage } from './routes/ResearchDetailPage';
@@ -21,6 +22,7 @@ export function App() {
             <Routes>
               {/* Public Routes */}
               <Route path="/" element={<HomePage />} />
+              <Route path="/new" element={<NewResearchPage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/signup" element={<SignupPage />} />
 

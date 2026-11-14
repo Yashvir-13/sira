@@ -28,11 +28,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
   const navItems = [
     {
-      to: '/',
-      end: true,
+      to: '/new',
+      end: false,
       label: 'New Research',
       icon: PlusCircle,
-      accent: 'text-accent-indigo',
+      accent: 'text-primary',
     },
     {
       to: '/history',
