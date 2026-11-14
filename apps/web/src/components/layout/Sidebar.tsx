@@ -32,7 +32,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       end: true,
       label: 'New Research',
       icon: PlusCircle,
-      accent: 'text-accent-emerald',
+      accent: 'text-accent-indigo',
     },
     {
       to: '/history',
@@ -59,7 +59,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       <div>
         <div className={`p-4 border-b border-border-subtle flex items-center ${isCollapsed ? 'justify-center' : 'justify-between'}`}>
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-surface-raised border border-border-prominent flex items-center justify-center font-bold text-sm text-accent-emerald shadow-sm">
+            <div className="w-8 h-8 rounded-lg bg-surface-raised border border-border-prominent flex items-center justify-center font-bold text-sm text-accent-indigo shadow-sm">
               S
             </div>
             {!isCollapsed && (

@@ -41,21 +41,21 @@ export const MarketSizeChart: React.FC<MarketSizeChartProps> = ({ marketSize }) 
       label: 'Total Addressable Market',
       value: tamNum,
       formatted: marketSize?.tam?.value || `$${tamNum}B`,
-      color: theme === 'dark' ? '#6366F1' : '#4F46E5',
+      color: theme === 'dark' ? '#3B82F6' : '#2563EB',
     },
     {
       name: 'SAM',
       label: 'Serviceable Addressable Market',
       value: samNum,
       formatted: marketSize?.sam?.value || `$${samNum}B`,
-      color: theme === 'dark' ? '#818CF8' : '#6366F1',
+      color: theme === 'dark' ? '#60A5FA' : '#3B82F6',
     },
     {
       name: 'SOM',
       label: 'Serviceable Obtainable Market (Y1-Y3)',
       value: somNum,
       formatted: marketSize?.som?.value || `$${somNum}B`,
-      color: theme === 'dark' ? '#10B981' : '#059669',
+      color: theme === 'dark' ? '#14B8A6' : '#0D9488',
     },
   ];
 
@@ -69,7 +69,7 @@ export const MarketSizeChart: React.FC<MarketSizeChartProps> = ({ marketSize }) 
           <span className="text-[11px] text-primary-secondary font-mono">TAM &bull; SAM &bull; SOM Breakdown</span>
         </div>
         {cagr && (
-          <div className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-accent-emerald/10 border border-accent-emerald/20 text-xs font-mono text-accent-emerald font-semibold">
+          <div className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-surface-raised border border-border-subtle text-xs font-mono text-accent-indigo font-semibold">
             <TrendingUp className="w-3 h-3" />
             <span>CAGR: {cagr}</span>
           </div>

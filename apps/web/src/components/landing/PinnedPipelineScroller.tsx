@@ -1,8 +1,17 @@
 import React, { useRef } from 'react';
-import { useScroll, useTransform, motion } from 'motion/react';
-import { Search, Filter, Globe, Brain, Sparkles } from 'lucide-react';
+import { useScroll, useTransform, motion, MotionValue } from 'motion/react';
+import {
+  Search,
+  Filter,
+  Globe,
+  Brain,
+  Layers,
+  ArrowRight,
+  TrendingUp,
+  Code2,
+} from 'lucide-react';
 
-interface Stage {
+interface StageConfig {
   id: string;
   stepNumber: string;
   service: string;
@@ -11,12 +20,11 @@ interface Stage {
   description: string;
   icon: React.ComponentType<{ className?: string }>;
   accentColor: string;
-  badgeBg: string;
-  metrics: string;
-  mockArtifact: React.ReactNode;
+  accentBg: string;
+  badgeBorder: string;
 }
 
-const STAGES: Stage[] = [
+const STAGES: StageConfig[] = [
   {
     id: 'search',
     stepNumber: '01',
@@ -24,102 +32,50 @@ const STAGES: Stage[] = [
     title: 'Multi-Index Query Expansion',
     tagline: '20+ search engines queried in parallel',
     description:
-      'The agent decomposes the startup concept into semantic variations, simultaneously scraping Hacker News discussions, Reddit sentiment, Product Hunt launches, and company filings.',
+      'The agent decomposes the concept into semantic search vectors, querying developer forums, community discussions, product launches, and industry registries concurrently.',
     icon: Search,
     accentColor: 'text-accent-indigo',
-    badgeBg: 'bg-accent-indigo/10 border-accent-indigo/20 text-accent-indigo',
-    metrics: '24 Sources Found',
-    mockArtifact: (
-      <div className="space-y-2 font-mono text-[11px]">
-        <div className="p-2 rounded bg-surface border border-border-subtle flex items-center justify-between">
-          <span className="text-primary truncate">reddit.com/r/SaaS/comments/...</span>
-          <span className="text-accent-emerald text-[10px]">RELEVANT</span>
-        </div>
-        <div className="p-2 rounded bg-surface border border-border-subtle flex items-center justify-between">
-          <span className="text-primary truncate">news.ycombinator.com/item?id=...</span>
-          <span className="text-accent-emerald text-[10px]">HIGH INTENT</span>
-        </div>
-        <div className="p-2 rounded bg-surface border border-border-subtle flex items-center justify-between">
-          <span className="text-primary truncate">producthunt.com/posts/...</span>
-          <span className="text-accent-indigo text-[10px]">INCUMBENT</span>
-        </div>
-      </div>
-    ),
+    accentBg: 'bg-accent-indigo/10',
+    badgeBorder: 'border-accent-indigo/30',
   },
   {
     id: 'classify',
     stepNumber: '02',
-    service: 'TypeSafe Jev',
+    service: 'TypeSafe Taxonomy',
     title: 'Signal & Intent Classification',
-    tagline: 'Filtering noise with structured type contracts',
+    tagline: 'Filtering noise with structured data contracts',
     description:
-      'Raw search links are classified through a strict deterministic taxonomy, isolating direct competitors, pricing disclosures, and customer pain points from marketing fluff.',
+      'Raw links are classified through a strict deterministic taxonomy, separating direct competitors, pricing disclosures, and customer friction points from generic marketing fluff.',
     icon: Filter,
     accentColor: 'text-accent-amber',
-    badgeBg: 'bg-accent-amber/10 border-accent-amber/20 text-accent-amber',
-    metrics: '100% Type-Safe',
-    mockArtifact: (
-      <div className="flex flex-wrap gap-2 pt-2">
-        <span className="px-2.5 py-1 rounded-full bg-accent-amber/10 border border-accent-amber/30 text-accent-amber text-[11px] font-mono">
-          [Competitor: LinearB]
-        </span>
-        <span className="px-2.5 py-1 rounded-full bg-accent-emerald/10 border border-accent-emerald/30 text-accent-emerald text-[11px] font-mono">
-          [TAM Signal: Gartner 2026]
-        </span>
-        <span className="px-2.5 py-1 rounded-full bg-accent-indigo/10 border border-accent-indigo/30 text-accent-indigo text-[11px] font-mono">
-          [Friction: Alert Fatigue]
-        </span>
-        <span className="px-2.5 py-1 rounded-full bg-surface-raised border border-border-subtle text-primary-muted text-[11px] font-mono">
-          [Discarded: Generic SEO Blog]
-        </span>
-      </div>
-    ),
+    accentBg: 'bg-accent-amber/10',
+    badgeBorder: 'border-accent-amber/30',
   },
   {
     id: 'scrape',
     stepNumber: '03',
     service: 'Crawl4AI Headless',
-    title: 'Clean Signal Extraction',
-    tagline: 'Converting messy web DOMs into clean Markdown',
+    title: 'DOM Signal Extraction',
+    tagline: 'Converting unstructured web DOMs into clean Markdown',
     description:
-      'Top-ranked pages are rendered headlessly. Cookie banners, JavaScript popups, and navigation chrome are stripped away, yielding token-efficient Markdown containing only core facts.',
+      'Top-ranked evidence pages are rendered headlessly. Cookie banners, navigation noise, and ads are stripped, producing clean token-efficient Markdown containing core facts.',
     icon: Globe,
     accentColor: 'text-accent-emerald',
-    badgeBg: 'bg-accent-emerald/10 border-accent-emerald/20 text-accent-emerald',
-    metrics: '94% Token Reduction',
-    mockArtifact: (
-      <div className="p-3 rounded-lg bg-surface font-mono text-[11px] text-primary-secondary border border-border-subtle space-y-1">
-        <div className="text-accent-emerald font-bold"># Extracted Competitor Pricing</div>
-        <div>- Enterprise tier: $49/seat/mo</div>
-        <div>- Self-hosted proxy available</div>
-        <div className="text-primary-muted">// Ads & navigation removed</div>
-      </div>
-    ),
+    accentBg: 'bg-accent-emerald/10',
+    badgeBorder: 'border-accent-emerald/30',
   },
   {
     id: 'synthesize',
     stepNumber: '04',
     service: 'Claude Venture Model',
-    title: 'Structured Validation & Dossier',
-    tagline: 'Synthesizing viability scores and TAM/SAM/SOM models',
+    title: 'Institutional Dossier Synthesis',
+    tagline: 'Synthesizing viability conviction and market models',
     description:
-      'The reasoning engine synthesizes scraped signals against venture capital frameworks: calculating defensibility moats, competitor threat rankings, and SWOT matrices with citations.',
+      'The reasoning engine evaluates scraped signals against venture capital frameworks: calculating defensibility moats, competitor threat matrices, and TAM/SAM/SOM market ceilings with citations.',
     icon: Brain,
     accentColor: 'text-accent-indigo',
-    badgeBg: 'bg-accent-indigo/10 border-accent-indigo/20 text-accent-indigo',
-    metrics: 'Investment-Grade',
-    mockArtifact: (
-      <div className="p-3 rounded-lg bg-surface border border-accent-emerald/30 text-xs space-y-2">
-        <div className="flex justify-between items-center">
-          <span className="text-[11px] font-mono text-primary-secondary">Viability Conviction:</span>
-          <span className="font-mono font-bold text-accent-emerald">84 / 100</span>
-        </div>
-        <div className="w-full bg-surface-raised rounded-full h-1.5 overflow-hidden">
-          <div className="bg-accent-emerald h-full rounded-full w-[84%]" />
-        </div>
-        <div className="text-[10px] text-primary-muted font-mono">TAM: $14.2B &bull; Threat: Moderate</div>
-      </div>
-    ),
+    accentBg: 'bg-accent-indigo/10',
+    badgeBorder: 'border-accent-indigo/30',
   },
 ];
 
@@ -131,109 +87,392 @@ export const PinnedPipelineScroller: React.FC = () => {
   });
 
   return (
-    <div ref={containerRef} className="relative h-[260vh]">
+    <div ref={containerRef} className="relative h-[320vh]">
       {/* Sticky Pinned Viewport Container */}
-      <div className="sticky top-20 h-[80vh] flex flex-col justify-center">
-        {/* Section Header */}
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-accent-indigo/10 border border-accent-indigo/20 text-xs font-mono text-accent-indigo mb-2">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>SCROLL-DRIVEN PIPELINE ARCHITECTURE</span>
+      <div className="sticky top-16 h-[85vh] flex flex-col justify-between py-6 max-w-5xl mx-auto px-4 sm:px-6">
+        {/* Section Header with Live Stage Indicator */}
+        <div>
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-border-subtle gap-3">
+            <div>
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-surface-raised border border-border-subtle text-[11px] font-mono text-primary-secondary mb-1">
+                <Layers className="w-3 h-3 text-accent-indigo" />
+                <span>SCROLL-DRIVEN PIPELINE ARCHITECTURE</span>
+              </div>
+              <h2 className="text-xl sm:text-2xl font-bold text-primary tracking-tight">
+                Watch the autonomous agent think in 4 stages
+              </h2>
+            </div>
+
+            {/* Stage Indicators */}
+            <StageRail scrollYProgress={scrollYProgress} />
           </div>
-          <h2 className="text-2xl sm:text-3xl font-bold text-primary tracking-tight">
-            Watch the agent think in 4 stages
-          </h2>
-          <p className="text-xs sm:text-sm text-primary-secondary mt-1">
-            Scroll down to advance through the autonomous pipeline.
-          </p>
         </div>
 
-        {/* Dynamic Interactive Stage Stage Deck */}
-        <div className="max-w-4xl mx-auto w-full px-4 relative">
-          {/* Ambient Spotlight */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[300px] bg-accent-indigo/10 blur-3xl rounded-full pointer-events-none -z-10" />
+        {/* Dynamic Center Stage Viewer (Zoom-in, Pan & Slide) */}
+        <div className="relative flex-1 flex items-center justify-center my-4 overflow-hidden">
+          {/* Stage 1: Metasearch */}
+          <StageOneView scrollYProgress={scrollYProgress} />
 
-          {/* Cards Stack */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-            {STAGES.map((stage, idx) => {
-              const start = idx * 0.23;
-              const end = start + 0.25;
+          {/* Stage 2: Intent Classification */}
+          <StageTwoView scrollYProgress={scrollYProgress} />
 
-              return (
-                <StageCard
-                  key={stage.id}
-                  stage={stage}
-                  scrollYProgress={scrollYProgress}
-                  range={[start, end]}
-                />
-              );
-            })}
+          {/* Stage 3: DOM Extraction */}
+          <StageThreeView scrollYProgress={scrollYProgress} />
+
+          {/* Stage 4: Venture Model */}
+          <StageFourView scrollYProgress={scrollYProgress} />
+        </div>
+
+        {/* Scroll Instruction Bar */}
+        <div className="pt-3 border-t border-border-subtle flex items-center justify-between text-xs font-mono text-primary-muted">
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-accent-indigo animate-pulse" />
+            <span>Scroll trackpad or mouse wheel to transition stages</span>
           </div>
+          <ScrollPercent scrollYProgress={scrollYProgress} />
         </div>
       </div>
     </div>
   );
 };
 
-const StageCard: React.FC<{
-  stage: Stage;
-  scrollYProgress: any;
-  range: [number, number];
-}> = ({ stage, scrollYProgress, range }) => {
-  const Icon = stage.icon;
+/* Stage Navigation Rail at top of pinned frame */
+const StageRail: React.FC<{ scrollYProgress: MotionValue<number> }> = ({
+  scrollYProgress,
+}) => {
+  return (
+    <div className="flex items-center gap-1.5 self-start sm:self-auto overflow-x-auto no-scrollbar">
+      {STAGES.map((s, idx) => {
+        const start = idx * 0.25;
+        const end = start + 0.25;
+        return (
+          <StagePill
+            key={s.id}
+            index={idx + 1}
+            name={s.service.split(' ')[0]}
+            start={start}
+            end={end}
+            scrollYProgress={scrollYProgress}
+          />
+        );
+      })}
+    </div>
+  );
+};
 
-  // Transform opacity, scale, and translateY based on scroll progression
+const StagePill: React.FC<{
+  index: number;
+  name: string;
+  start: number;
+  end: number;
+  scrollYProgress: MotionValue<number>;
+}> = ({ index, name, start, end, scrollYProgress }) => {
   const opacity = useTransform(
     scrollYProgress,
-    [Math.max(0, range[0] - 0.1), range[0], range[1], Math.min(1, range[1] + 0.15)],
-    [0.35, 1, 1, 0.4]
-  );
-
-  const scale = useTransform(
-    scrollYProgress,
-    [Math.max(0, range[0] - 0.1), range[0], range[1]],
-    [0.96, 1.02, 1]
-  );
-
-  const y = useTransform(
-    scrollYProgress,
-    [Math.max(0, range[0] - 0.1), range[0]],
-    [20, 0]
+    [Math.max(0, start - 0.05), start, end - 0.05, end],
+    [0.45, 1, 1, 0.45]
   );
 
   return (
     <motion.div
-      style={{
-        opacity,
-        scale,
-        y,
-      }}
-      className="glass-card rounded-2xl p-5 sm:p-6 border border-white/[0.08] dark:border-white/[0.06] flex flex-col justify-between shadow-card hover:border-white/[0.15] transition-colors"
+      style={{ opacity }}
+      className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-surface border border-border-subtle text-xs font-mono"
     >
-      <div>
-        <div className="flex items-center justify-between mb-3">
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-surface-raised flex items-center justify-center">
-              <Icon className={`w-4 h-4 ${stage.accentColor}`} />
+      <span className="font-bold text-accent-indigo">{`0${index}`}</span>
+      <span className="text-primary hidden sm:inline">{name}</span>
+    </motion.div>
+  );
+};
+
+const ScrollPercent: React.FC<{ scrollYProgress: MotionValue<number> }> = ({
+  scrollYProgress,
+}) => {
+  const percent = useTransform(scrollYProgress, (v) => `${Math.round(v * 100)}% COMPLETE`);
+  return <motion.span>{percent}</motion.span>;
+};
+
+/* STAGE 1 SHOWCASE: Metasearch Query Expansion */
+const StageOneView: React.FC<{ scrollYProgress: MotionValue<number> }> = ({
+  scrollYProgress,
+}) => {
+  // Enters: 0.00 -> 0.08, Exits: 0.22 -> 0.28
+  const opacity = useTransform(scrollYProgress, [0, 0.05, 0.22, 0.28], [1, 1, 1, 0]);
+  const scale = useTransform(scrollYProgress, [0, 0.22, 0.28], [1, 1, 0.94]);
+  const x = useTransform(scrollYProgress, [0, 0.22, 0.28], [0, 0, -80]);
+
+  return (
+    <motion.div
+      style={{ opacity, scale, x }}
+      className="absolute inset-0 flex flex-col justify-center max-w-4xl mx-auto"
+    >
+      <div className="glass-card rounded-2xl p-6 sm:p-8 shadow-card border border-border-subtle">
+        <div className="flex items-center justify-between pb-4 border-b border-border-subtle mb-5">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-accent-indigo/10 border border-accent-indigo/20 flex items-center justify-center text-accent-indigo">
+              <Search className="w-5 h-5" />
             </div>
             <div>
-              <span className="text-[10px] font-mono text-primary-muted uppercase tracking-wider block">
-                STAGE {stage.stepNumber}
-              </span>
-              <span className="text-xs font-bold text-primary">{stage.service}</span>
+              <div className="text-[11px] font-mono text-primary-muted uppercase tracking-wider">
+                STAGE 01 &bull; SEARXNG ORCHESTRATION
+              </div>
+              <h3 className="text-base sm:text-lg font-bold text-primary">
+                Multi-Index Query Expansion & Crawl
+              </h3>
             </div>
           </div>
-          <span className={`text-[10px] font-mono px-2 py-0.5 rounded-full border ${stage.badgeBg}`}>
-            {stage.metrics}
+          <span className="text-xs font-mono px-3 py-1 rounded-full bg-accent-indigo/10 border border-accent-indigo/30 text-accent-indigo font-semibold">
+            24 SOURCES PARALLEL
           </span>
         </div>
 
-        <h3 className="text-sm sm:text-base font-bold text-primary mb-1.5">{stage.title}</h3>
-        <p className="text-xs text-primary-secondary leading-relaxed mb-4">{stage.description}</p>
-      </div>
+        <p className="text-xs sm:text-sm text-primary-secondary mb-6 leading-relaxed">
+          The research engine extracts key semantic anchors from your concept, querying developer forums, Hacker News, Reddit discussions, and company registries across 20+ search backends.
+        </p>
 
-      <div className="pt-3 border-t border-border-subtle/60">
-        {stage.mockArtifact}
+        {/* Interactive Visual Mockup */}
+        <div className="space-y-2.5 font-mono text-xs">
+          <div className="p-3 rounded-xl bg-surface-raised border border-border-subtle flex items-center justify-between hover:border-border-prominent transition">
+            <div className="flex items-center gap-2 truncate">
+              <span className="text-primary-muted text-[10px]">GET</span>
+              <span className="text-primary truncate font-medium">reddit.com/r/SaaS/comments/pr_code_review_fatigue</span>
+            </div>
+            <span className="text-[10px] px-2 py-0.5 rounded bg-accent-emerald/10 text-accent-emerald font-semibold border border-accent-emerald/20 shrink-0">
+              HIGH INTENT
+            </span>
+          </div>
+
+          <div className="p-3 rounded-xl bg-surface-raised border border-border-subtle flex items-center justify-between hover:border-border-prominent transition">
+            <div className="flex items-center gap-2 truncate">
+              <span className="text-primary-muted text-[10px]">GET</span>
+              <span className="text-primary truncate font-medium">news.ycombinator.com/item?id=38194021 [Ask HN: Code Review Tools]</span>
+            </div>
+            <span className="text-[10px] px-2 py-0.5 rounded bg-accent-emerald/10 text-accent-emerald font-semibold border border-accent-emerald/20 shrink-0">
+              PAIN POINT
+            </span>
+          </div>
+
+          <div className="p-3 rounded-xl bg-surface-raised border border-border-subtle flex items-center justify-between hover:border-border-prominent transition">
+            <div className="flex items-center gap-2 truncate">
+              <span className="text-primary-muted text-[10px]">GET</span>
+              <span className="text-primary truncate font-medium">producthunt.com/posts/linear-b-developer-intelligence</span>
+            </div>
+            <span className="text-[10px] px-2 py-0.5 rounded bg-accent-amber/10 text-accent-amber font-semibold border border-accent-amber/20 shrink-0">
+              DIRECT COMPETITOR
+            </span>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+};
+
+/* STAGE 2 SHOWCASE: Signal & Intent Classification */
+const StageTwoView: React.FC<{ scrollYProgress: MotionValue<number> }> = ({
+  scrollYProgress,
+}) => {
+  // Enters: 0.22 -> 0.28, Exits: 0.48 -> 0.54
+  const opacity = useTransform(scrollYProgress, [0.22, 0.28, 0.48, 0.54], [0, 1, 1, 0]);
+  const scale = useTransform(scrollYProgress, [0.22, 0.28, 0.48, 0.54], [0.94, 1, 1, 0.94]);
+  const x = useTransform(scrollYProgress, [0.22, 0.28, 0.48, 0.54], [80, 0, 0, -80]);
+
+  return (
+    <motion.div
+      style={{ opacity, scale, x }}
+      className="absolute inset-0 flex flex-col justify-center max-w-4xl mx-auto"
+    >
+      <div className="glass-card rounded-2xl p-6 sm:p-8 shadow-card border border-border-subtle">
+        <div className="flex items-center justify-between pb-4 border-b border-border-subtle mb-5">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-accent-amber/10 border border-accent-amber/20 flex items-center justify-center text-accent-amber">
+              <Filter className="w-5 h-5" />
+            </div>
+            <div>
+              <div className="text-[11px] font-mono text-primary-muted uppercase tracking-wider">
+                STAGE 02 &bull; DETERMINISTIC JEV CLASSIFICATION
+              </div>
+              <h3 className="text-base sm:text-lg font-bold text-primary">
+                Signal Isolation & Noise Filtering
+              </h3>
+            </div>
+          </div>
+          <span className="text-xs font-mono px-3 py-1 rounded-full bg-accent-amber/10 border border-accent-amber/30 text-accent-amber font-semibold">
+            100% TYPE-SAFE
+          </span>
+        </div>
+
+        <p className="text-xs sm:text-sm text-primary-secondary mb-6 leading-relaxed">
+          Raw search results pass through strict Pydantic data schemas. SEO blogs and low-relevance links are discarded, leaving only actionable customer friction, competitor pricing, and market signals.
+        </p>
+
+        {/* Interactive Classification Taxonomy Visual */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 font-mono text-xs">
+          <div className="p-3.5 rounded-xl bg-surface-raised border border-border-subtle">
+            <span className="text-[10px] text-accent-amber font-bold uppercase tracking-wider block mb-1">
+              [IDENTIFIED COMPETITORS]
+            </span>
+            <div className="text-primary font-medium">LinearB, CodeRabbit, Sourcery</div>
+            <div className="text-[11px] text-primary-muted mt-1">Pricing: $19 - $49/seat/mo</div>
+          </div>
+
+          <div className="p-3.5 rounded-xl bg-surface-raised border border-border-subtle">
+            <span className="text-[10px] text-accent-emerald font-bold uppercase tracking-wider block mb-1">
+              [CUSTOMER PAIN POINTS]
+            </span>
+            <div className="text-primary font-medium">Alert fatigue, false positives</div>
+            <div className="text-[11px] text-primary-muted mt-1">Severity: 8.5 / 10 &bull; 14 threads</div>
+          </div>
+
+          <div className="p-3.5 rounded-xl bg-surface-raised border border-border-subtle">
+            <span className="text-[10px] text-accent-indigo font-bold uppercase tracking-wider block mb-1">
+              [MARKET CEILING SIGNALS]
+            </span>
+            <div className="text-primary font-medium">Gartner DevOps Forecast 2026</div>
+            <div className="text-[11px] text-primary-muted mt-1">Market size projected at $14.2B</div>
+          </div>
+
+          <div className="p-3.5 rounded-xl bg-surface-raised border border-border-subtle">
+            <span className="text-[10px] text-primary-muted font-bold uppercase tracking-wider block mb-1">
+              [DISCARDED NOISE]
+            </span>
+            <div className="text-primary-muted line-through">Top 10 AI Tools in 2025 (Affiliate)</div>
+            <div className="text-[11px] text-accent-rose mt-1">Stripped: Low informational intent</div>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+};
+
+/* STAGE 3 SHOWCASE: DOM Signal Extraction */
+const StageThreeView: React.FC<{ scrollYProgress: MotionValue<number> }> = ({
+  scrollYProgress,
+}) => {
+  // Enters: 0.48 -> 0.54, Exits: 0.73 -> 0.79
+  const opacity = useTransform(scrollYProgress, [0.48, 0.54, 0.73, 0.79], [0, 1, 1, 0]);
+  const scale = useTransform(scrollYProgress, [0.48, 0.54, 0.73, 0.79], [0.94, 1, 1, 0.94]);
+  const x = useTransform(scrollYProgress, [0.48, 0.54, 0.73, 0.79], [80, 0, 0, -80]);
+
+  return (
+    <motion.div
+      style={{ opacity, scale, x }}
+      className="absolute inset-0 flex flex-col justify-center max-w-4xl mx-auto"
+    >
+      <div className="glass-card rounded-2xl p-6 sm:p-8 shadow-card border border-border-subtle">
+        <div className="flex items-center justify-between pb-4 border-b border-border-subtle mb-5">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-accent-emerald/10 border border-accent-emerald/20 flex items-center justify-center text-accent-emerald">
+              <Globe className="w-5 h-5" />
+            </div>
+            <div>
+              <div className="text-[11px] font-mono text-primary-muted uppercase tracking-wider">
+                STAGE 03 &bull; CRAWL4AI HEADLESS EXTRACTION
+              </div>
+              <h3 className="text-base sm:text-lg font-bold text-primary">
+                DOM Stripping & Markdown Compression
+              </h3>
+            </div>
+          </div>
+          <span className="text-xs font-mono px-3 py-1 rounded-full bg-accent-emerald/10 border border-accent-emerald/30 text-accent-emerald font-semibold">
+            94% TOKEN REDUCTION
+          </span>
+        </div>
+
+        <p className="text-xs sm:text-sm text-primary-secondary mb-6 leading-relaxed">
+          High-intent pages are rendered in a headless browser sandbox. JavaScript paywalls, navigation chrome, and advertisements are stripped away, preserving pure factual Markdown for the LLM.
+        </p>
+
+        {/* Clean Markdown Code Visualizer */}
+        <div className="p-4 rounded-xl bg-surface-raised border border-border-subtle font-mono text-xs space-y-2">
+          <div className="flex items-center justify-between text-[11px] text-primary-muted pb-2 border-b border-border-subtle">
+            <div className="flex items-center gap-2">
+              <Code2 className="w-3.5 h-3.5 text-accent-emerald" />
+              <span>cleaned_evidence_dump.md</span>
+            </div>
+            <span className="text-accent-emerald">2,480 tokens (was 42,000 HTML tokens)</span>
+          </div>
+
+          <div className="text-primary space-y-1 pt-1 text-[11px] leading-relaxed">
+            <div className="text-accent-emerald font-bold">## LinearB Pricing Matrix</div>
+            <div className="text-primary-secondary">- Starter: $0/mo (up to 5 repos)</div>
+            <div className="text-primary-secondary">- Pro: $29/contributor/mo (custom metrics, PR alerts)</div>
+            <div className="text-primary-secondary">- Enterprise: Custom quote (SOC-2, dedicated Slack bot)</div>
+            <div className="text-primary-muted italic mt-1">// Extracted from pricing DOM table; tracking scripts removed</div>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+};
+
+/* STAGE 4 SHOWCASE: Institutional Venture Model */
+const StageFourView: React.FC<{ scrollYProgress: MotionValue<number> }> = ({
+  scrollYProgress,
+}) => {
+  // Enters: 0.73 -> 0.79, Stays visible until end
+  const opacity = useTransform(scrollYProgress, [0.73, 0.79, 1], [0, 1, 1]);
+  const scale = useTransform(scrollYProgress, [0.73, 0.79, 1], [0.94, 1, 1]);
+  const x = useTransform(scrollYProgress, [0.73, 0.79, 1], [80, 0, 0]);
+
+  return (
+    <motion.div
+      style={{ opacity, scale, x }}
+      className="absolute inset-0 flex flex-col justify-center max-w-4xl mx-auto"
+    >
+      <div className="glass-card rounded-2xl p-6 sm:p-8 shadow-card border border-border-subtle">
+        <div className="flex items-center justify-between pb-4 border-b border-border-subtle mb-5">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-accent-indigo/10 border border-accent-indigo/20 flex items-center justify-center text-accent-indigo">
+              <Brain className="w-5 h-5" />
+            </div>
+            <div>
+              <div className="text-[11px] font-mono text-primary-muted uppercase tracking-wider">
+                STAGE 04 &bull; CLAUDE REASONING ENGINE
+              </div>
+              <h3 className="text-base sm:text-lg font-bold text-primary">
+                Executive Dossier Synthesis
+              </h3>
+            </div>
+          </div>
+          <span className="text-xs font-mono px-3 py-1 rounded-full bg-accent-indigo/10 border border-accent-indigo/30 text-accent-indigo font-semibold">
+            INVESTMENT-GRADE DOSSIER
+          </span>
+        </div>
+
+        <p className="text-xs sm:text-sm text-primary-secondary mb-6 leading-relaxed">
+          The extracted evidence base is synthesized through standard venture frameworks, computing market size ceilings (TAM/SAM/SOM), defensibility moats, risk matrices, and viability scores.
+        </p>
+
+        {/* Visual Dossier Metrics Card */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 font-mono">
+          <div className="p-4 rounded-xl bg-surface-raised border border-border-subtle">
+            <div className="text-[10px] text-primary-muted uppercase">Viability Conviction</div>
+            <div className="text-2xl font-extrabold text-accent-emerald mt-1">84 / 100</div>
+            <div className="text-[11px] text-primary-secondary mt-0.5">High venture readiness</div>
+          </div>
+
+          <div className="p-4 rounded-xl bg-surface-raised border border-border-subtle">
+            <div className="text-[10px] text-primary-muted uppercase">TAM Ceiling</div>
+            <div className="text-2xl font-extrabold text-primary mt-1">$14.2B</div>
+            <div className="text-[11px] text-primary-secondary mt-0.5">Developer security & tooling</div>
+          </div>
+
+          <div className="p-4 rounded-xl bg-surface-raised border border-border-subtle">
+            <div className="text-[10px] text-primary-muted uppercase">Primary Threat</div>
+            <div className="text-2xl font-extrabold text-accent-amber mt-1">Moderate</div>
+            <div className="text-[11px] text-primary-secondary mt-0.5">Incumbents suffer high false alerts</div>
+          </div>
+        </div>
+
+        <div className="mt-4 p-3.5 rounded-xl bg-surface-raised border border-border-subtle flex items-center justify-between text-xs">
+          <div className="flex items-center gap-2">
+            <TrendingUp className="w-4 h-4 text-accent-emerald" />
+            <span className="text-primary font-medium">Ready to inspect full interactive report?</span>
+          </div>
+          <span className="text-accent-indigo font-semibold flex items-center gap-1 font-mono text-[11px]">
+            <span>100% SOURCED EVIDENCE</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </span>
+        </div>
       </div>
     </motion.div>
   );

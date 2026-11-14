@@ -5,9 +5,9 @@ import { ThemeProvider } from './state/ThemeContext';
 import { ProtectedRoute } from './routes/ProtectedRoute';
 import { AdminRoute } from './routes/AdminRoute';
 import { AppLayout } from './components/layout/AppLayout';
+import { HomePage } from './routes/HomePage';
 import { LoginPage } from './routes/LoginPage';
 import { SignupPage } from './routes/SignupPage';
-import { HomePage } from './routes/HomePage';
 import { ResearchDetailPage } from './routes/ResearchDetailPage';
 import { HistoryPage } from './routes/HistoryPage';
 import { AdminPage } from './routes/AdminPage';
@@ -20,13 +20,13 @@ export function App() {
           <BrowserRouter>
             <Routes>
               {/* Public Routes */}
+              <Route path="/" element={<HomePage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/signup" element={<SignupPage />} />
 
               {/* Protected Member Routes */}
               <Route element={<ProtectedRoute />}>
                 <Route element={<AppLayout />}>
-                  <Route path="/" element={<HomePage />} />
                   <Route path="/research/:id" element={<ResearchDetailPage />} />
                   <Route path="/history" element={<HistoryPage />} />
 

@@ -195,7 +195,7 @@ export const ResearchDetailPage = () => {
       <div className="glass-card rounded-2xl p-6 sm:p-8 relative overflow-hidden shadow-card">
         <div className="relative z-10 space-y-3">
           <div className="flex items-center gap-2">
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-accent-emerald/10 border border-accent-emerald/20 text-[11px] font-mono text-accent-emerald font-semibold">
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-surface-raised border border-border-subtle text-[11px] font-mono text-accent-indigo font-semibold">
               <Sparkles className="w-3 h-3" />
               <span>EXECUTIVE DOSSIER</span>
             </div>
@@ -212,8 +212,8 @@ export const ResearchDetailPage = () => {
           </p>
 
           {report?.verdict && (
-            <div className="p-3.5 rounded-xl bg-accent-emerald/10 border border-accent-emerald/20 text-primary text-xs leading-relaxed flex items-start gap-2.5 mt-2">
-              <span className="font-bold text-accent-emerald shrink-0 font-mono uppercase text-[11px] pt-0.5">
+            <div className="p-3.5 rounded-xl bg-surface-raised border border-border-subtle text-primary text-xs leading-relaxed flex items-start gap-2.5 mt-2">
+              <span className="font-bold text-accent-indigo shrink-0 font-mono uppercase text-[11px] pt-0.5">
                 VERDICT:
               </span>
               <span>{report.verdict}</span>

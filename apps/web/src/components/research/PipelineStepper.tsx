@@ -99,12 +99,9 @@ export const PipelineStepper: React.FC<PipelineStepperProps> = ({
 
   return (
     <div className="bg-surface border border-border-subtle rounded-2xl p-6 sm:p-8 max-w-2xl mx-auto shadow-card relative overflow-hidden transition-all">
-      {/* Ambient Radial Accent */}
-      <div className="absolute top-0 right-0 w-64 h-64 bg-accent-emerald/5 rounded-full blur-3xl pointer-events-none" />
-
       {/* Header */}
       <div className="text-center mb-8 relative z-10">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent-emerald/10 border border-accent-emerald/20 text-xs font-mono text-accent-emerald mb-3">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-raised border border-border-subtle text-xs font-mono text-accent-indigo mb-3">
           <Loader2 className="w-3.5 h-3.5 animate-spin" />
           <span>PIPELINE RUNNING</span>
         </div>
@@ -120,11 +117,11 @@ export const PipelineStepper: React.FC<PipelineStepperProps> = ({
       <div className="mb-8 relative z-10">
         <div className="flex justify-between items-center text-xs font-mono mb-2">
           <span className="text-primary-secondary font-medium truncate max-w-xs">{currentStep}</span>
-          <span className="text-accent-emerald font-bold ml-2">{Math.round(progress)}%</span>
+          <span className="text-accent-indigo font-bold ml-2">{Math.round(progress)}%</span>
         </div>
         <div className="w-full bg-surface-raised border border-border-subtle rounded-full h-2.5 overflow-hidden p-0.5">
           <div
-            className="bg-accent-emerald h-full rounded-full transition-all duration-700 ease-out"
+            className="bg-accent-indigo h-full rounded-full transition-all duration-700 ease-out"
             style={{ width: `${Math.max(progress, 5)}%` }}
           />
         </div>
@@ -153,9 +150,9 @@ export const PipelineStepper: React.FC<PipelineStepperProps> = ({
               key={step.id}
               className={`p-3.5 rounded-xl border transition-all ${
                 isDone
-                  ? 'bg-surface-raised border-accent-emerald/30 text-primary'
+                  ? 'bg-surface-raised border-accent-indigo/30 text-primary'
                   : isActive
-                  ? 'bg-surface-raised border-accent-emerald/60 text-primary shadow-sm'
+                  ? 'bg-surface-raised border-accent-indigo/60 text-primary shadow-sm'
                   : 'bg-surface border-border-subtle text-primary-muted opacity-60'
               }`}
             >
@@ -164,9 +161,9 @@ export const PipelineStepper: React.FC<PipelineStepperProps> = ({
                   <div
                     className={`w-6 h-6 rounded flex items-center justify-center ${
                       isDone
-                        ? 'bg-accent-emerald/20 text-accent-emerald'
+                        ? 'bg-accent-indigo/20 text-accent-indigo'
                         : isActive
-                        ? 'bg-accent-emerald/20 text-accent-emerald animate-pulse'
+                        ? 'bg-accent-indigo/20 text-accent-indigo'
                         : 'bg-surface-raised text-primary-muted'
                     }`}
                   >
@@ -175,9 +172,9 @@ export const PipelineStepper: React.FC<PipelineStepperProps> = ({
                   <span className="text-xs font-semibold">{step.label}</span>
                 </div>
                 {isDone ? (
-                  <CheckCircle2 className="w-4 h-4 text-accent-emerald shrink-0" />
+                  <CheckCircle2 className="w-4 h-4 text-accent-indigo shrink-0" />
                 ) : isActive ? (
-                  <Loader2 className="w-3.5 h-3.5 text-accent-emerald animate-spin shrink-0" />
+                  <Loader2 className="w-3.5 h-3.5 text-accent-indigo animate-spin shrink-0" />
                 ) : null}
               </div>
               <div className="text-[11px] font-mono text-primary-muted flex items-center justify-between">

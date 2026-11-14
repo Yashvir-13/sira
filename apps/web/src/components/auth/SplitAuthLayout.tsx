@@ -19,13 +19,9 @@ export const SplitAuthLayout: React.FC<SplitAuthLayoutProps> = ({
     <div className="min-h-screen bg-background text-primary flex flex-col md:flex-row transition-colors">
       {/* Left Feature Showcase Pane */}
       <div className="md:w-5/12 bg-surface border-b md:border-b-0 md:border-r border-border-subtle p-8 md:p-14 flex flex-col justify-between relative overflow-hidden">
-        {/* Subtle background ambient blur */}
-        <div className="absolute top-0 left-0 w-72 h-72 bg-accent-emerald/5 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 right-0 w-80 h-80 bg-accent-indigo/5 rounded-full blur-3xl pointer-events-none" />
-
         <div className="relative z-10">
           <div className="flex items-center gap-2.5 mb-10">
-            <div className="w-8 h-8 rounded-lg bg-surface-raised border border-border-prominent flex items-center justify-center font-bold text-sm text-accent-emerald shadow-sm">
+            <div className="w-8 h-8 rounded-lg bg-surface-raised border border-border-prominent flex items-center justify-center font-bold text-sm text-accent-indigo shadow-sm">
               S
             </div>
             <div>
@@ -76,7 +72,7 @@ export const SplitAuthLayout: React.FC<SplitAuthLayoutProps> = ({
 
         <div className="relative z-10 pt-10 border-t border-border-subtle mt-10 flex items-center justify-between text-xs text-primary-muted font-mono">
           <div className="flex items-center gap-2">
-            <ShieldCheck className="w-4 h-4 text-accent-emerald" />
+            <ShieldCheck className="w-4 h-4 text-accent-indigo" />
             <span>2FA (TOTP) SECURED</span>
           </div>
           <span>NEON POSTGRES</span>
@@ -92,7 +88,7 @@ export const SplitAuthLayout: React.FC<SplitAuthLayoutProps> = ({
             aria-label="Toggle theme"
             className="p-2 rounded-lg bg-surface-raised border border-border-subtle text-primary-secondary hover:text-primary transition"
           >
-            {theme === 'dark' ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-accent-indigo" />}
+            {theme === 'dark' ? <Sun className="w-4 h-4 text-accent-amber" /> : <Moon className="w-4 h-4 text-accent-indigo" />}
           </button>
         </div>
 

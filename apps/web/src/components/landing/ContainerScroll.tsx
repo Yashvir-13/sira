@@ -81,12 +81,12 @@ const Card: React.FC<{
       }}
       className="max-w-5xl mx-auto w-full relative"
     >
-      {/* Ambient Backlight Glow behind the 3D card */}
-      <div className="absolute -inset-1.5 bg-gradient-to-r from-accent-indigo/20 via-accent-emerald/20 to-accent-indigo/20 rounded-[28px] blur-2xl opacity-60 pointer-events-none -z-10" />
+      {/* Subtle Depth Shadow */}
+      <div className="absolute -inset-1 bg-surface-raised/60 rounded-[28px] blur-xl opacity-50 pointer-events-none -z-10" />
 
       {/* Outer Card with Hairline Glass Border */}
-      <div className="glass-card rounded-2xl sm:rounded-3xl p-2 sm:p-4 border border-white/[0.08] dark:border-white/[0.06] shadow-2xl">
-        <div className="rounded-xl sm:rounded-2xl overflow-hidden bg-surface-raised/40 backdrop-blur-xl">
+      <div className="glass-card rounded-2xl sm:rounded-3xl p-2 sm:p-4 border border-border-subtle shadow-2xl">
+        <div className="rounded-xl sm:rounded-2xl overflow-hidden bg-surface-raised/50 backdrop-blur-md">
           {children}
         </div>
       </div>

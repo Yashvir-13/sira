@@ -58,10 +58,10 @@ export const IdeaInputForm: React.FC<IdeaInputFormProps> = ({ onSubmit, isLoadin
   };
 
   return (
-    <div className="bg-surface border border-border-subtle rounded-2xl p-6 sm:p-8 shadow-card transition-all">
+    <div className="glass-card rounded-2xl p-6 sm:p-8 shadow-card transition-all">
       {/* Header */}
       <div className="mb-6">
-        <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-accent-emerald/10 border border-accent-emerald/20 text-xs font-mono text-accent-emerald mb-3">
+        <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-raised border border-border-subtle text-xs font-mono text-accent-indigo mb-3">
           <Sparkles className="w-3.5 h-3.5" />
           <span>RESEARCH STUDIO</span>
         </div>
@@ -138,7 +138,7 @@ export const IdeaInputForm: React.FC<IdeaInputFormProps> = ({ onSubmit, isLoadin
         <button
           type="submit"
           disabled={isLoading || !title.trim() || !description.trim()}
-          className="w-full py-3 px-5 bg-accent-emerald hover:opacity-95 text-white font-semibold rounded-lg text-xs flex items-center justify-center gap-2 transition disabled:opacity-40 shadow-sm"
+          className="w-full py-3 px-5 bg-accent-indigo hover:opacity-95 text-white font-semibold rounded-lg text-xs flex items-center justify-center gap-2 transition disabled:bg-surface-raised disabled:text-primary-muted disabled:border disabled:border-border-subtle disabled:cursor-not-allowed shadow-sm"
         >
           {isLoading ? (
             <>

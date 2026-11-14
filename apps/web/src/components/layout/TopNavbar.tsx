@@ -40,7 +40,7 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({ onToggleSidebar }) => {
   const breadcrumbs = getBreadcrumbs();
 
   return (
-    <header className="sticky top-0 z-30 h-14 border-b border-border-subtle bg-surface/80 backdrop-blur-md px-4 sm:px-6 flex items-center justify-between transition-colors">
+    <header className="sticky top-0 z-40 h-14 border-b border-border-subtle bg-background/95 backdrop-blur-md px-4 sm:px-6 flex items-center justify-between transition-colors shadow-sm">
       {/* Left: Mobile Toggle & Breadcrumbs */}
       <div className="flex items-center gap-3">
         <button
@@ -53,14 +53,14 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({ onToggleSidebar }) => {
         </button>
 
         <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 text-xs text-primary-muted">
-          <Link to="/" className="hover:text-primary font-medium transition">
+          <Link to="/" className="hover:text-primary font-semibold text-primary transition tracking-tight">
             SIRA
           </Link>
           {breadcrumbs.map((crumb, idx) => (
             <React.Fragment key={idx}>
               <ChevronRight className="w-3.5 h-3.5 text-primary-muted/60" />
               {idx === breadcrumbs.length - 1 ? (
-                <span className="text-primary font-semibold">{crumb.label}</span>
+                <span className="text-primary font-medium">{crumb.label}</span>
               ) : (
                 <Link to={crumb.to} className="hover:text-primary transition">
                   {crumb.label}
@@ -71,7 +71,7 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({ onToggleSidebar }) => {
         </nav>
       </div>
 
-      {/* Right: Theme Toggle & User Profile Pill */}
+      {/* Right: Theme Toggle & User Profile */}
       <div className="flex items-center gap-3">
         {/* Theme Toggle Button */}
         <button
@@ -81,14 +81,14 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({ onToggleSidebar }) => {
           className="p-2 rounded-lg text-primary-secondary hover:text-primary hover:bg-surface-raised border border-border-subtle transition-all"
         >
           {theme === 'dark' ? (
-            <Sun className="w-4 h-4 text-amber-400 transition-transform duration-200" />
+            <Sun className="w-4 h-4 text-accent-amber transition-transform duration-200" />
           ) : (
             <Moon className="w-4 h-4 text-accent-indigo transition-transform duration-200" />
           )}
         </button>
 
         {/* User Profile Pill */}
-        {user && (
+        {user ? (
           <div className="flex items-center gap-2 pl-2 border-l border-border-subtle">
             <div className="hidden sm:flex flex-col text-right">
               <span className="text-xs font-medium text-primary leading-tight truncate max-w-[140px]">
@@ -113,6 +113,21 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({ onToggleSidebar }) => {
             >
               <LogOut className="w-4 h-4" />
             </button>
+          </div>
+        ) : (
+          <div className="flex items-center gap-2 pl-2 border-l border-border-subtle">
+            <Link
+              to="/login"
+              className="text-xs font-medium text-primary-secondary hover:text-primary px-2.5 py-1.5 transition"
+            >
+              Sign In
+            </Link>
+            <Link
+              to="/signup"
+              className="text-xs font-medium text-white bg-accent-indigo hover:opacity-95 px-3 py-1.5 rounded-lg shadow-sm transition"
+            >
+              Get Started
+            </Link>
           </div>
         )}
       </div>

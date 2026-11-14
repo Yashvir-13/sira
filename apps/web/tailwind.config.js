@@ -8,11 +8,11 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: "var(--bg-primary)",
+        background: "rgb(var(--bg-primary-rgb) / <alpha-value>)",
         surface: {
-          DEFAULT: "var(--bg-surface)",
-          raised: "var(--bg-surface-raised)",
-          glass: "var(--bg-surface-glass)",
+          DEFAULT: "rgb(var(--bg-surface-rgb) / <alpha-value>)",
+          raised: "rgb(var(--bg-surface-raised-rgb) / <alpha-value>)",
+          glass: "rgb(var(--bg-surface-glass-rgb) / <alpha-value>)",
         },
         border: {
           subtle: "var(--border-subtle)",
@@ -24,10 +24,10 @@ export default {
           muted: "var(--text-muted)",
         },
         accent: {
-          emerald: "var(--accent-emerald)",
-          indigo: "var(--accent-indigo)",
-          amber: "var(--accent-amber)",
-          rose: "var(--accent-rose)",
+          emerald: "rgb(var(--accent-emerald-rgb) / <alpha-value>)",
+          indigo: "rgb(var(--accent-indigo-rgb) / <alpha-value>)",
+          amber: "rgb(var(--accent-amber-rgb) / <alpha-value>)",
+          rose: "rgb(var(--accent-rose-rgb) / <alpha-value>)",
         },
       },
       boxShadow: {
