@@ -19,8 +19,19 @@ DATABASE_URL=os.getenv("DATABASE_URL")
 if not DATABASE_URL:
     raise ValueError("DATABASE_URL environment variable is not set.")
 try:
-    engine=create_async_engine(DATABASE_URL,echo=True,pool_pre_ping=True,pool_recycle=300)# pool_pre_ping: vital for Neon serverless to transparently reconnect when compute resumes
+    engine = create_async_engine(
+        DATABASE_URL,
+        echo=True,
+        pool_pre_ping=True,
+        pool_recycle=300,
+        connect_args={
+            "statement_cache_size": 0,
+            "prepared_statement_cache_size": 0,
+        },
+    )
+    # pool_pre_ping: vital for Neon serverless to transparently reconnect when compute resumes
     # pool_recycle: recycles connection every 5 minutes to prevent stale sockets
+    # statement_cache_size: 0 disables prepared statement caching to prevent InvalidCachedStatementError across schema changes and poolers
 
     AsyncSessionLocal=async_sessionmaker(bind=engine, class_=AsyncSession, expire_on_commit=False)# expire_on_commit=False: in async programming, accessing attributes on a committed
     # object would trigger a synchronous lazy-load error if expired.
