@@ -84,7 +84,7 @@ export const LandingNavbar: React.FC = () => {
             <div className="flex items-center gap-2">
               <Link
                 to="/new"
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-accent-primary hover:opacity-90 text-btn-fg text-xs font-semibold shadow-md transition"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-900 text-white hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200 text-xs font-semibold shadow-sm transition"
               >
                 <PlusCircle className="w-3.5 h-3.5" />
                 <span>New Research</span>
@@ -107,7 +107,7 @@ export const LandingNavbar: React.FC = () => {
               </Link>
               <Link
                 to="/new"
-                className="px-3.5 py-1.5 rounded-lg bg-accent-primary hover:opacity-90 text-btn-fg text-xs font-semibold shadow-md transition flex items-center gap-1.5"
+                className="px-3.5 py-1.5 rounded-lg bg-zinc-900 text-white hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200 text-xs font-semibold shadow-sm transition flex items-center gap-1.5"
               >
                 <span>Launch Studio</span>
                 <ArrowRight className="w-3 h-3" />

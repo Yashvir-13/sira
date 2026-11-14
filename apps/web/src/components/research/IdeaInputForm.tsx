@@ -160,7 +160,7 @@ export const IdeaInputForm: React.FC<IdeaInputFormProps> = ({ onSubmit, isLoadin
         <button
           type="submit"
           disabled={isLoading || !title.trim() || !description.trim()}
-          className="w-full py-3 px-5 bg-accent-primary hover:opacity-90 text-btn-fg font-semibold rounded-lg text-xs flex items-center justify-center gap-2 transition disabled:bg-surface-raised disabled:text-primary-muted disabled:border disabled:border-border-subtle disabled:cursor-not-allowed shadow-md"
+          className="w-full py-3 px-5 bg-zinc-900 text-white hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200 font-semibold rounded-lg text-xs flex items-center justify-center gap-2 transition disabled:bg-surface-raised disabled:text-primary-muted disabled:border disabled:border-border-subtle disabled:cursor-not-allowed shadow-md"
         >
           {isLoading ? (
             <>

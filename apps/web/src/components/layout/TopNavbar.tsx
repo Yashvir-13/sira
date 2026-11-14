@@ -124,7 +124,7 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({ onToggleSidebar }) => {
             </Link>
             <Link
               to="/signup"
-              className="text-xs font-medium text-white bg-accent-indigo hover:opacity-95 px-3 py-1.5 rounded-lg shadow-sm transition"
+              className="text-xs font-semibold text-white bg-zinc-900 hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200 px-3 py-1.5 rounded-lg shadow-sm transition"
             >
               Get Started
             </Link>

@@ -82,7 +82,7 @@ export const NewResearchPage: React.FC = () => {
       </header>
 
       {/* Main Studio Viewport */}
-      <main className="flex-1 max-w-4xl w-full mx-auto px-4 sm:px-6 py-10 sm:py-16 flex flex-col justify-center">
+      <main className="flex-1 max-w-4xl w-full mx-auto px-4 sm:px-6 pt-12 sm:pt-16 pb-20">
         <div className="mb-8 text-center max-w-xl mx-auto">
           <h1 className="text-2xl sm:text-3xl font-extrabold text-primary tracking-tight">
             Launch Startup Validation

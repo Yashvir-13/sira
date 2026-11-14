@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { motion } from 'motion/react';
 import {
   ArrowDown,
   CheckCircle2,
@@ -14,6 +15,8 @@ import { TextReveal } from './TextReveal';
 import { ContainerScroll } from './ContainerScroll';
 import { PinnedPipelineScroller } from './PinnedPipelineScroller';
 
+const HERO_TITLE_WORDS = "Validate your startup concept before writing code.".split(' ');
+
 export const ScrollytellingHome: React.FC = () => {
   const scrollToId = (id: string) => {
     const el = document.getElementById(id);
@@ -25,7 +28,7 @@ export const ScrollytellingHome: React.FC = () => {
   return (
     <ParallaxGrid>
       <div className="space-y-24 sm:space-y-36 pb-24">
-        {/* CHAPTER 1: Hero Canvas with 3D Tilt & Scroll-Linked Text Reveal */}
+        {/* CHAPTER 1: Hero Canvas with 3D Tilt & Motion Entry Reveal */}
         <section id="hero">
           <ContainerScroll
             titleComponent={
@@ -35,21 +38,34 @@ export const ScrollytellingHome: React.FC = () => {
                   <span>Autonomous Venture Research</span>
                 </div>
 
-                {/* Motion.dev Scroll-Linked Word Reveal */}
-                <TextReveal
-                  text="Validate your startup concept before writing code."
-                  className="text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight leading-[1.1] max-w-3xl mx-auto"
-                />
+                {/* Motion.dev Word Cascade Entry */}
+                <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight leading-[1.1] max-w-3xl mx-auto flex flex-wrap justify-center text-center">
+                  {HERO_TITLE_WORDS.map((word, i) => (
+                    <motion.span
+                      key={i}
+                      initial={{ opacity: 0, y: 16 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{
+                        duration: 0.45,
+                        delay: i * 0.05,
+                        ease: [0.22, 1, 0.36, 1],
+                      }}
+                      className="inline-block mr-[0.25em] last:mr-0 text-primary"
+                    >
+                      {word}
+                    </motion.span>
+                  ))}
+                </h1>
 
                 <p className="text-sm sm:text-base text-primary-secondary mt-5 max-w-2xl leading-relaxed mx-auto text-center">
                   SIRA coordinates multi-index web searches, filters signal from noise through structured schemas, headlessly scrapes evidence, and compiles an institutional dossier in 90 seconds.
                 </p>
 
                 <div className="flex flex-wrap items-center justify-center gap-3 mt-8">
-                  {/* Primary Stark CTA linking directly to /new */}
+                  {/* High-Contrast Primary CTA linking directly to /new */}
                   <Link
                     to="/new"
-                    className="px-6 py-3 rounded-xl bg-accent-primary hover:opacity-90 text-btn-fg text-xs sm:text-sm font-semibold flex items-center gap-2 shadow-md transition"
+                    className="px-6 py-3 rounded-xl bg-zinc-900 text-white hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200 text-xs sm:text-sm font-semibold flex items-center gap-2 shadow-md transition"
                   >
                     <span>Launch Research Studio</span>
                     <ArrowRight className="w-4 h-4" />
@@ -116,13 +132,14 @@ export const ScrollytellingHome: React.FC = () => {
           </ContainerScroll>
         </section>
 
-        {/* CHAPTER 2: The Founder's Dilemma */}
+        {/* CHAPTER 2: The Founder's Dilemma with Scroll-Linked Text Reveal */}
         <section id="dilemma" className="max-w-4xl mx-auto px-4 scroll-mt-20">
           <div className="text-center mb-10">
-            <h2 className="text-2xl sm:text-3xl font-bold text-primary tracking-tight">
-              Stop spending 40 hours in browser tabs
-            </h2>
-            <p className="text-xs sm:text-sm text-primary-secondary mt-1">
+            <TextReveal
+              text="Stop spending 40 hours in fragmented browser tabs."
+              className="text-2xl sm:text-3xl font-bold tracking-tight text-center max-w-xl mx-auto"
+            />
+            <p className="text-xs sm:text-sm text-primary-secondary mt-3">
               Manual market validation is slow, fragmented, and prone to confirmation bias.
             </p>
           </div>
@@ -200,7 +217,7 @@ export const ScrollytellingHome: React.FC = () => {
               <div className="pt-4 flex flex-wrap items-center justify-center gap-3">
                 <Link
                   to="/new"
-                  className="px-7 py-3.5 rounded-xl bg-accent-primary hover:opacity-90 text-btn-fg text-xs sm:text-sm font-bold shadow-lg transition flex items-center gap-2"
+                  className="px-7 py-3.5 rounded-xl bg-zinc-900 text-white hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200 text-xs sm:text-sm font-bold shadow-lg transition flex items-center gap-2"
                 >
                   <span>Launch Research Studio</span>
                   <ArrowRight className="w-4 h-4" />
