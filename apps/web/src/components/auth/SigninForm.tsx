@@ -38,7 +38,7 @@ export const SigninForm: React.FC<SigninFormProps> = ({ onSwitchToSignup }) => {
       login(resp.access_token, resp.user);
       navigate('/');
     } catch (err: any) {
-      const msg = err.response?.data?.detail || 'Invalid email, password, or TOTP code.';
+      const msg = err.response?.data?.detail || 'Invalid email, password, or authenticator code.';
       setError(typeof msg === 'string' ? msg : JSON.stringify(msg));
     } finally {
       setLoading(false);
@@ -48,48 +48,48 @@ export const SigninForm: React.FC<SigninFormProps> = ({ onSwitchToSignup }) => {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       {error && (
-        <div className="p-3 rounded bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs leading-relaxed">
+        <div className="p-3.5 rounded-lg bg-accent-rose/10 border border-accent-rose/30 text-accent-rose text-xs leading-relaxed">
           {error}
         </div>
       )}
 
       <div>
-        <label className="block text-xs font-medium text-zinc-300 mb-1.5">Email Address</label>
+        <label className="block text-xs font-medium text-primary mb-1.5">Email Address</label>
         <div className="relative">
-          <Mail className="w-4 h-4 text-zinc-500 absolute left-3 top-1/2 -translate-y-1/2" />
+          <Mail className="w-4 h-4 text-primary-muted absolute left-3 top-1/2 -translate-y-1/2" />
           <input
             type="email"
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="founder@startup.com"
-            className="w-full bg-[#12131a] border border-zinc-800 focus:border-zinc-600 rounded px-3 py-2 pl-9 text-xs text-zinc-100 placeholder:text-zinc-600 focus:outline-none transition"
+            placeholder="founder@company.com"
+            className="w-full bg-surface-raised border border-border-subtle focus:border-border-prominent rounded-lg px-3 py-2.5 pl-9 text-xs text-primary placeholder:text-primary-muted focus:outline-none transition"
           />
         </div>
       </div>
 
       <div>
-        <label className="block text-xs font-medium text-zinc-300 mb-1.5">Password</label>
+        <label className="block text-xs font-medium text-primary mb-1.5">Password</label>
         <div className="relative">
-          <Lock className="w-4 h-4 text-zinc-500 absolute left-3 top-1/2 -translate-y-1/2" />
+          <Lock className="w-4 h-4 text-primary-muted absolute left-3 top-1/2 -translate-y-1/2" />
           <input
             type="password"
             required
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="••••••••"
-            className="w-full bg-[#12131a] border border-zinc-800 focus:border-zinc-600 rounded px-3 py-2 pl-9 text-xs text-zinc-100 placeholder:text-zinc-600 focus:outline-none transition"
+            className="w-full bg-surface-raised border border-border-subtle focus:border-border-prominent rounded-lg px-3 py-2.5 pl-9 text-xs text-primary placeholder:text-primary-muted focus:outline-none transition"
           />
         </div>
       </div>
 
       <div>
         <div className="flex items-center justify-between mb-1.5">
-          <label className="text-xs font-medium text-zinc-300">Google Authenticator Code</label>
-          <span className="text-[11px] text-zinc-500 font-mono">6 DIGITS</span>
+          <label className="text-xs font-medium text-primary">Google Authenticator Code</label>
+          <span className="text-[11px] text-primary-muted font-mono">6 DIGITS</span>
         </div>
         <div className="relative">
-          <KeyRound className="w-4 h-4 text-zinc-500 absolute left-3 top-1/2 -translate-y-1/2" />
+          <KeyRound className="w-4 h-4 text-primary-muted absolute left-3 top-1/2 -translate-y-1/2" />
           <input
             type="text"
             required
@@ -97,7 +97,7 @@ export const SigninForm: React.FC<SigninFormProps> = ({ onSwitchToSignup }) => {
             value={code}
             onChange={(e) => setCode(e.target.value.replace(/\D/g, ''))}
             placeholder="000000"
-            className="w-full bg-[#12131a] border border-zinc-800 focus:border-zinc-600 rounded px-3 py-2 pl-9 text-xs font-mono tracking-widest text-zinc-100 placeholder:text-zinc-600 focus:outline-none transition"
+            className="w-full bg-surface-raised border border-border-subtle focus:border-border-prominent rounded-lg px-3 py-2.5 pl-9 text-xs font-mono tracking-widest text-primary placeholder:text-primary-muted focus:outline-none transition"
           />
         </div>
       </div>
@@ -105,7 +105,7 @@ export const SigninForm: React.FC<SigninFormProps> = ({ onSwitchToSignup }) => {
       <button
         type="submit"
         disabled={loading || code.length !== 6}
-        className="w-full mt-2 py-2.5 px-4 bg-zinc-100 hover:bg-white text-zinc-900 rounded text-xs font-semibold flex items-center justify-center gap-2 transition disabled:opacity-50"
+        className="w-full mt-3 py-2.5 px-4 bg-accent-emerald hover:opacity-95 text-white rounded-lg text-xs font-semibold flex items-center justify-center gap-2 transition disabled:opacity-50 shadow-sm"
       >
         {loading ? (
           <>
@@ -114,18 +114,18 @@ export const SigninForm: React.FC<SigninFormProps> = ({ onSwitchToSignup }) => {
           </>
         ) : (
           <>
-            <span>Sign in to Dashboard</span>
+            <span>Sign in to Studio</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </>
         )}
       </button>
 
-      <div className="pt-4 text-center border-t border-zinc-800/80">
-        <span className="text-xs text-zinc-500">Need an account? </span>
+      <div className="pt-4 text-center border-t border-border-subtle">
+        <span className="text-xs text-primary-muted">Need an account? </span>
         <button
           type="button"
           onClick={onSwitchToSignup}
-          className="text-xs text-zinc-300 hover:text-white font-medium underline transition"
+          className="text-xs text-primary hover:text-accent-emerald font-medium underline transition"
         >
           Sign up with 2FA
         </button>
