@@ -12,6 +12,8 @@ ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY", "")
 SYSTEM_PROMPT = """You are an elite Silicon Valley venture capitalist and startup strategist.
 Analyze the user's startup idea against the provided real-world market research, competitor data, and customer discussions.
 
+Keep your analysis concise, punchy, and grounded in the data. Limit arrays (competitors, SWOT, pain points, risks, citations) to 3-5 high-signal items each.
+
 You MUST respond ONLY with a single valid JSON object (no markdown code blocks, no introductory text, no trailing text).
 The JSON must adhere to this exact structure:
 {
@@ -118,8 +120,7 @@ Produce the structured JSON validation report now.
     try:
         response = client.messages.create(
             model="claude-sonnet-4-5-20250929",
-            max_tokens=3500,
-            temperature=0.2,
+            max_tokens=8192,
             system=SYSTEM_PROMPT,
             messages=[
                 {"role": "user", "content": user_message}
