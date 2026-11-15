@@ -13,6 +13,7 @@ import { RiskMitigationMap } from '../components/research/RiskMitigationMap';
 import { CitationsList } from '../components/research/CitationsList';
 import { ConfirmDeleteModal } from '../components/common/ConfirmDeleteModal';
 import { DossierDetailSkeleton } from '../components/common/DossierDetailSkeleton';
+import { usePageTitle } from '../hooks/usePageTitle';
 import {
   ArrowLeft,
   Sparkles,
@@ -42,6 +43,8 @@ export const ResearchDetailPage = () => {
   const [copied, setCopied] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+
+  usePageTitle(research?.title ? `${research.title} — Dossier` : undefined);
 
   const handleDelete = async () => {
     if (!id || isDeleting) return;

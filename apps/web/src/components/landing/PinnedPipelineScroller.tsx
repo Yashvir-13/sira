@@ -10,6 +10,7 @@ import {
   ArrowRight,
   TrendingUp,
   Code2,
+  Sparkles,
 } from 'lucide-react';
 
 interface StageConfig {
@@ -177,7 +178,7 @@ const ScrollPercent: React.FC<{ scrollYProgress: MotionValue<number> }> = ({
   return <motion.span>{percent}</motion.span>;
 };
 
-/* STAGE 1 SHOWCASE: Metasearch Query Expansion */
+/* STAGE 1 SHOWCASE: Authentic SearXNG Metasearch Console */
 const StageOneView: React.FC<{ scrollYProgress: MotionValue<number> }> = ({
   scrollYProgress,
 }) => {
@@ -190,60 +191,90 @@ const StageOneView: React.FC<{ scrollYProgress: MotionValue<number> }> = ({
       style={{ opacity, scale, x }}
       className="absolute inset-0 flex flex-col justify-center max-w-4xl mx-auto"
     >
-      <div className="glass-card rounded-2xl p-6 sm:p-8 shadow-card border border-border-subtle">
-        <div className="flex items-center justify-between pb-4 border-b border-border-subtle mb-5">
+      <div className="glass-card-raised rounded-2xl p-5 sm:p-7 shadow-2xl border border-border-subtle">
+        {/* Stage Header */}
+        <div className="flex items-center justify-between pb-3.5 border-b border-border-subtle mb-4">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-surface-raised border border-border-prominent flex items-center justify-center text-primary">
-              <Search className="w-5 h-5" />
+            <div className="w-9 h-9 rounded-xl bg-surface-raised border border-border-prominent flex items-center justify-center text-primary shadow-sm">
+              <Search className="w-4 h-4" />
             </div>
             <div>
-              <div className="text-[11px] font-mono text-primary-muted uppercase tracking-wider">
-                STAGE 01 &bull; SEARXNG ORCHESTRATION
+              <div className="text-[10px] font-mono text-primary-muted uppercase tracking-wider">
+                STAGE 01 &bull; SEARXNG METASEARCH ORCHESTRATION
               </div>
-              <h3 className="text-base sm:text-lg font-bold text-primary">
-                Multi-Index Query Expansion & Crawl
+              <h3 className="text-sm sm:text-base font-bold text-primary">
+                Multi-Index Query Expansion & Web Crawl
               </h3>
             </div>
           </div>
-          <span className="text-xs font-mono px-3 py-1 rounded-full bg-surface-raised border border-border-subtle text-primary font-semibold">
-            24 SOURCES PARALLEL
-          </span>
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-accent-emerald animate-pulse" />
+            <span className="text-[11px] font-mono px-2.5 py-0.5 rounded-full bg-surface-raised border border-border-subtle text-primary font-semibold">
+              24 SOURCES &bull; 180ms
+            </span>
+          </div>
         </div>
 
-        <p className="text-xs sm:text-sm text-primary-secondary mb-6 leading-relaxed">
-          The research engine extracts key semantic anchors from your concept, querying developer forums, Hacker News, Reddit discussions, and company registries across 20+ search backends.
-        </p>
-
-        {/* Interactive Visual Mockup */}
-        <div className="space-y-2.5 font-mono text-xs">
-          <div className="p-3 rounded-xl bg-surface-raised border border-border-subtle flex items-center justify-between hover:border-border-prominent transition">
-            <div className="flex items-center gap-2 truncate">
-              <span className="text-primary-muted text-[10px]">GET</span>
-              <span className="text-primary truncate font-medium">reddit.com/r/SaaS/comments/pr_code_review_fatigue</span>
+        {/* Authentic Multi-Engine Terminal Console */}
+        <div className="rounded-xl bg-surface-raised/90 border border-border-subtle overflow-hidden font-mono text-xs shadow-inner">
+          {/* Terminal Titlebar */}
+          <div className="px-3.5 py-2 bg-surface border-b border-border-subtle flex items-center justify-between text-[11px] text-primary-muted">
+            <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1.5">
+                <span className="w-2.5 h-2.5 rounded-full bg-zinc-300 dark:bg-zinc-700" />
+                <span className="w-2.5 h-2.5 rounded-full bg-zinc-300 dark:bg-zinc-700" />
+                <span className="w-2.5 h-2.5 rounded-full bg-zinc-300 dark:bg-zinc-700" />
+              </div>
+              <span className="font-semibold text-primary ml-1">searxng://dispatch.worker:8080</span>
             </div>
-            <span className="text-[10px] px-2 py-0.5 rounded bg-surface border border-border-subtle text-primary font-semibold shrink-0">
-              HIGH INTENT
-            </span>
+            <span className="text-[10px] text-primary-secondary">ENGINES: GOOGLE &bull; BING &bull; DUCKDUCKGO &bull; GITHUB</span>
           </div>
 
-          <div className="p-3 rounded-xl bg-surface-raised border border-border-subtle flex items-center justify-between hover:border-border-prominent transition">
-            <div className="flex items-center gap-2 truncate">
-              <span className="text-primary-muted text-[10px]">GET</span>
-              <span className="text-primary truncate font-medium">news.ycombinator.com/item?id=38194021 [Ask HN: Code Review Tools]</span>
+          {/* Active Query Expansion Vectors */}
+          <div className="p-3 bg-surface/40 border-b border-border-subtle space-y-1.5 text-[11px]">
+            <div className="flex items-center gap-2 text-primary">
+              <span className="text-primary-muted">$</span>
+              <span className="text-primary-secondary">DISPATCH_VECTORS:</span>
+              <span className="text-accent-emerald bg-accent-emerald/10 px-1.5 py-0.5 rounded text-[10px]">PARALLEL (3x)</span>
             </div>
-            <span className="text-[10px] px-2 py-0.5 rounded bg-surface border border-border-subtle text-primary font-semibold shrink-0">
-              PAIN POINT
-            </span>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-1 text-[10px]">
+              <div className="p-1.5 rounded bg-surface border border-border-subtle truncate">
+                <span className="text-primary-muted">[1]</span> "ai code review developer pain site:reddit.com"
+              </div>
+              <div className="p-1.5 rounded bg-surface border border-border-subtle truncate">
+                <span className="text-primary-muted">[2]</span> "automated pr reviewer competitor pricing 2025"
+              </div>
+              <div className="p-1.5 rounded bg-surface border border-border-subtle truncate">
+                <span className="text-primary-muted">[3]</span> "developer tooling devops security tam market size"
+              </div>
+            </div>
           </div>
 
-          <div className="p-3 rounded-xl bg-surface-raised border border-border-subtle flex items-center justify-between hover:border-border-prominent transition">
-            <div className="flex items-center gap-2 truncate">
-              <span className="text-primary-muted text-[10px]">GET</span>
-              <span className="text-primary truncate font-medium">producthunt.com/posts/linear-b-developer-intelligence</span>
+          {/* Live Evidence Stream */}
+          <div className="p-3 space-y-2 text-[11px]">
+            <div className="p-2.5 rounded-lg bg-surface border border-border-subtle flex items-center justify-between gap-3">
+              <div className="flex items-center gap-2 min-w-0">
+                <span className="text-[9px] px-1.5 py-0.5 rounded bg-surface-raised font-bold text-accent-emerald">200 OK</span>
+                <span className="text-primary font-medium truncate">reddit.com/r/devops/comments/ai_pr_review_fatigue</span>
+              </div>
+              <span className="text-[10px] text-primary-muted shrink-0 font-sans font-semibold">Score: 0.96 &bull; Pain Point</span>
             </div>
-            <span className="text-[10px] px-2 py-0.5 rounded bg-surface border border-border-subtle text-primary font-semibold shrink-0">
-              DIRECT COMPETITOR
-            </span>
+
+            <div className="p-2.5 rounded-lg bg-surface border border-border-subtle flex items-center justify-between gap-3">
+              <div className="flex items-center gap-2 min-w-0">
+                <span className="text-[9px] px-1.5 py-0.5 rounded bg-surface-raised font-bold text-accent-emerald">200 OK</span>
+                <span className="text-primary font-medium truncate">news.ycombinator.com/item?id=39120448 [Show HN: CodeRabbit]</span>
+              </div>
+              <span className="text-[10px] text-primary-muted shrink-0 font-sans font-semibold">Score: 0.92 &bull; Direct Competitor</span>
+            </div>
+
+            <div className="p-2.5 rounded-lg bg-surface border border-border-subtle flex items-center justify-between gap-3">
+              <div className="flex items-center gap-2 min-w-0">
+                <span className="text-[9px] px-1.5 py-0.5 rounded bg-surface-raised font-bold text-accent-emerald">200 OK</span>
+                <span className="text-primary font-medium truncate">gartner.com/en/documents/devops-security-tooling-2026</span>
+              </div>
+              <span className="text-[10px] text-primary-muted shrink-0 font-sans font-semibold">Score: 0.89 &bull; Market TAM</span>
+            </div>
           </div>
         </div>
       </div>
@@ -251,7 +282,7 @@ const StageOneView: React.FC<{ scrollYProgress: MotionValue<number> }> = ({
   );
 };
 
-/* STAGE 2 SHOWCASE: Signal & Intent Classification */
+/* STAGE 2 SHOWCASE: Authentic TypeSafe Intent & Classification Matrix */
 const StageTwoView: React.FC<{ scrollYProgress: MotionValue<number> }> = ({
   scrollYProgress,
 }) => {
@@ -264,62 +295,83 @@ const StageTwoView: React.FC<{ scrollYProgress: MotionValue<number> }> = ({
       style={{ opacity, scale, x }}
       className="absolute inset-0 flex flex-col justify-center max-w-4xl mx-auto"
     >
-      <div className="glass-card rounded-2xl p-6 sm:p-8 shadow-card border border-border-subtle">
-        <div className="flex items-center justify-between pb-4 border-b border-border-subtle mb-5">
+      <div className="glass-card-raised rounded-2xl p-5 sm:p-7 shadow-2xl border border-border-subtle">
+        {/* Stage Header */}
+        <div className="flex items-center justify-between pb-3.5 border-b border-border-subtle mb-4">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-surface-raised border border-border-prominent flex items-center justify-center text-primary">
-              <Filter className="w-5 h-5" />
+            <div className="w-9 h-9 rounded-xl bg-surface-raised border border-border-prominent flex items-center justify-center text-primary shadow-sm">
+              <Filter className="w-4 h-4" />
             </div>
             <div>
-              <div className="text-[11px] font-mono text-primary-muted uppercase tracking-wider">
-                STAGE 02 &bull; DETERMINISTIC TAXONOMY
+              <div className="text-[10px] font-mono text-primary-muted uppercase tracking-wider">
+                STAGE 02 &bull; TYPESAFE JEV CLASSIFICATION
               </div>
-              <h3 className="text-base sm:text-lg font-bold text-primary">
-                Signal Isolation & Noise Filtering
+              <h3 className="text-sm sm:text-base font-bold text-primary">
+                Deterministic Signal Isolation & Schema Validation
               </h3>
             </div>
           </div>
-          <span className="text-xs font-mono px-3 py-1 rounded-full bg-surface-raised border border-border-subtle text-primary font-semibold">
+          <span className="text-[11px] font-mono px-2.5 py-0.5 rounded-full bg-surface-raised border border-border-subtle text-primary font-semibold">
             100% TYPE-SAFE
           </span>
         </div>
 
-        <p className="text-xs sm:text-sm text-primary-secondary mb-6 leading-relaxed">
-          Raw search results pass through strict Pydantic schemas. SEO blogs and low-relevance links are discarded, leaving only actionable customer friction, competitor pricing, and market signals.
-        </p>
-
-        {/* Classification Taxonomy Visual */}
+        {/* Structured Signal Matrix */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 font-mono text-xs">
-          <div className="p-3.5 rounded-xl bg-surface-raised border border-border-subtle">
-            <span className="text-[10px] text-primary font-bold uppercase tracking-wider block mb-1">
-              [IDENTIFIED COMPETITORS]
-            </span>
-            <div className="text-primary font-medium">LinearB, CodeRabbit, Sourcery</div>
-            <div className="text-[11px] text-primary-muted mt-1">Pricing: $19 - $49/seat/mo</div>
+          {/* Signal 1: Competitor */}
+          <div className="p-3.5 rounded-xl bg-surface-raised border border-border-subtle space-y-2">
+            <div className="flex items-center justify-between">
+              <span className="text-[10px] px-2 py-0.5 rounded bg-surface border border-border-subtle font-bold text-primary">
+                COMPETITOR_INTELLIGENCE
+              </span>
+              <span className="text-[10px] text-accent-emerald font-semibold">98.2% CONF</span>
+            </div>
+            <div className="text-primary font-semibold text-xs">CodeRabbit &bull; LinearB</div>
+            <div className="text-[11px] text-primary-secondary leading-relaxed">
+              Pricing: $19–$49/dev/mo. Weakness identified: High alert noise on minor linting rules.
+            </div>
           </div>
 
-          <div className="p-3.5 rounded-xl bg-surface-raised border border-border-subtle">
-            <span className="text-[10px] text-primary font-bold uppercase tracking-wider block mb-1">
-              [CUSTOMER PAIN POINTS]
-            </span>
-            <div className="text-primary font-medium">Alert fatigue, false positives</div>
-            <div className="text-[11px] text-primary-muted mt-1">Severity: 8.5 / 10 &bull; 14 threads</div>
+          {/* Signal 2: Pain Point */}
+          <div className="p-3.5 rounded-xl bg-surface-raised border border-border-subtle space-y-2">
+            <div className="flex items-center justify-between">
+              <span className="text-[10px] px-2 py-0.5 rounded bg-surface border border-border-subtle font-bold text-primary">
+                CUSTOMER_FRICTION
+              </span>
+              <span className="text-[10px] text-accent-emerald font-semibold">94.7% CONF</span>
+            </div>
+            <div className="text-primary font-semibold text-xs">PR Review Bottlenecks & Fatigue</div>
+            <div className="text-[11px] text-primary-secondary leading-relaxed">
+              Severity: High (8.6/10). Developers wait 4.2 hours average for review turnaround.
+            </div>
           </div>
 
-          <div className="p-3.5 rounded-xl bg-surface-raised border border-border-subtle">
-            <span className="text-[10px] text-primary font-bold uppercase tracking-wider block mb-1">
-              [MARKET CEILING SIGNALS]
-            </span>
-            <div className="text-primary font-medium">Gartner DevOps Forecast 2026</div>
-            <div className="text-[11px] text-primary-muted mt-1">Market size projected at $14.2B</div>
+          {/* Signal 3: Market Size */}
+          <div className="p-3.5 rounded-xl bg-surface-raised border border-border-subtle space-y-2">
+            <div className="flex items-center justify-between">
+              <span className="text-[10px] px-2 py-0.5 rounded bg-surface border border-border-subtle font-bold text-primary">
+                TAM_FINANCIAL_METRIC
+              </span>
+              <span className="text-[10px] text-accent-emerald font-semibold">96.0% CONF</span>
+            </div>
+            <div className="text-primary font-semibold text-xs">TAM Ceiling: $14.2B by 2028</div>
+            <div className="text-[11px] text-primary-secondary leading-relaxed">
+              Global AI developer tooling market expanding at 18.4% CAGR through 2030.
+            </div>
           </div>
 
-          <div className="p-3.5 rounded-xl bg-surface-raised border border-border-subtle">
-            <span className="text-[10px] text-primary-muted font-bold uppercase tracking-wider block mb-1">
-              [DISCARDED NOISE]
-            </span>
-            <div className="text-primary-muted line-through">Top 10 AI Tools in 2025 (Affiliate)</div>
-            <div className="text-[11px] text-accent-rose mt-1">Stripped: Low informational intent</div>
+          {/* Signal 4: Noise Stripping */}
+          <div className="p-3.5 rounded-xl bg-surface-raised border border-border-subtle space-y-2 opacity-80">
+            <div className="flex items-center justify-between">
+              <span className="text-[10px] px-2 py-0.5 rounded bg-surface border border-border-subtle font-bold text-accent-rose">
+                REJECTED_NOISE
+              </span>
+              <span className="text-[10px] text-accent-rose font-semibold">DISCARDED</span>
+            </div>
+            <div className="text-primary-muted line-through text-xs">"Top 15 Tools Every Dev Needs in 2025"</div>
+            <div className="text-[11px] text-primary-muted leading-relaxed">
+              Stripped: Affiliate SEO blog, 0 primary data points or pricing disclosures.
+            </div>
           </div>
         </div>
       </div>
@@ -327,7 +379,7 @@ const StageTwoView: React.FC<{ scrollYProgress: MotionValue<number> }> = ({
   );
 };
 
-/* STAGE 3 SHOWCASE: DOM Signal Extraction */
+/* STAGE 3 SHOWCASE: Authentic Crawl4AI Headless Extraction */
 const StageThreeView: React.FC<{ scrollYProgress: MotionValue<number> }> = ({
   scrollYProgress,
 }) => {
@@ -340,46 +392,64 @@ const StageThreeView: React.FC<{ scrollYProgress: MotionValue<number> }> = ({
       style={{ opacity, scale, x }}
       className="absolute inset-0 flex flex-col justify-center max-w-4xl mx-auto"
     >
-      <div className="glass-card rounded-2xl p-6 sm:p-8 shadow-card border border-border-subtle">
-        <div className="flex items-center justify-between pb-4 border-b border-border-subtle mb-5">
+      <div className="glass-card-raised rounded-2xl p-5 sm:p-7 shadow-2xl border border-border-subtle">
+        {/* Stage Header */}
+        <div className="flex items-center justify-between pb-3.5 border-b border-border-subtle mb-4">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-surface-raised border border-border-prominent flex items-center justify-center text-primary">
-              <Globe className="w-5 h-5" />
+            <div className="w-9 h-9 rounded-xl bg-surface-raised border border-border-prominent flex items-center justify-center text-primary shadow-sm">
+              <Globe className="w-4 h-4" />
             </div>
             <div>
-              <div className="text-[11px] font-mono text-primary-muted uppercase tracking-wider">
-                STAGE 03 &bull; CRAWL4AI HEADLESS EXTRACTION
+              <div className="text-[10px] font-mono text-primary-muted uppercase tracking-wider">
+                STAGE 03 &bull; CRAWL4AI HEADLESS BROWSER SANDBOX
               </div>
-              <h3 className="text-base sm:text-lg font-bold text-primary">
-                DOM Stripping & Markdown Compression
+              <h3 className="text-sm sm:text-base font-bold text-primary">
+                DOM Signal Extraction & Token Compression
               </h3>
             </div>
           </div>
-          <span className="text-xs font-mono px-3 py-1 rounded-full bg-surface-raised border border-border-subtle text-primary font-semibold">
-            94% TOKEN REDUCTION
+          <span className="text-[11px] font-mono px-2.5 py-0.5 rounded-full bg-surface-raised border border-border-subtle text-accent-emerald font-semibold">
+            -82% NOISE REDUCTION
           </span>
         </div>
 
-        <p className="text-xs sm:text-sm text-primary-secondary mb-6 leading-relaxed">
-          High-intent pages are rendered in a headless browser sandbox. JavaScript paywalls, navigation chrome, and advertisements are stripped away, preserving pure factual Markdown for the LLM.
-        </p>
-
-        {/* Clean Markdown Code Visualizer */}
-        <div className="p-4 rounded-xl bg-surface-raised border border-border-subtle font-mono text-xs space-y-2">
-          <div className="flex items-center justify-between text-[11px] text-primary-muted pb-2 border-b border-border-subtle">
+        {/* Headless Browser Chrome & Clean Markdown Visualizer */}
+        <div className="rounded-xl bg-surface-raised border border-border-subtle overflow-hidden font-mono text-xs shadow-inner">
+          <div className="px-3.5 py-2 bg-surface border-b border-border-subtle flex items-center justify-between text-[11px] text-primary-muted">
             <div className="flex items-center gap-2">
               <Code2 className="w-3.5 h-3.5 text-primary" />
-              <span>cleaned_evidence_dump.md</span>
+              <span className="text-primary font-medium">crawl4ai://docker:11235/extract/markdown</span>
             </div>
-            <span className="text-primary font-semibold">2,480 tokens (was 42,000 HTML tokens)</span>
+            <span className="text-[10px] text-primary-secondary">DOM: 24,000 NODES &rarr; 840 TOKENS</span>
           </div>
 
-          <div className="text-primary space-y-1 pt-1 text-[11px] leading-relaxed">
-            <div className="text-primary font-bold">## LinearB Pricing Matrix</div>
-            <div className="text-primary-secondary">- Starter: $0/mo (up to 5 repos)</div>
-            <div className="text-primary-secondary">- Pro: $29/contributor/mo (custom metrics, PR alerts)</div>
-            <div className="text-primary-secondary">- Enterprise: Custom quote (SOC-2, dedicated Slack bot)</div>
-            <div className="text-primary-muted italic mt-1">// Extracted from pricing DOM table; tracking scripts removed</div>
+          <div className="p-4 space-y-2.5 text-[11px] leading-relaxed">
+            <div className="text-primary font-bold">
+              ### Extracted Pricing & Feature Matrix (Verified Web Evidence)
+            </div>
+
+            <div className="p-3 rounded-lg bg-surface border border-border-subtle space-y-1.5 text-primary-secondary text-[10px]">
+              <div className="text-primary font-semibold flex items-center justify-between border-b border-border-subtle pb-1">
+                <span>TIER / PLAN</span>
+                <span>PRICE DISCLOSURE</span>
+                <span>INCLUDED CAPABILITIES</span>
+              </div>
+              <div className="flex items-center justify-between text-primary">
+                <span>Developer Pro</span>
+                <span className="font-bold">$29 / seat / mo</span>
+                <span>Automated PR comments, Slack webhooks</span>
+              </div>
+              <div className="flex items-center justify-between text-primary">
+                <span>Enterprise Org</span>
+                <span className="font-bold">$79 / seat / mo</span>
+                <span>Custom lint rules, self-hosted LLM runtime</span>
+              </div>
+            </div>
+
+            <div className="text-[10px] text-primary-muted flex items-center gap-2 pt-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-accent-emerald" />
+              <span>Sanitized by Crawl4AI: Cookie banners, telemetry beacons, and CSS bundles purged.</span>
+            </div>
           </div>
         </div>
       </div>
@@ -387,7 +457,7 @@ const StageThreeView: React.FC<{ scrollYProgress: MotionValue<number> }> = ({
   );
 };
 
-/* STAGE 4 SHOWCASE: Institutional Venture Model */
+/* STAGE 4 SHOWCASE: Authentic Venture Dossier Snapshot */
 const StageFourView: React.FC<{ scrollYProgress: MotionValue<number> }> = ({
   scrollYProgress,
 }) => {
@@ -400,65 +470,75 @@ const StageFourView: React.FC<{ scrollYProgress: MotionValue<number> }> = ({
       style={{ opacity, scale, x }}
       className="absolute inset-0 flex flex-col justify-center max-w-4xl mx-auto"
     >
-      <div className="glass-card rounded-2xl p-6 sm:p-8 shadow-card border border-border-subtle">
-        <div className="flex items-center justify-between pb-4 border-b border-border-subtle mb-5">
+      <div className="glass-card-raised rounded-2xl p-5 sm:p-7 shadow-2xl border border-border-subtle">
+        {/* Stage Header */}
+        <div className="flex items-center justify-between pb-3.5 border-b border-border-subtle mb-4">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-surface-raised border border-border-prominent flex items-center justify-center text-primary">
-              <Brain className="w-5 h-5" />
+            <div className="w-9 h-9 rounded-xl bg-surface-raised border border-border-prominent flex items-center justify-center text-primary shadow-sm">
+              <Brain className="w-4 h-4" />
             </div>
             <div>
-              <div className="text-[11px] font-mono text-primary-muted uppercase tracking-wider">
-                STAGE 04 &bull; CLAUDE REASONING ENGINE
+              <div className="text-[10px] font-mono text-primary-muted uppercase tracking-wider">
+                STAGE 04 &bull; INSTITUTIONAL SYNTHESIS
               </div>
-              <h3 className="text-base sm:text-lg font-bold text-primary">
-                Executive Dossier Synthesis
+              <h3 className="text-sm sm:text-base font-bold text-primary">
+                Executive Venture Dossier Generation
               </h3>
             </div>
           </div>
-          <span className="text-xs font-mono px-3 py-1 rounded-full bg-surface-raised border border-border-subtle text-primary font-semibold">
-            INVESTMENT-GRADE DOSSIER
-          </span>
-        </div>
-
-        <p className="text-xs sm:text-sm text-primary-secondary mb-6 leading-relaxed">
-          The extracted evidence base is synthesized through standard venture frameworks, computing market size ceilings (TAM/SAM/SOM), defensibility moats, risk matrices, and viability scores.
-        </p>
-
-        {/* Visual Dossier Metrics Card */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 font-mono">
-          <div className="p-4 rounded-xl bg-surface-raised border border-border-subtle">
-            <div className="text-[10px] text-primary-muted uppercase">Viability Conviction</div>
-            <div className="text-2xl font-extrabold text-primary mt-1">84 / 100</div>
-            <div className="text-[11px] text-primary-secondary mt-0.5">High venture readiness</div>
-          </div>
-
-          <div className="p-4 rounded-xl bg-surface-raised border border-border-subtle">
-            <div className="text-[10px] text-primary-muted uppercase">TAM Ceiling</div>
-            <div className="text-2xl font-extrabold text-primary mt-1">$14.2B</div>
-            <div className="text-[11px] text-primary-secondary mt-0.5">Developer security & tooling</div>
-          </div>
-
-          <div className="p-4 rounded-xl bg-surface-raised border border-border-subtle">
-            <div className="text-[10px] text-primary-muted uppercase">Primary Threat</div>
-            <div className="text-2xl font-extrabold text-primary mt-1">Moderate</div>
-            <div className="text-[11px] text-primary-secondary mt-0.5">Incumbents suffer false alerts</div>
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-raised border border-border-subtle text-primary font-mono text-xs font-semibold">
+            <TrendingUp className="w-3.5 h-3.5 text-accent-emerald" />
+            <span>84 / 100 &bull; HIGH CONVICTION</span>
           </div>
         </div>
 
-        {/* Direct Link to Studio */}
-        <Link
-          to="/new"
-          className="mt-4 p-3.5 rounded-xl bg-surface-raised border border-border-subtle flex items-center justify-between text-xs hover:border-border-prominent transition group"
-        >
-          <div className="flex items-center gap-2">
-            <TrendingUp className="w-4 h-4 text-primary" />
-            <span className="text-primary font-medium">Ready to validate your startup concept?</span>
+        {/* Authentic Dossier Preview Grid */}
+        <div className="space-y-3 font-mono">
+          {/* Top Metric Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div className="p-3.5 rounded-xl bg-surface border border-border-subtle shadow-sm">
+              <div className="text-[10px] text-primary-muted uppercase">TAM Ceiling</div>
+              <div className="text-2xl font-extrabold text-primary mt-1">$14.2B</div>
+              <div className="text-[10px] text-primary-secondary mt-0.5">Developer security & tooling</div>
+            </div>
+
+            <div className="p-3.5 rounded-xl bg-surface border border-border-subtle shadow-sm">
+              <div className="text-[10px] text-primary-muted uppercase">Competitor Moat</div>
+              <div className="text-2xl font-extrabold text-primary mt-1">Moderate</div>
+              <div className="text-[10px] text-primary-secondary mt-0.5">Incumbents suffer alert fatigue</div>
+            </div>
+
+            <div className="p-3.5 rounded-xl bg-surface border border-border-subtle shadow-sm">
+              <div className="text-[10px] text-primary-muted uppercase">Verified Citations</div>
+              <div className="text-2xl font-extrabold text-primary mt-1">24 Sources</div>
+              <div className="text-[10px] text-primary-secondary mt-0.5">100% linked primary evidence</div>
+            </div>
           </div>
-          <span className="text-primary font-semibold flex items-center gap-1 font-mono text-[11px] group-hover:translate-x-0.5 transition-transform">
-            <span>LAUNCH RESEARCH STUDIO</span>
-            <ArrowRight className="w-3.5 h-3.5" />
-          </span>
-        </Link>
+
+          {/* Strategic Verdict Quote */}
+          <div className="p-3.5 rounded-xl bg-surface-raised border border-border-subtle text-xs text-primary-secondary leading-relaxed flex items-start gap-2.5">
+            <Sparkles className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+            <div>
+              <span className="font-bold text-primary uppercase font-mono mr-1.5">[Strategic Verdict]:</span>
+              Viable enterprise market with verified developer demand. Success requires sub-3-minute PR review cycles and zero false-positive alert spam.
+            </div>
+          </div>
+
+          {/* Bottom Action Jump */}
+          <Link
+            to="/new"
+            className="p-3 rounded-xl bg-surface-raised border border-border-subtle flex items-center justify-between text-xs hover:border-border-prominent transition group"
+          >
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-accent-emerald animate-pulse" />
+              <span className="text-primary font-medium">Ready to validate your startup concept?</span>
+            </div>
+            <span className="text-primary font-semibold flex items-center gap-1 font-mono text-[11px] group-hover:translate-x-0.5 transition-transform">
+              <span>LAUNCH RESEARCH STUDIO</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </span>
+          </Link>
+        </div>
       </div>
     </motion.div>
   );

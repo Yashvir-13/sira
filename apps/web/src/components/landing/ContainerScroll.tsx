@@ -81,12 +81,12 @@ const Card: React.FC<{
       }}
       className="max-w-5xl mx-auto w-full relative"
     >
-      {/* Subtle Depth Shadow */}
-      <div className="absolute -inset-1 bg-surface-raised/60 rounded-[28px] blur-xl opacity-50 pointer-events-none -z-10" />
+      {/* Ambient Depth Backlight for 3D Tilt Refraction */}
+      <div className="absolute -inset-3 bg-gradient-to-b from-zinc-300/40 via-zinc-200/20 to-transparent dark:from-zinc-700/30 dark:via-zinc-800/15 dark:to-transparent rounded-[36px] blur-2xl pointer-events-none -z-10" />
 
-      {/* Outer Card with Hairline Glass Border */}
-      <div className="glass-card rounded-2xl sm:rounded-3xl p-2 sm:p-4 border border-border-subtle shadow-2xl">
-        <div className="rounded-xl sm:rounded-2xl overflow-hidden bg-surface-raised/50 backdrop-blur-md">
+      {/* Outer Raised Frosted Glass Card with Specular Inset Rim */}
+      <div className="glass-card-raised rounded-2xl sm:rounded-3xl p-2 sm:p-4 shadow-2xl">
+        <div className="rounded-xl sm:rounded-2xl overflow-hidden bg-surface/50 backdrop-blur-md border border-border-subtle/60">
           {children}
         </div>
       </div>

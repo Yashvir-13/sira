@@ -4,23 +4,78 @@ An autonomous venture research and market validation platform. SIRA allows entre
 
 ---
 
-## Visual Showcase
+## What SIRA Offers: Executive Dossier Breakdown
 
-| Landing Page (Dark Neutral Zinc) | Landing Page (High-Contrast Light) |
-| :---: | :---: |
-| ![Landing Page Dark](docs/assets/screenshots/landing-dark.png) | ![Landing Page Light](docs/assets/screenshots/landing-light.png) |
+Every research task produces an institutional-grade venture dossier backed by primary web evidence. Below is a breakdown of what the platform delivers across its four analytical dimensions:
 
-| Dedicated Research Studio (`/new`) | Institutional Footer & System Status |
-| :---: | :---: |
-| ![Research Studio](docs/assets/screenshots/studio-new.png) | ![Landing Footer](docs/assets/screenshots/landing-footer.png) |
+### 1. Executive Viability & Conviction Assessment
+Stress-tests your startup hypothesis against institutional venture frameworks, calculating an overall viability score with sub-metrics for market demand, defensibility, and execution feasibility.
+
+![Executive Dossier Overview](docs/assets/screenshots/dossier-overview.png)
+
+- **Viability Conviction Rating (0–100):** Clear assessment badge (`HIGH CONVICTION`, `MODERATE`, `CAUTION`) calibrated to market realities.
+- **Strategic Verdict:** Actionable executive takeaway summarizing the core market opportunity, required turnaround cycles, and key hurdles.
+- **Opportunity & Risk Summary:** Qualitative synthesis highlighting timing advantages, critical risks, and moat defensibility.
+
+---
+
+### 2. TAM / SAM / SOM Market Sizing & CAGR Modeling
+Quantifies the market opportunity using interactive visual charts and conservative top-down/bottom-up methodologies.
+
+![Market Sizing & TAM Chart](docs/assets/screenshots/dossier-market-cards.png)
+
+- **Interactive Recharts Bar Visualization:** Clear comparative scale between Total Addressable Market (TAM), Serviceable Addressable Market (SAM), and Serviceable Obtainable Market (SOM).
+- **Compound Annual Growth Rate (CAGR):** Projected expansion metrics (e.g., 18.4% CAGR) sourced from industry analyst forecasts.
+- **Granular Segment Breakdown:** Dedicated cards for each tier detailing target demographics, geographic reach, and achievable revenue expectations.
+
+---
+
+### 3. Competitor Threat Matrix & Pricing Intelligence
+Decomposes the competitive landscape to uncover incumbent pricing, customer complaints, and defensibility moats.
+
+![Competitor Threat Matrix](docs/assets/screenshots/dossier-competitors.png)
+
+- **Threat Level Badges:** Instant triage of direct vs. indirect competitors (`HIGH`, `MEDIUM`, `LOW`).
+- **Pricing Disclosures:** Verified subscription tiers, free-tier limits, and enterprise pricing extracted from real web pricing pages.
+- **Strengths vs. Weaknesses:** Balanced audit identifying incumbent vulnerabilities (e.g., alert fatigue, false positives, enterprise lock-in).
+- **Differentiation Advantage:** Clear positioning moats that set your venture apart.
+
+---
+
+### 4. Strategic Deep-Dive: 2x2 SWOT Matrix, Customer Friction & Risk Mitigation
+Evaluates internal execution factors against external market forces with actionable risk hedges.
+
+![Strategic SWOT Matrix & Risk Mitigation](docs/assets/screenshots/dossier-strategy-swot.png)
+
+- **2x2 SWOT Analysis:** Clean categorization of internal Strengths, internal Weaknesses, external Market Opportunities, and external Competitive Threats.
+- **Customer Friction & Unmet Needs:** Verified developer and customer complaints gathered from community discussions (Reddit, Hacker News) with severity ratings and current manual workarounds.
+- **Operational Risks & Concrete Mitigations:** Identified failure modes paired side-by-side with verified operational safeguards.
+
+---
+
+### 5. 100% Verified Primary Citations & Web Evidence Base
+Every quantitative metric and qualitative claim in the report is tied directly to a verifiable primary source.
+
+![Verified Citations Feed](docs/assets/screenshots/dossier-citations.png)
+
+- **Real-Time Source Filter:** Instant search through citations by keyword or domain.
+- **Direct Anchor Claims:** Verbatim excerpts and statistical claims from primary reports, technical discussions, and press releases.
+- **One-Click External Links:** Direct outbound links (`Visit Source ↗`) allowing founders and investors to inspect primary evidence in one click.
+
+---
+
+### 6. Autonomous 4-Stage Pipeline Architecture
+SIRA's landing page features an interactive, scroll-driven visualizer showing how the agent coordinates multi-engine search, deterministic classification, headless scraping, and LLM synthesis.
+
+![Autonomous Pipeline Architecture](docs/assets/screenshots/pipeline-architecture.png)
 
 ---
 
 ## Core Capabilities
 
-1. **Autonomous 4-Stage Research Pipeline:** Metasearch query expansion, typed signal classification, headless DOM extraction, and venture synthesis with Claude 3.5.
+1. **Autonomous 4-Stage Research Pipeline:** Metasearch query expansion (SearXNG), typed signal classification (TypeSafe Jev), headless DOM extraction (Crawl4AI), and venture synthesis (Claude 3.5).
 2. **Research Lifecycle Management:** Real-time cancellation (`POST /api/research/{id}/cancel`) with active background task aborts, and permanent dossier deletion (`DELETE /api/research/{id}`) with cascade.
-3. **Motion-Powered UI & Transitions:** Hardware-accelerated parallax architectural grid, scroll-linked text reveals, branded `<BrandedPageLoader>`, and contextual route skeletons.
+3. **Motion-Powered UI & Bespoke Typography:** Hardware-accelerated parallax architectural grid, scroll-linked text reveals, bespoke `Plus Jakarta Sans` and `JetBrains Mono` typography, and frosted glassmorphism with specular highlights.
 4. **Multi-Factor Authentication & RBAC:** Two-step signup with Google/Microsoft Authenticator QR code enrollment, TOTP signin, signed JWT tokens, and role-based route protection (`MEMBER` vs `ADMIN`).
 5. **Session Draft Persistence & Smart Redirection:** Concept drafts on `/new` persist across unauthenticated sessions; post-login redirects return users directly to their intended destination with form fields restored.
 
@@ -47,7 +102,7 @@ sira/
 │   ├── run.ps1                    # PowerShell runner (Windows)
 │   └── run.sh                     # Bash runner (macOS / Linux)
 ├── docs/                          # Documentation & Architecture Specs
-│   ├── assets/screenshots/        # UI screenshots
+│   ├── assets/screenshots/        # High-resolution UI screenshots & evidence
 │   └── superpowers/specs/         # Design specifications
 ├── AGENTS.md                      # AI Agent Ground Rules & Source of Truth
 ├── alembic.ini                    # Database migration configuration
@@ -90,7 +145,7 @@ flowchart LR
 
 ---
 
-## Step-by-Step Setup Guide (Tested & Verified)
+## Step-by-Step Setup Guide
 
 ### 1. Start External Docker Microservices
 

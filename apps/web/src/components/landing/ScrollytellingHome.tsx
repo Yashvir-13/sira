@@ -102,26 +102,26 @@ export const ScrollytellingHome: React.FC = () => {
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 font-mono">
-                <div className="p-4 rounded-xl bg-surface border border-border-subtle shadow-sm">
+                <div className="p-4 rounded-xl bg-surface/75 backdrop-blur-sm border border-border-subtle shadow-sm">
                   <div className="text-[10px] text-primary-muted uppercase">TAM Ceiling</div>
                   <div className="text-2xl font-extrabold text-primary mt-1">$14.2B</div>
                   <div className="text-[11px] text-primary-secondary mt-0.5">Developer security & tooling</div>
                 </div>
 
-                <div className="p-4 rounded-xl bg-surface border border-border-subtle shadow-sm">
+                <div className="p-4 rounded-xl bg-surface/75 backdrop-blur-sm border border-border-subtle shadow-sm">
                   <div className="text-[10px] text-primary-muted uppercase">Competitor Threat</div>
                   <div className="text-2xl font-extrabold text-primary mt-1">Moderate</div>
                   <div className="text-[11px] text-primary-secondary mt-0.5">Incumbents suffer alert fatigue</div>
                 </div>
 
-                <div className="p-4 rounded-xl bg-surface border border-border-subtle shadow-sm">
+                <div className="p-4 rounded-xl bg-surface/75 backdrop-blur-sm border border-border-subtle shadow-sm">
                   <div className="text-[10px] text-primary-muted uppercase">Evidence Citations</div>
                   <div className="text-2xl font-extrabold text-primary mt-1">24 Sourced</div>
                   <div className="text-[11px] text-primary-secondary mt-0.5">Verified web facts linked</div>
                 </div>
               </div>
 
-              <div className="p-4 rounded-xl bg-surface-raised border border-border-subtle text-xs text-primary-secondary leading-relaxed flex items-start gap-2.5">
+              <div className="p-4 rounded-xl bg-surface-raised/80 backdrop-blur-sm border border-border-subtle text-xs text-primary-secondary leading-relaxed flex items-start gap-2.5">
                 <Sparkles className="w-4 h-4 text-primary shrink-0 mt-0.5" />
                 <div>
                   <span className="font-bold text-primary font-mono uppercase mr-2">[Strategic Verdict]:</span>
@@ -199,7 +199,8 @@ export const ScrollytellingHome: React.FC = () => {
 
         {/* CHAPTER 4: High-Impact Conversion Banner */}
         <section className="max-w-4xl mx-auto px-4">
-          <div className="glass-card rounded-3xl p-8 sm:p-12 text-center border border-border-prominent shadow-2xl relative overflow-hidden">
+          <div className="glass-card-raised rounded-3xl p-8 sm:p-12 text-center shadow-2xl relative overflow-hidden">
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/15 to-transparent dark:from-white/5 dark:to-transparent" />
             <div className="max-w-xl mx-auto space-y-4 relative z-10">
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-raised border border-border-subtle text-xs font-mono text-primary-secondary mb-2">
                 <Layers className="w-3.5 h-3.5 text-primary" />

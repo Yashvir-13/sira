@@ -12,6 +12,12 @@ import { SignupPage } from './routes/SignupPage';
 import { ResearchDetailPage } from './routes/ResearchDetailPage';
 import { HistoryPage } from './routes/HistoryPage';
 import { AdminPage } from './routes/AdminPage';
+import { usePageTitle } from './hooks/usePageTitle';
+
+function TitleUpdater() {
+  usePageTitle();
+  return null;
+}
 
 export function App() {
   return (
@@ -19,6 +25,7 @@ export function App() {
       <ThemeProvider>
         <AuthProvider>
           <BrowserRouter>
+            <TitleUpdater />
             <Routes>
               {/* Public Routes */}
               <Route path="/" element={<HomePage />} />
