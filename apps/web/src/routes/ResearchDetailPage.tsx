@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { researchApi } from '../api/research';
 import type { ResearchItem } from '../types';
@@ -11,6 +11,7 @@ import { SwotGrid } from '../components/research/SwotGrid';
 import { PainPointsList } from '../components/research/PainPointsList';
 import { RiskMitigationMap } from '../components/research/RiskMitigationMap';
 import { CitationsList } from '../components/research/CitationsList';
+import { ConfirmDeleteModal } from '../components/common/ConfirmDeleteModal';
 import {
   ArrowLeft,
   Sparkles,
@@ -25,17 +26,35 @@ import {
   BarChart2,
   ShieldAlert,
   Link2,
+  Trash2,
+  XCircle,
 } from 'lucide-react';
 
 export type DossierTab = 'overview' | 'market' | 'strategy' | 'sources';
 
 export const ResearchDetailPage = () => {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const [research, setResearch] = useState<ResearchItem | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<DossierTab>('overview');
   const [copied, setCopied] = useState(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  const handleDelete = async () => {
+    if (!id || isDeleting) return;
+    setIsDeleting(true);
+    try {
+      await researchApi.deleteResearch(id);
+      navigate('/history');
+    } catch (err: any) {
+      console.error('Failed to delete research:', err);
+      setIsDeleting(false);
+      setDeleteModalOpen(false);
+    }
+  };
 
   const fetchDetail = useCallback(async () => {
     if (!id) return;
@@ -109,6 +128,70 @@ export const ResearchDetailPage = () => {
           initialProgress={research.progress}
           onCompleted={fetchDetail}
           onFailed={(err) => setError(err)}
+          onCancelled={fetchDetail}
+        />
+      </div>
+    );
+  }
+
+  // If cancelled
+  if (research.status === 'cancelled') {
+    return (
+      <div className="space-y-6 py-8 max-w-3xl mx-auto">
+        <div className="flex items-center justify-between pb-4 border-b border-border-subtle">
+          <Link
+            to="/history"
+            className="inline-flex items-center gap-1.5 text-xs text-primary-muted hover:text-primary font-mono transition"
+          >
+            <ArrowLeft className="w-3.5 h-3.5" />
+            <span>Back to Research Archive</span>
+          </Link>
+
+          <button
+            type="button"
+            onClick={() => setDeleteModalOpen(true)}
+            className="px-3 py-1.5 rounded-lg bg-surface-raised border border-border-subtle hover:border-accent-rose/30 text-accent-rose text-xs font-medium flex items-center gap-1.5 hover:bg-accent-rose/10 transition"
+          >
+            <Trash2 className="w-3.5 h-3.5" />
+            <span>Delete Record</span>
+          </button>
+        </div>
+
+        <div className="bg-surface border border-accent-amber/30 p-8 rounded-2xl text-center space-y-4 shadow-card">
+          <div className="w-12 h-12 rounded-xl bg-accent-amber/10 border border-accent-amber/20 flex items-center justify-center text-accent-amber mx-auto">
+            <XCircle className="w-6 h-6" />
+          </div>
+          <div>
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-surface-raised border border-border-subtle text-[11px] font-mono text-accent-amber font-semibold mb-2">
+              ANALYSIS CANCELLED
+            </div>
+            <h3 className="text-lg font-bold text-primary">Research Pipeline Stopped by User</h3>
+            <p className="text-xs text-primary-secondary mt-1 max-w-md mx-auto leading-relaxed">
+              Validation was cancelled at {Math.round(research.progress)}% progress ({research.current_step || 'Stopped early'}).
+            </p>
+          </div>
+
+          <div className="p-4 rounded-xl bg-surface-raised border border-border-subtle text-left max-w-xl mx-auto text-xs space-y-1.5">
+            <div className="font-semibold text-primary">{research.title}</div>
+            <div className="text-primary-secondary leading-relaxed line-clamp-3">{research.description}</div>
+          </div>
+
+          <div className="flex justify-center gap-3 pt-2">
+            <Link
+              to="/new"
+              className="px-4 py-2 bg-zinc-900 text-white hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200 font-semibold rounded-lg text-xs shadow-sm transition"
+            >
+              Restart in Research Studio
+            </Link>
+          </div>
+        </div>
+
+        <ConfirmDeleteModal
+          isOpen={deleteModalOpen}
+          title={research.title}
+          isDeleting={isDeleting}
+          onConfirm={handleDelete}
+          onCancel={() => setDeleteModalOpen(false)}
         />
       </div>
     );
@@ -187,6 +270,16 @@ export const ResearchDetailPage = () => {
           >
             <Printer className="w-3.5 h-3.5 text-accent-indigo" />
             <span className="hidden sm:inline">Export PDF</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setDeleteModalOpen(true)}
+            title="Delete Dossier"
+            className="px-2.5 py-1.5 rounded-lg bg-surface-raised border border-border-subtle hover:border-accent-rose/40 text-primary-muted hover:text-accent-rose text-xs font-medium flex items-center gap-1.5 transition"
+          >
+            <Trash2 className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline">Delete</span>
           </button>
         </div>
       </div>
@@ -318,6 +411,14 @@ export const ResearchDetailPage = () => {
           )}
         </motion.div>
       </AnimatePresence>
+
+      <ConfirmDeleteModal
+        isOpen={deleteModalOpen}
+        title={research.title}
+        isDeleting={isDeleting}
+        onConfirm={handleDelete}
+        onCancel={() => setDeleteModalOpen(false)}
+      />
     </div>
   );
 };

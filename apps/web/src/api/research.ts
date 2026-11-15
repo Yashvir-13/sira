@@ -25,4 +25,14 @@ export const researchApi = {
     const res = await apiClient.get<ResearchItem[]>('/research/admin/all');
     return res.data;
   },
+
+  cancelResearch: async (researchId: string): Promise<{ success: boolean; message: string; research_id: string; status: string }> => {
+    const res = await apiClient.post(`/research/${researchId}/cancel`);
+    return res.data;
+  },
+
+  deleteResearch: async (researchId: string): Promise<{ success: boolean; message: string; research_id: string }> => {
+    const res = await apiClient.delete(`/research/${researchId}`);
+    return res.data;
+  },
 };

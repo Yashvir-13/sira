@@ -38,7 +38,7 @@ export interface SigninResponse {
   user: UserResponse;
 }
 
-export type ResearchStatus = 'pending' | 'processing' | 'completed' | 'failed';
+export type ResearchStatus = 'pending' | 'processing' | 'completed' | 'failed' | 'cancelled';
 
 export interface MarketSizeMetric {
   value?: string;

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Search, Cpu, Globe, Brain, CheckCircle2, AlertCircle, Loader2 } from 'lucide-react';
+import { Search, Cpu, Globe, Brain, CheckCircle2, AlertCircle, Loader2, XCircle } from 'lucide-react';
+import { researchApi } from '../../api/research';
 
 interface PipelineStepperProps {
   researchId: string;
@@ -7,6 +8,7 @@ interface PipelineStepperProps {
   initialProgress?: number;
   onCompleted: () => void;
   onFailed: (error: string) => void;
+  onCancelled?: () => void;
 }
 
 interface StepInfo {
@@ -54,10 +56,24 @@ export const PipelineStepper: React.FC<PipelineStepperProps> = ({
   initialProgress = 0,
   onCompleted,
   onFailed,
+  onCancelled,
 }) => {
   const [progress, setProgress] = useState(initialProgress);
   const [currentStep, setCurrentStep] = useState(initialStep || 'Initializing research pipeline...');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [isCancelling, setIsCancelling] = useState(false);
+
+  const handleCancel = async () => {
+    if (isCancelling) return;
+    setIsCancelling(true);
+    try {
+      await researchApi.cancelResearch(researchId);
+      onCancelled?.();
+    } catch (err: any) {
+      console.error('Failed to cancel research:', err);
+      setIsCancelling(false);
+    }
+  };
 
   useEffect(() => {
     const token = localStorage.getItem('token') || '';
@@ -82,6 +98,9 @@ export const PipelineStepper: React.FC<PipelineStepperProps> = ({
           eventSource.close();
           setErrorMessage(payload.error_message || 'Research pipeline encountered an error.');
           onFailed(payload.error_message || 'Research failed');
+        } else if (payload.status === 'cancelled') {
+          eventSource.close();
+          onCancelled?.();
         }
       } catch (err) {
         console.error('Error parsing SSE event:', err);
@@ -95,7 +114,7 @@ export const PipelineStepper: React.FC<PipelineStepperProps> = ({
     return () => {
       eventSource.close();
     };
-  }, [researchId, onCompleted, onFailed]);
+  }, [researchId, onCompleted, onFailed, onCancelled]);
 
   return (
     <div className="bg-surface border border-border-subtle rounded-2xl p-6 sm:p-8 max-w-2xl mx-auto shadow-card relative overflow-hidden transition-all">
@@ -184,6 +203,31 @@ export const PipelineStepper: React.FC<PipelineStepperProps> = ({
             </div>
           );
         })}
+      </div>
+
+      {/* Cancel Research Action */}
+      <div className="mt-8 pt-5 border-t border-border-subtle flex items-center justify-between">
+        <span className="text-[11px] text-primary-muted font-mono">
+          Need to make changes or stop early?
+        </span>
+        <button
+          type="button"
+          disabled={isCancelling}
+          onClick={handleCancel}
+          className="px-3.5 py-1.5 rounded-lg border border-accent-rose/30 bg-accent-rose/10 hover:bg-accent-rose/20 text-accent-rose text-xs font-semibold flex items-center gap-1.5 transition disabled:opacity-50"
+        >
+          {isCancelling ? (
+            <>
+              <Loader2 className="w-3.5 h-3.5 animate-spin" />
+              <span>Stopping analysis...</span>
+            </>
+          ) : (
+            <>
+              <XCircle className="w-3.5 h-3.5" />
+              <span>Cancel Research</span>
+            </>
+          )}
+        </button>
       </div>
     </div>
   );
