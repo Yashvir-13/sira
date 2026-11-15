@@ -8,11 +8,12 @@ from packages.models.users import Base
 
 
 
-class ResearchStatus(str,enum.Enum):
-    PENDING="pending"
-    PROCESSING="processing"
-    COMPLETED="completed"
-    FAILED="failed"
+class ResearchStatus(str, enum.Enum):
+    PENDING = "pending"
+    PROCESSING = "processing"
+    COMPLETED = "completed"
+    FAILED = "failed"
+    CANCELLED = "cancelled"
 class ResearchModel(Base):
     __tablename__="research"
     id:Mapped[uuid.UUID]=mapped_column(primary_key=True,default=uuid.uuid4)
