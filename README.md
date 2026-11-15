@@ -1,34 +1,53 @@
 # SIRA — Startup Idea Research Agent
 
-An autonomous venture research and market validation platform. SIRA allows entrepreneurs and investors to stress-test startup concepts before building. 
+An autonomous venture research and market validation platform. SIRA allows entrepreneurs, venture capitalists, and product builders to stress-test startup concepts with live, multi-source web evidence before writing code.
 
-The application is composed of two end-to-end halves:
-1. **Secure Multi-Factor Authentication & RBAC:** Two-step signup with live Google/Microsoft Authenticator QR code enrollment, signin with 6-digit TOTP codes, signed JWT access tokens, and role-based route protection (`MEMBER` vs `ADMIN`).
-2. **Autonomous AI Research Subsystem:** Real-time query expansion, metasearch aggregation, typed signal classification, headless page scraping, and venture validation synthesized by Claude into interactive Recharts visualizations.
+---
+
+## Visual Showcase
+
+| Landing Page (Dark Neutral Zinc) | Landing Page (High-Contrast Light) |
+| :---: | :---: |
+| ![Landing Page Dark](docs/assets/screenshots/landing-dark.png) | ![Landing Page Light](docs/assets/screenshots/landing-light.png) |
+
+| Dedicated Research Studio (`/new`) | Institutional Footer & System Status |
+| :---: | :---: |
+| ![Research Studio](docs/assets/screenshots/studio-new.png) | ![Landing Footer](docs/assets/screenshots/landing-footer.png) |
+
+---
+
+## Core Capabilities
+
+1. **Autonomous 4-Stage Research Pipeline:** Metasearch query expansion, typed signal classification, headless DOM extraction, and venture synthesis with Claude 3.5.
+2. **Research Lifecycle Management:** Real-time cancellation (`POST /api/research/{id}/cancel`) with active background task aborts, and permanent dossier deletion (`DELETE /api/research/{id}`) with cascade.
+3. **Motion-Powered UI & Transitions:** Hardware-accelerated parallax architectural grid, scroll-linked text reveals, branded `<BrandedPageLoader>`, and contextual route skeletons.
+4. **Multi-Factor Authentication & RBAC:** Two-step signup with Google/Microsoft Authenticator QR code enrollment, TOTP signin, signed JWT tokens, and role-based route protection (`MEMBER` vs `ADMIN`).
+5. **Session Draft Persistence & Smart Redirection:** Concept drafts on `/new` persist across unauthenticated sessions; post-login redirects return users directly to their intended destination with form fields restored.
 
 ---
 
 ## Architecture & Monorepo Layout
 
-SIRA is structured as a monorepo adhering strictly to four distinct zones:
+SIRA is structured as a clean monorepo adhering strictly to four distinct zones:
 
 ```text
 sira/
 ├── apps/                          # Deployable Frontends
-│   └── web/                       # React 19 + Vite + Tailwind CSS + Recharts SPA
+│   └── web/                       # React 19 + Vite + Tailwind CSS + Motion + Recharts SPA
 ├── services/                      # Deployable Backends
-│   ├── api/                       # FastAPI HTTP Gateway (Auth, SSE Streaming, Routes)
-│   └── agent/                     # Autonomous Research Workers (Search, Classifier, Scraper, Claude)
+│   ├── api/                       # FastAPI HTTP Gateway (Auth, SSE Streaming, REST Routes)
+│   └── agent/                     # Autonomous Workers (SearXNG, Jev Classifier, Crawl4AI, Claude)
 ├── packages/                      # Shared Stack-Agnostic Libraries
-│   ├── models/                    # SQLAlchemy models & Pydantic schemas
-│   ├── lib/                       # Security, cryptography, and TOTP helpers
-│   └── db/                        # Neon PostgreSQL connection & Alembic migrations
-├── scripts/                       # Unified Workflow CLI Runner (run.ps1 / run.sh)
+│   ├── models/                    # SQLAlchemy models, Pydantic schemas, and enums
+│   ├── lib/                       # Cryptography, security, and TOTP helpers
+│   └── db/                        # Neon PostgreSQL async connection & Alembic migrations
+├── scripts/                       # Unified Workflow CLI Runner
+│   ├── py.js                      # Cross-platform Python venv launcher
+│   ├── seed_users.py              # Test user & TOTP seeding script
 │   ├── run.ps1                    # PowerShell runner (Windows)
-│   ├── run.sh                     # Bash runner (macOS / Linux)
-│   └── seed_users.py              # Test user & TOTP seeding script
+│   └── run.sh                     # Bash runner (macOS / Linux)
 ├── docs/                          # Documentation & Architecture Specs
-│   ├── file-structure.md          # In-depth file catalog
+│   ├── assets/screenshots/        # UI screenshots
 │   └── superpowers/specs/         # Design specifications
 ├── AGENTS.md                      # AI Agent Ground Rules & Source of Truth
 ├── alembic.ini                    # Database migration configuration
@@ -40,44 +59,45 @@ sira/
 
 ## How the Agent Pipeline Works
 
-When a member submits an idea, SIRA executes a 4-stage pipeline in a background worker task, streaming live progress back to the user via Server-Sent Events (SSE):
+When a member submits an idea, SIRA coordinates an autonomous pipeline in a background worker task, streaming live progress back to the user via Server-Sent Events (SSE):
 
 ```mermaid
 flowchart LR
-    A["Idea Input"] --> B["1. Query Expansion<br/>SearXNG (8080)"]
-    B --> C["2. Typed Classification<br/>TypeSafe Jev"]
-    C --> D["3. Web Scraping<br/>Crawl4AI (11235)"]
-    D --> E["4. Venture Synthesis<br/>Claude 3.5 / 4.5"]
-    E --> F["5. Executive Report<br/>Recharts & Grid"]
+    A["Concept Input<br/>(Studio /new)"] --> B["1. Query Expansion<br/>SearXNG (:8080)"]
+    B --> C["2. Typed Taxonomy<br/>TypeSafe Jev"]
+    C --> D["3. Web Scraping<br/>Crawl4AI (:11235)"]
+    D --> E["4. Venture Model<br/>Claude 3.5"]
+    E --> F["5. Executive Dossier<br/>Recharts & Risk Matrix"]
+    
+    A -.->|"User Cancel"| G["Abort Signal<br/>Status: CANCELLED"]
 ```
 
-1. **Query Expansion & Search:** SearXNG metasearch searches Google, Bing, and DuckDuckGo across 3 distinct angles (competitors, market size, and customer friction), gathering and deduplicating 15+ links.
-2. **Classification:** TypeSafe AI's Jev model evaluates each search result against 12 granular categories (`competitors`, `market_size`, `pain_points`, `pricing_models`, etc.) and filters out irrelevant noise.
-3. **Scraping:** Crawl4AI renders the top 6 balanced pages using headless Chromium inside Docker, extracting clean markdown text.
-4. **Venture Synthesis:** Anthropic Claude analyzes the scraped evidence as a Silicon Valley venture partner, returning structured JSON with a decisive verdict, 0-100 viability score, TAM/SAM/SOM sizing, competitor threat matrix, SWOT analysis, and citations.
-5. **Interactive Visualization:** The web dashboard renders the report with dynamic Recharts bar charts, risk mitigation tables, and clickable source links.
+1. **Query Expansion & Metasearch:** SearXNG queries Google, Bing, and DuckDuckGo across 3 distinct angles (competitors, market size, and customer friction), gathering and deduplicating 20+ sources.
+2. **Signal Classification:** TypeSafe AI's Jev model evaluates each search result against 12 granular categories (`competitors`, `market_size`, `pain_points`, `pricing_models`) and filters out generic noise.
+3. **Headless Scraping:** Crawl4AI headlessly renders the top 6 balanced pages inside Docker, stripping cookie banners and navigation noise into clean Markdown.
+4. **Venture Synthesis:** Anthropic Claude evaluates the evidence base as a venture capital analyst, computing TAM/SAM/SOM market ceilings, competitor threat matrices, and viability scores (0-100) with citations.
+5. **Interactive Visualization:** The web dashboard renders dynamic Recharts bar charts, SWOT grids, risk mitigation tables, and clickable source links.
 
 ---
 
 ## Prerequisites
 
-- **Node.js:** v20+ with `pnpm`
-- **Python:** v3.12+
+- **Node.js:** v20+ with `pnpm` (`corepack enable pnpm` or `npm install -g pnpm`)
+- **Python:** v3.12+ (configured in `.venv`)
 - **Docker Desktop:** Running locally for SearXNG and Crawl4AI
 - **PostgreSQL Database:** Neon Serverless Postgres (or any Postgres instance)
 - **API Keys:** Anthropic API key and TypeSafe AI API key
 
 ---
 
-## Quick Start Setup Guide
+## Step-by-Step Setup Guide (Tested & Verified)
 
-### 1. Start External Docker Containers
+### 1. Start External Docker Microservices
 
-Start the local SearXNG and Crawl4AI services:
-
+#### Windows PowerShell:
 ```powershell
-# 1. SearXNG Metasearch (runs on port 8080)
-mkdir -p ~/searxng
+# 1. Start SearXNG Metasearch (runs on port 8080)
+mkdir -p "$HOME\searxng"
 @"
 use_default_settings: true
 server:
@@ -91,16 +111,39 @@ search:
 
 docker run -d --name searxng -p 8080:8080 -v "${HOME}\searxng:/etc/searxng" searxng/searxng:latest
 
-# 2. Crawl4AI Headless Scraper (runs on port 11235)
+# 2. Start Crawl4AI Headless Scraper (runs on port 11235)
 docker run -d --name crawl4ai -p 11235:11235 -e CRAWL4AI_API_TOKEN=crawl4ai_secret_123 --shm-size=1g unclecode/crawl4ai:latest
 ```
 
+#### macOS / Linux (POSIX Bash):
+```bash
+# 1. Start SearXNG Metasearch (runs on port 8080)
+mkdir -p ~/searxng
+cat << 'EOF' > ~/searxng/settings.yml
+use_default_settings: true
+server:
+  secret_key: "searxng_secret_key_123"
+  limiter: false
+search:
+  formats:
+    - html
+    - json
+EOF
+
+docker run -d --name searxng -p 8080:8080 -v "$HOME/searxng:/etc/searxng" searxng/searxng:latest
+
+# 2. Start Crawl4AI Headless Scraper (runs on port 11235)
+docker run -d --name crawl4ai -p 11235:11235 -e CRAWL4AI_API_TOKEN=crawl4ai_secret_123 --shm-size=1g unclecode/crawl4ai:latest
+```
+
+---
+
 ### 2. Configure Environment Variables
 
-Create `.env` and `services/api/.env`:
+Create `.env` in the repository root:
 
 ```env
-# Database (Neon Postgres)
+# Database (Neon PostgreSQL)
 DATABASE_URL=postgresql+asyncpg://<username>:<password>@<neon-host>/neondb?ssl=require
 SYNC_DATABASE_URL=postgresql+psycopg2://<username>:<password>@<neon-host>/neondb?ssl=require
 
@@ -110,70 +153,65 @@ JWT_ALGORITHM=HS256
 ACCESS_TOKEN_EXPIRE_MINUTES=1440
 
 # AI Services
-ANTHROPIC_API_KEY=sk-ant-...
-TYPESAFE_API_KEY=...
+ANTHROPIC_API_KEY=sk-ant-api03-...
+TYPESAFE_API_KEY=your_typesafe_key_here
 
-# Local Docker Microservices
+# Microservices
 SEARXNG_URL=http://localhost:8080
 CRAWL4AI_URL=http://localhost:11235
 CRAWL4AI_API_TOKEN=crawl4ai_secret_123
 ```
 
-### 3. Install Dependencies & Run Database Migrations
+---
+
+### 3. Install Dependencies & Apply Migrations
 
 ```bash
-# Install Node dependencies
+# 1. Install workspace dependencies
 pnpm install
 
-# Apply Alembic database migrations to Neon Postgres
+# 2. Apply Alembic database migrations to Neon PostgreSQL
 pnpm db:migrate
 ```
 
-### 4. Seed Test Users (Admin & Member)
+---
 
-Seed pre-configured accounts with pre-shared TOTP secrets:
+### 4. Seed Test Accounts (Admin & Member)
+
+Seed pre-configured accounts with pre-shared TOTP credentials:
 
 ```bash
 pnpm db:seed
 ```
 
-| Account Role | Email | Password | Pre-shared TOTP Secret |
+| Role | Email | Password | Pre-shared TOTP Secret |
 | :--- | :--- | :--- | :--- |
 | **Admin** | `admin@startup.com` | `AdminPassword123!` | `JBSWY3DPEHPK3PXP` |
 | **Member** | `member@startup.com` | `MemberPassword123!` | `JBSWY3DPEHPK3PXP` |
 
-> *Tip: In Google Authenticator or Microsoft Authenticator, tap "Add Account" &rarr; "Enter a setup key", enter `JBSWY3DPEHPK3PXP`, and name it "SIRA Test".*
+> *Tip: In Google Authenticator or Microsoft Authenticator, tap **"Add Account"** &rarr; **"Enter a setup key"**, enter `JBSWY3DPEHPK3PXP`, and name it "SIRA Test".*
 
 ---
 
-## Running the Application with pnpm
+### 5. Run the Application
 
-You can run both services concurrently in a single terminal with `pnpm`:
-
+#### Single Terminal Runner (Recommended):
 ```bash
 pnpm dev
 ```
-This runs the FastAPI API (`:8000`) and the Vite React frontend (`:5173`) side-by-side using `concurrently`.
+Runs the FastAPI Backend (`:8000`) and the Vite React Frontend (`:5173`) concurrently.
 
-### Or Run in Separate Terminals:
-
-#### Terminal 1: Start FastAPI Backend
+#### Or Separate Terminals:
 ```bash
+# Terminal 1: FastAPI Backend
 pnpm dev:api
-```
-Backend API will be live at: **`http://localhost:8000`**  
-Interactive Swagger docs: **`http://localhost:8000/docs`**
 
-#### Terminal 2: Start React Frontend
-```bash
+# Terminal 2: React Frontend
 pnpm dev:web
 ```
-Web Application will be live at: **`http://localhost:5173`**
 
-### Alternative Shell Runners:
-You can also run commands via the CLI runner scripts:
-- Windows PowerShell: `.\scripts\run.ps1 dev`, `.\scripts\run.ps1 dev:api`, `.\scripts\run.ps1 dev:web`
-- POSIX Bash: `./scripts/run.sh dev`, `./scripts/run.sh dev:api`, `./scripts/run.sh dev:web`
+- **Web Application:** `http://localhost:5173`
+- **FastAPI Documentation:** `http://localhost:8000/docs`
 
 ---
 
@@ -182,11 +220,19 @@ You can also run commands via the CLI runner scripts:
 | Method | Endpoint | Access | Purpose |
 | :--- | :--- | :--- | :--- |
 | `POST` | `/auth/signup/step1` | Public | Initiates registration; returns base64 QR code and TOTP secret |
-| `POST` | `/auth/signup/step2` | Public | Verifies first 6-digit TOTP code; sets user as verified |
+| `POST` | `/auth/signup/step2` | Public | Verifies initial 6-digit TOTP code; marks user verified |
 | `POST` | `/auth/signin` | Public | Validates email, password, and TOTP code; returns JWT |
-| `GET` | `/auth/me` | Authenticated | Retrieves signed-in user profile & role |
+| `GET` | `/auth/me` | Authenticated | Retrieves current user profile & role |
 | `POST` | `/research/start` | Member / Admin | Queues idea in background tasks; returns `research_id` |
-| `GET` | `/research/{id}/stream` | Member / Admin | Real-time Server-Sent Events (SSE) streaming progress |
-| `GET` | `/research/{id}` | Member (Own) / Admin | Fetches completed report JSON |
+| `GET` | `/research/{id}/stream` | Member / Admin | Real-time Server-Sent Events (SSE) progress streaming |
+| `POST` | `/research/{id}/cancel` | Member / Admin | Aborts running background worker task and marks as `cancelled` |
+| `DELETE` | `/research/{id}` | Member / Admin | Permanently deletes dossier record and associated data |
+| `GET` | `/research/{id}` | Member (Own) / Admin | Fetches complete synthesized dossier report JSON |
 | `GET` | `/research/history` | Member / Admin | Lists past research reports for current user |
 | `GET` | `/research/admin/all` | Admin Only | Lists all research projects across all platform users |
+
+---
+
+## License & Attribution
+
+Developed with Google DeepMind Antigravity agentic workflows. Distributed under the MIT License.
