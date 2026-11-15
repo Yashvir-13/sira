@@ -12,7 +12,7 @@ from packages.models.research import ResearchModel, ResearchStatus
 from packages.models.schemas import ResearchStartRequest, ResearchStartResponse, ResearchItemResponse
 from services.api.deps import get_current_user, require_admin
 from packages.lib.security import decode_access_token
-from services.agent.pipeline import run_research_pipeline
+from services.agent.pipeline import run_research_pipeline, ACTIVE_RESEARCH_TASKS
 
 router=APIRouter(prefix="/research",tags=["Research"])
 
@@ -62,7 +62,7 @@ async def stream_research_progress(research_id:uuid.UUID,token:Optional[str]=Que
                     "error_message": record.error_message
                 })
             }
-            if record.status in [ResearchStatus.COMPLETED, ResearchStatus.FAILED]:
+            if record.status in [ResearchStatus.COMPLETED, ResearchStatus.FAILED, ResearchStatus.CANCELLED]:
                 break
             await asyncio.sleep(1.0)
     return EventSourceResponse(event_generator())
@@ -111,3 +111,76 @@ async def get_research_detail(
     if current_user.role != UserRole.ADMIN and record.user_id != current_user.id:
         raise HTTPException(status_code=403, detail="Not authorized to access this research report.")
     return record
+
+
+@router.post("/{research_id}/cancel")
+async def cancel_research(
+    research_id: uuid.UUID,
+    current_user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db)
+):
+    """
+    Cancels an active or pending research analysis.
+    Aborts active background tasks and marks status as CANCELLED.
+    """
+    stmt = select(ResearchModel).where(ResearchModel.id == research_id)
+    result = await db.execute(stmt)
+    record = result.scalar_one_or_none()
+    if not record:
+        raise HTTPException(status_code=404, detail="Research not found")
+    if current_user.role != UserRole.ADMIN and record.user_id != current_user.id:
+        raise HTTPException(status_code=403, detail="Not authorized to cancel this research.")
+    if record.status in [ResearchStatus.COMPLETED, ResearchStatus.FAILED, ResearchStatus.CANCELLED]:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Cannot cancel research in terminal state: {record.status.value}"
+        )
+
+    # Cancel active asyncio background task if present
+    task = ACTIVE_RESEARCH_TASKS.get(research_id)
+    if task and not task.done():
+        task.cancel()
+
+    record.status = ResearchStatus.CANCELLED
+    record.current_step = "Research cancelled by user."
+    await db.commit()
+    await db.refresh(record)
+    return {
+        "success": True,
+        "message": "Research pipeline cancelled successfully.",
+        "research_id": str(research_id),
+        "status": record.status.value
+    }
+
+
+@router.delete("/{research_id}")
+async def delete_research(
+    research_id: uuid.UUID,
+    current_user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db)
+):
+    """
+    Permanently deletes a research dossier record.
+    If the task is actively running, it cancels the task first.
+    """
+    stmt = select(ResearchModel).where(ResearchModel.id == research_id)
+    result = await db.execute(stmt)
+    record = result.scalar_one_or_none()
+    if not record:
+        raise HTTPException(status_code=404, detail="Research not found")
+    if current_user.role != UserRole.ADMIN and record.user_id != current_user.id:
+        raise HTTPException(status_code=403, detail="Not authorized to delete this research report.")
+
+    # Abort running task if active
+    task = ACTIVE_RESEARCH_TASKS.get(research_id)
+    if task and not task.done():
+        task.cancel()
+
+    await db.delete(record)
+    await db.commit()
+    return {
+        "success": True,
+        "message": "Research dossier deleted successfully.",
+        "research_id": str(research_id)
+    }
+
