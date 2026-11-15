@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { authApi } from '../../api/auth';
 import { useAuth } from '../../state/AuthContext';
 import { Mail, Lock, KeyRound, ArrowRight, Loader2 } from 'lucide-react';
@@ -17,6 +17,7 @@ export const SigninForm: React.FC<SigninFormProps> = ({ onSwitchToSignup }) => {
 
   const { login } = useAuth();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -36,7 +37,10 @@ export const SigninForm: React.FC<SigninFormProps> = ({ onSwitchToSignup }) => {
         code: cleanCode,
       });
       login(resp.access_token, resp.user);
-      navigate('/');
+      
+      const redirectParam = searchParams.get('redirect');
+      const target = redirectParam ? decodeURIComponent(redirectParam) : '/new';
+      navigate(target, { replace: true });
     } catch (err: any) {
       const msg = err.response?.data?.detail || 'Invalid email, password, or authenticator code.';
       setError(typeof msg === 'string' ? msg : JSON.stringify(msg));

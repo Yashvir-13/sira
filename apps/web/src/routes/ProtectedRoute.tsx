@@ -1,15 +1,16 @@
 import React from 'react';
-import { Navigate, Outlet } from 'react-router-dom';
+import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import { useAuth } from '../state/AuthContext';
 
 export const ProtectedRoute: React.FC = () => {
   const { user, token, isLoading } = useAuth();
+  const location = useLocation();
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-[#090a0f] flex items-center justify-center text-zinc-400 font-mono text-sm">
+      <div className="min-h-screen bg-background flex items-center justify-center text-primary-muted font-mono text-xs">
         <div className="flex items-center gap-3">
-          <div className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
+          <div className="w-2 h-2 rounded-full bg-primary animate-ping" />
           <span>Verifying credentials...</span>
         </div>
       </div>
@@ -17,7 +18,8 @@ export const ProtectedRoute: React.FC = () => {
   }
 
   if (!token || !user) {
-    return <Navigate to="/login" replace />;
+    const returnUrl = encodeURIComponent(location.pathname + location.search);
+    return <Navigate to={`/login?redirect=${returnUrl}`} replace />;
   }
 
   return <Outlet />;
