@@ -4,7 +4,8 @@ import type { ResearchItem } from '../types';
 import { KpiCards } from '../components/admin/KpiCards';
 import { GlobalResearchFeed } from '../components/admin/GlobalResearchFeed';
 import { UserRoster } from '../components/admin/UserRoster';
-import { Shield, Database, Users, Loader2 } from 'lucide-react';
+import { BrandedPageLoader } from '../components/common/BrandedPageLoader';
+import { Shield, Database, Users } from 'lucide-react';
 
 export const AdminPage = () => {
   const [reports, setReports] = useState<ResearchItem[]>([]);
@@ -71,9 +72,11 @@ export const AdminPage = () => {
       </div>
 
       {loading ? (
-        <div className="flex items-center justify-center py-20 text-primary-muted font-mono text-xs gap-2">
-          <Loader2 className="w-4 h-4 animate-spin text-accent-amber" />
-          <span>Polling platform telemetry...</span>
+        <div className="py-16">
+          <BrandedPageLoader
+            label="RETRIEVING PLATFORM TELEMETRY..."
+            sublabel="Querying institutional dossiers, system health, and role access"
+          />
         </div>
       ) : error ? (
         <div className="p-4 rounded-xl bg-accent-rose/10 border border-accent-rose/30 text-accent-rose text-xs shadow-card">

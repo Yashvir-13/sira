@@ -4,7 +4,8 @@ import { motion, AnimatePresence } from 'motion/react';
 import { researchApi } from '../api/research';
 import type { ResearchItem } from '../types';
 import { ConfirmDeleteModal } from '../components/common/ConfirmDeleteModal';
-import { History, PlusCircle, ArrowRight, Calendar, Loader2, Search, Trash2 } from 'lucide-react';
+import { HistorySkeleton } from '../components/common/HistorySkeleton';
+import { History, PlusCircle, ArrowRight, Calendar, Search, Trash2 } from 'lucide-react';
 
 export const HistoryPage = () => {
   const [items, setItems] = useState<ResearchItem[]>([]);
@@ -105,10 +106,7 @@ export const HistoryPage = () => {
       </div>
 
       {loading ? (
-        <div className="flex items-center justify-center py-20 text-primary-muted font-mono text-xs gap-2">
-          <Loader2 className="w-4 h-4 animate-spin text-primary" />
-          <span>Retrieving past dossiers...</span>
-        </div>
+        <HistorySkeleton />
       ) : error ? (
         <div className="p-4 rounded-xl bg-accent-rose/10 border border-accent-rose/30 text-accent-rose text-xs flex items-center justify-between shadow-card">
           <span>{error}</span>

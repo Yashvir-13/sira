@@ -12,13 +12,13 @@ import { PainPointsList } from '../components/research/PainPointsList';
 import { RiskMitigationMap } from '../components/research/RiskMitigationMap';
 import { CitationsList } from '../components/research/CitationsList';
 import { ConfirmDeleteModal } from '../components/common/ConfirmDeleteModal';
+import { DossierDetailSkeleton } from '../components/common/DossierDetailSkeleton';
 import {
   ArrowLeft,
   Sparkles,
   FileText,
   Calendar,
   RotateCcw,
-  Loader2,
   Printer,
   Copy,
   Check,
@@ -83,14 +83,7 @@ export const ResearchDetailPage = () => {
   };
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-[50vh] text-primary-muted font-mono text-xs">
-        <div className="flex items-center gap-2.5">
-          <Loader2 className="w-4 h-4 animate-spin text-accent-emerald" />
-          <span>Loading research session...</span>
-        </div>
-      </div>
-    );
+    return <DossierDetailSkeleton />;
   }
 
   if (error || !research) {
