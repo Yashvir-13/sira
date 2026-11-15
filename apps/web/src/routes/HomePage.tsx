@@ -1,6 +1,7 @@
 import React from 'react';
 import { LandingNavbar } from '../components/landing/LandingNavbar';
 import { ScrollytellingHome } from '../components/landing/ScrollytellingHome';
+import { LandingFooter } from '../components/landing/LandingFooter';
 
 export const HomePage: React.FC = () => {
   return (
@@ -9,6 +10,7 @@ export const HomePage: React.FC = () => {
       <main className="flex-1">
         <ScrollytellingHome />
       </main>
+      <LandingFooter />
     </div>
   );
 };

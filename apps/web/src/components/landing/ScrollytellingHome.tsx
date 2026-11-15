@@ -27,7 +27,7 @@ export const ScrollytellingHome: React.FC = () => {
 
   return (
     <ParallaxGrid>
-      <div className="space-y-24 sm:space-y-36 pb-24">
+      <div className="space-y-20 sm:space-y-28 pb-12">
         {/* CHAPTER 1: Hero Canvas with 3D Tilt & Motion Entry Reveal */}
         <section id="hero">
           <ContainerScroll
