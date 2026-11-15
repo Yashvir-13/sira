@@ -73,7 +73,11 @@ async def run_research_pipeline(
             current_step=f"Classifying {len(search_results)} search results with Jev...",
             progress=current_progress
         )
-        classified_results = await classify_and_filter_results(search_results, idea_title)
+        classified_results = await classify_and_filter_results(
+            search_results,
+            idea_title=idea_title,
+            idea_description=idea_description
+        )
 
         # Step 3: Scrape with Crawl4AI (65%)
         top_items = select_top_urls_to_scrape(classified_results, max_total=6)

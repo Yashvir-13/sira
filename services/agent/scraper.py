@@ -11,9 +11,14 @@ def select_top_urls_to_scrape(classified_result: List[Dict[str, Any]], max_total
     """
     Picks a balanced mix of URLs across different categories 
     (competitors, market_data, pain_points) rather than scraping 6 of the same kind.
+    Enforces domain diversity (max 2 per domain) and prioritizes higher confidence scores.
     """
-    selected=[]
-    seen_urls=set()
+    from urllib.parse import urlparse
+
+    selected = []
+    seen_urls = set()
+    domain_counts: Dict[str, int] = {}
+
     priority_categories = [
         "competitors",
         "market_data",
@@ -22,19 +27,39 @@ def select_top_urls_to_scrape(classified_result: List[Dict[str, Any]], max_total
         "product_features",
         "pricing_models"
     ]
+
     for cat in priority_categories:
-        matching=[r for r in classified_result if r.get("category")==cat and r.get("url") not in seen_urls]
+        matching = [
+            r for r in classified_result 
+            if r.get("category") == cat and r.get("url") not in seen_urls
+        ]
+        matching.sort(key=lambda x: x.get("confidence", 0.0), reverse=True)
         for item in matching[:2]:
             if len(selected) >= max_total:
                 break
-            seen_urls.add(item["url"])
+            url = item.get("url")
+            if not url:
+                continue
+            domain = urlparse(url).netloc.lower()
+            if domain_counts.get(domain, 0) >= 2:
+                continue
+            domain_counts[domain] = domain_counts.get(domain, 0) + 1
+            seen_urls.add(url)
             selected.append(item)
+
     for item in classified_result:
         if len(selected) >= max_total:
             break
-        if item.get("url") not in seen_urls and item.get("category") != "irrelevant":
-            seen_urls.add(item["url"])
-            selected.append(item)
+        url = item.get("url")
+        if not url or url in seen_urls or item.get("category") == "irrelevant":
+            continue
+        domain = urlparse(url).netloc.lower()
+        if domain_counts.get(domain, 0) >= 2:
+            continue
+        domain_counts[domain] = domain_counts.get(domain, 0) + 1
+        seen_urls.add(url)
+        selected.append(item)
+
     return selected
 
 async def scrape_urls_crawl4ai(items_to_scrape:List[Dict[str,Any]],max_chars_per_page:int=4000)->List[Dict[str,Any]]:

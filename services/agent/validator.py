@@ -95,9 +95,13 @@ async def validate_idea_with_claude(
 
     client = Anthropic(api_key=ANTHROPIC_API_KEY)
 
-    # Format the scraped research for Claude's context
+    # Format only substantial scraped research for Claude's context
     context_sections = []
-    for doc in scraped_documents:
+    valid_docs = [
+        doc for doc in scraped_documents 
+        if doc.get("content") and len(str(doc.get("content", "")).strip()) > 80
+    ]
+    for doc in valid_docs:
         section = (
             f"--- SOURCE: {doc.get('title')} ({doc.get('category')}) ---\n"
             f"URL: {doc.get('url')}\n"

@@ -83,13 +83,19 @@ async def classify_search_results(item: Dict[str, Any],
         }
 
 
-async def classify_and_filter_results(results: List[Dict[str, Any]],idea_title: str) -> List[Dict[str, Any]]:
+async def classify_and_filter_results(
+    results: List[Dict[str, Any]],
+    idea_title: str,
+    idea_description: str = ""
+) -> List[Dict[str, Any]]:
     """
-    Classifies all search results and discards 'irrelevant' links.
+    Classifies all search results against the full startup problem/solution context
+    and discards 'irrelevant' links.
     """
+    context = f"{idea_title} — {idea_description}".strip() if idea_description else idea_title
     classified = []
     for item in results:
-        res = await classify_search_results(item, idea_context=idea_title)
+        res = await classify_search_results(item, idea_context=context)
         if res.get("category") != "irrelevant":
             classified.append(res)
     return classified
