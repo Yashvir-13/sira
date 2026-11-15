@@ -81,7 +81,9 @@ SIRA's landing page features an interactive, scroll-driven visualizer showing ho
 
 ---
 
-## Architecture & Monorepo Layout
+## System Architecture & Monorepo Layout
+
+![SIRA Presentation Architecture](docs/assets/screenshots/pipeline-architecture.png)
 
 SIRA is structured as a clean monorepo adhering strictly to four distinct zones:
 
@@ -127,10 +129,10 @@ flowchart LR
     A -.->|"User Cancel"| G["Abort Signal<br/>Status: CANCELLED"]
 ```
 
-1. **Query Expansion & Metasearch:** SearXNG queries Google, Bing, and DuckDuckGo across 3 distinct angles (competitors, market size, and customer friction), gathering and deduplicating 20+ sources.
-2. **Signal Classification:** TypeSafe AI's Jev model evaluates each search result against 12 granular categories (`competitors`, `market_size`, `pain_points`, `pricing_models`) and filters out generic noise.
-3. **Headless Scraping:** Crawl4AI headlessly renders the top 6 balanced pages inside Docker, stripping cookie banners and navigation noise into clean Markdown.
-4. **Venture Synthesis:** Anthropic Claude evaluates the evidence base as a venture capital analyst, computing TAM/SAM/SOM market ceilings, competitor threat matrices, and viability scores (0-100) with citations.
+1. **Semantic Query Expansion & Metasearch:** Claude Haiku expands the concept brief into 4 domain-focused search queries (bypassing pre-launch brand name collision); SearXNG queries Google, Bing, and DuckDuckGo across orthogonal angles, gathering and deduplicating 20+ sources with domain diversity caps.
+2. **Signal Classification:** TypeSafe AI's Jev model evaluates each search result against 12 granular categories (`competitors`, `market_size`, `pain_points`, `pricing_models`) and discards off-target noise.
+3. **Headless Scraping:** Crawl4AI headlessly renders the top balanced pages inside Docker, stripping cookie banners and navigation noise into clean Markdown.
+4. **Venture Synthesis:** Anthropic Claude Sonnet 4.5 evaluates the evidence base as a venture capital analyst, computing TAM/SAM/SOM market ceilings, competitor threat matrices, and viability scores (0-100) with citations.
 5. **Interactive Visualization:** The web dashboard renders dynamic Recharts bar charts, SWOT grids, risk mitigation tables, and clickable source links.
 
 ---

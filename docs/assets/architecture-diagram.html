@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SIRA — Architecture Diagram</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      background-color: #07080c;
+      color: #f1f5f9;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      position: relative;
+      padding: 48px 64px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    /* Ambient background glows */
+    .glow-bg {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(140px);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .glow-1 {
+      top: -80px;
+      left: 10%;
+      width: 500px;
+      height: 350px;
+      background: rgba(16, 185, 129, 0.08);
+    }
+    .glow-2 {
+      bottom: -60px;
+      right: 15%;
+      width: 600px;
+      height: 400px;
+      background: rgba(99, 102, 241, 0.10);
+    }
+    .glow-3 {
+      top: 30%;
+      left: 45%;
+      width: 450px;
+      height: 350px;
+      background: rgba(245, 158, 11, 0.06);
+    }
+
+    /* Subtle grid overlay */
+    .grid-overlay {
+      position: absolute;
+      inset: 0;
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+      background-size: 40px 40px;
+      mask-image: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.7) 0%, transparent 80%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .content-layer {
+      position: relative;
+      z-index: 2;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    /* Header */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding-bottom: 24px;
+    }
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+    .brand-mark {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      font-weight: 800;
+      color: #041f14;
+      box-shadow: 0 8px 24px rgba(16, 185, 129, 0.35);
+    }
+    .brand-titles h1 {
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .brand-titles h1 span.accent {
+      background: linear-gradient(90deg, #10b981, #34d399);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .brand-titles p {
+      font-size: 13px;
+      color: #94a3b8;
+      font-weight: 500;
+      margin-top: 3px;
+    }
+    .header-badges {
+      display: flex;
+      gap: 10px;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+    }
+    .badge-emerald {
+      background: rgba(16, 185, 129, 0.10);
+      border: 1px solid rgba(16, 185, 129, 0.25);
+      color: #34d399;
+    }
+    .badge-indigo {
+      background: rgba(99, 102, 241, 0.10);
+      border: 1px solid rgba(99, 102, 241, 0.25);
+      color: #818cf8;
+    }
+    .badge-amber {
+      background: rgba(245, 158, 11, 0.10);
+      border: 1px solid rgba(245, 158, 11, 0.25);
+      color: #fbbf24;
+    }
+    .pulse-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: currentColor;
+      box-shadow: 0 0 8px currentColor;
+    }
+
+    /* Main Grid Layout */
+    .architecture-grid {
+      display: grid;
+      grid-template-columns: 330px 1fr 340px;
+      gap: 32px;
+      flex: 1;
+      margin: 28px 0;
+      min-height: 0;
+    }
+
+    /* Column Container & Panels */
+    .column-box {
+      background: rgba(15, 17, 24, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 20px;
+      padding: 24px;
+      backdrop-filter: blur(20px);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+    .col-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .col-title {
+      font-size: 13px;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .col-title.emerald { color: #34d399; }
+    .col-title.amber { color: #fbbf24; }
+    .col-title.indigo { color: #818cf8; }
+
+    .cards-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      flex: 1;
+    }
+
+    /* System Card Component */
+    .sys-card {
+      background: rgba(22, 25, 36, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 14px;
+      padding: 16px;
+      transition: all 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .sys-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+    }
+    .sys-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    .sys-card-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 7px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.06);
+      color: #94a3b8;
+    }
+    .sys-card-desc {
+      font-size: 12px;
+      color: #94a3b8;
+      line-height: 1.5;
+    }
+    .features-list {
+      margin-top: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .feat-pill {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      color: #cbd5e1;
+    }
+
+    /* Pipeline Center Column */
+    .pipeline-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      flex: 1;
+    }
+    .pipeline-stage {
+      background: rgba(22, 25, 36, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+    }
+    .stage-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex: 1;
+    }
+    .stage-number {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 800;
+      font-size: 14px;
+      shrink: 0;
+    }
+    .stage-1 .stage-number { background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3); }
+    .stage-2 .stage-number { background: rgba(168, 85, 247, 0.15); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.3); }
+    .stage-3 .stage-number { background: rgba(236, 72, 153, 0.15); color: #f472b6; border: 1px solid rgba(236, 72, 153, 0.3); }
+    .stage-4 .stage-number { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
+    .stage-5 .stage-number { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
+
+    .stage-text h3 {
+      font-size: 14px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 2px;
+    }
+    .stage-text p {
+      font-size: 12px;
+      color: #94a3b8;
+    }
+    .stage-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .stage-runtime {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 6px;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: #e2e8f0;
+    }
+    .arrow-connector {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 12px;
+      color: rgba(255, 255, 255, 0.2);
+      font-size: 14px;
+    }
+
+    /* Footer Metadata */
+    footer {
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding-top: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+      color: #64748b;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .footer-tags {
+      display: flex;
+      gap: 16px;
+    }
+    .footer-tags span {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .footer-tags span::before {
+      content: '•';
+      color: #3b82f6;
+    }
+  </style>
+</head>
+<body>
+  <div class="glow-bg glow-1"></div>
+  <div class="glow-bg glow-2"></div>
+  <div class="glow-bg glow-3"></div>
+  <div class="grid-overlay"></div>
+
+  <div class="content-layer">
+    <!-- Header -->
+    <header>
+      <div class="header-left">
+        <div class="brand-mark">S</div>
+        <div class="brand-titles">
+          <h1>SIRA <span class="accent">Architecture & Pipeline</span></h1>
+          <p>Two-Hemisphere Monorepo · Zero-Trust TOTP Auth & Autonomous Venture Intelligence</p>
+        </div>
+      </div>
+      <div class="header-badges">
+        <div class="badge badge-emerald">
+          <div class="pulse-dot"></div>
+          <span>NEON SERVERLESS POSTGRES</span>
+        </div>
+        <div class="badge badge-indigo">
+          <div class="pulse-dot"></div>
+          <span>DOCKER MICROSERVICES</span>
+        </div>
+        <div class="badge badge-amber">
+          <div class="pulse-dot"></div>
+          <span>CLAUDE SONNET 4.5</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Architecture Grid -->
+    <div class="architecture-grid">
+      <!-- Col 1: Experience & Gateway -->
+      <div class="column-box">
+        <div class="col-header">
+          <div class="col-title emerald">
+            <span>●</span>
+            <span>Client & Gateway</span>
+          </div>
+          <span class="tag">apps/ & services/api</span>
+        </div>
+
+        <div class="cards-stack">
+          <!-- Web App -->
+          <div class="sys-card">
+            <div class="sys-card-header">
+              <div class="sys-card-title">apps/web</div>
+              <span class="tag">React 19 SPA</span>
+            </div>
+            <div class="sys-card-desc">
+              Executive interface with motion typography, real-time SSE progress, and Recharts financial dossier.
+            </div>
+            <div class="features-list">
+              <span class="feat-pill">Tailwind CSS</span>
+              <span class="feat-pill">Framer Motion</span>
+              <span class="feat-pill">Recharts</span>
+              <span class="feat-pill">EventSource</span>
+            </div>
+          </div>
+
+          <!-- API Gateway -->
+          <div class="sys-card">
+            <div class="sys-card-header">
+              <div class="sys-card-title">services/api</div>
+              <span class="tag">FastAPI Gateway</span>
+            </div>
+            <div class="sys-card-desc">
+              High-throughput ASGI routing, SSE telemetry streaming, and background research orchestration.
+            </div>
+            <div class="features-list">
+              <span class="feat-pill">SSE Stream</span>
+              <span class="feat-pill">BackgroundTasks</span>
+              <span class="feat-pill">Pydantic v2</span>
+            </div>
+          </div>
+
+          <!-- Security Layer -->
+          <div class="sys-card">
+            <div class="sys-card-header">
+              <div class="sys-card-title">packages/lib/security</div>
+              <span class="tag">Zero-Trust</span>
+            </div>
+            <div class="sys-card-desc">
+              Two-step QR enrollment, 30s TOTP verification buffer, bcrypt salts, and signed HS256 JWT RBAC.
+            </div>
+            <div class="features-list">
+              <span class="feat-pill">PyOTP TOTP</span>
+              <span class="feat-pill">Bcrypt Hash</span>
+              <span class="feat-pill">PyJWT RBAC</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Col 2: Autonomous AI Research Engine (Centerpiece) -->
+      <div class="column-box" style="border-color: rgba(245, 158, 11, 0.2);">
+        <div class="col-header">
+          <div class="col-title amber">
+            <span>✦</span>
+            <span>Autonomous Venture Pipeline</span>
+          </div>
+          <span class="tag">services/agent</span>
+        </div>
+
+        <div class="pipeline-wrapper">
+          <!-- Stage 1 -->
+          <div class="pipeline-stage stage-1">
+            <div class="stage-left">
+              <div class="stage-number">01</div>
+              <div class="stage-text">
+                <h3>Semantic Query Expansion & Metasearch</h3>
+                <p>Claude Haiku expands brief into 4 domain queries; SearXNG aggregates Google/Bing/DDG.</p>
+              </div>
+            </div>
+            <div class="stage-meta">
+              <span class="stage-runtime">Claude Haiku · SearXNG :8080</span>
+            </div>
+          </div>
+
+          <div class="arrow-connector">↓</div>
+
+          <!-- Stage 2 -->
+          <div class="pipeline-stage stage-2">
+            <div class="stage-left">
+              <div class="stage-number">02</div>
+              <div class="stage-text">
+                <h3>Deterministic Signal & Intent Classification</h3>
+                <p>TypeSafe Jev System 1 categorizes hits across 12 dimensions; discards off-target noise.</p>
+              </div>
+            </div>
+            <div class="stage-meta">
+              <span class="stage-runtime">TypeSafe AI Jev</span>
+            </div>
+          </div>
+
+          <div class="arrow-connector">↓</div>
+
+          <!-- Stage 3 -->
+          <div class="pipeline-stage stage-3">
+            <div class="stage-left">
+              <div class="stage-number">03</div>
+              <div class="stage-text">
+                <h3>Headless DOM Extraction & Distillation</h3>
+                <p>Crawl4AI Chromium renders top balanced pages, stripping boilerplate to clean Markdown.</p>
+              </div>
+            </div>
+            <div class="stage-meta">
+              <span class="stage-runtime">Crawl4AI :11235 (Docker)</span>
+            </div>
+          </div>
+
+          <div class="arrow-connector">↓</div>
+
+          <!-- Stage 4 -->
+          <div class="pipeline-stage stage-4">
+            <div class="stage-left">
+              <div class="stage-number">04</div>
+              <div class="stage-text">
+                <h3>Silicon Valley Venture Capital Synthesis</h3>
+                <p>Claude Sonnet 4.5 models viability (0-100), TAM/SAM/SOM sizing, SWOT, and threat matrix.</p>
+              </div>
+            </div>
+            <div class="stage-meta">
+              <span class="stage-runtime">Claude Sonnet 4.5</span>
+            </div>
+          </div>
+
+          <div class="arrow-connector">↓</div>
+
+          <!-- Stage 5 -->
+          <div class="pipeline-stage stage-5">
+            <div class="stage-left">
+              <div class="stage-number">05</div>
+              <div class="stage-text">
+                <h3>Live SSE Delivery & Executive Dossier</h3>
+                <p>Real-time progress broadcasted (15% → 100%) and saved to Neon Postgres for Recharts rendering.</p>
+              </div>
+            </div>
+            <div class="stage-meta">
+              <span class="stage-runtime">SSE Stream · Recharts</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Col 3: Shared Core & Persistence -->
+      <div class="column-box">
+        <div class="col-header">
+          <div class="col-title indigo">
+            <span>●</span>
+            <span>Data & Persistence</span>
+          </div>
+          <span class="tag">packages/db & models</span>
+        </div>
+
+        <div class="cards-stack">
+          <!-- Neon Database -->
+          <div class="sys-card">
+            <div class="sys-card-header">
+              <div class="sys-card-title">Neon Postgres</div>
+              <span class="tag">Cloud DB</span>
+            </div>
+            <div class="sys-card-desc">
+              Serverless PostgreSQL with connection pooling, statement caching disabled, and auto-suspend.
+            </div>
+            <div class="features-list">
+              <span class="feat-pill">AsyncPG Driver</span>
+              <span class="feat-pill">Alembic</span>
+              <span class="feat-pill">TEXT Unbounded</span>
+            </div>
+          </div>
+
+          <!-- Models & Schemas -->
+          <div class="sys-card">
+            <div class="sys-card-header">
+              <div class="sys-card-title">packages/models</div>
+              <span class="tag">Contracts</span>
+            </div>
+            <div class="sys-card-desc">
+              Strict Pydantic v2 validation contracts and SQLAlchemy 2.0 mapped relational models.
+            </div>
+            <div class="features-list">
+              <span class="feat-pill">ResearchModel</span>
+              <span class="feat-pill">UserModel</span>
+              <span class="feat-pill">Pydantic v2</span>
+            </div>
+          </div>
+
+          <!-- Developer Tooling -->
+          <div class="sys-card">
+            <div class="sys-card-header">
+              <div class="sys-card-title">scripts/py.js</div>
+              <span class="tag">Tooling</span>
+            </div>
+            <div class="sys-card-desc">
+              Cross-platform venv auto-binding enabling zero-config `pnpm dev`, `pnpm db:*` commands.
+            </div>
+            <div class="features-list">
+              <span class="feat-pill">pnpm Workspaces</span>
+              <span class="feat-pill">Concurrently</span>
+              <span class="feat-pill">Zero-Config</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <div>SIRA — STARTUP IDEA RESEARCH AGENT · ARCHITECTURE SPECIFICATION v1.0</div>
+      <div class="footer-tags">
+        <span>Dual-Hemisphere Monorepo</span>
+        <span>Zero-Trust 2FA</span>
+        <span>4-Stage Autonomous Intelligence</span>
+        <span>Executive Recharts Dossier</span>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>
